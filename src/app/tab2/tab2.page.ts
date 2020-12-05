@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { AuthenticationService } from './../services/authentication.service';
+import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -6,7 +8,19 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
-  constructor() {}
-
+  orders=null;
+  constructor(private authService: AuthenticationService, private router: Router) {};
+ 
+  ngOnInit(){
+    this.authService.orders().subscribe(result => {
+      this.orders = result;
+    });
+}
+console(){
+  console.log(this.orders);
+}
+logout(){
+  this.authService.logout();
+  this.router.navigate(['/'])
+}
 }

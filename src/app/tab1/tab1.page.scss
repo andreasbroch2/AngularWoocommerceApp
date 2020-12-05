@@ -1,0 +1,18 @@
+.spin {
+    text-align: center;
+    margin-top:100px;
+}
+  ion-spinner {
+    transform: scale(3);
+    stroke: #444;
+    fill: #222;
+  }
+#header_logo{
+text-align: center;
+  }
+  ion-text{
+    text-align: center;
+}
+ion-content.background{
+  --background: url('/assets/images/3143177.jpg');
+}

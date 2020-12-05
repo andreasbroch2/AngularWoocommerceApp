@@ -1,17 +1,25 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content class="background">
+  <ion-text color="primary">
+    <h1>DINE MÅLTIDSKASSER</h1>
+  </ion-text>
+<div class="spin" *ngIf="!information">
+  <ion-spinner name="circles"></ion-spinner>
+</div>
+  <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]">
+    <ion-card-header>
+        <ion-card-title *ngIf="user?.billing_interval==='1'">
+          Hver Uge
+        </ion-card-title>
+        <ion-card-title *ngIf="details?.billing_interval==='2'">
+          Hveranden Uge
+        </ion-card-title>
+        <ion-card-title *ngIf="details?.billing_interval==='4'">
+          Hver Fjerde Uge
+        </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-button expand="block" (click)="console()">Console Log</ion-button>
 </ion-content>

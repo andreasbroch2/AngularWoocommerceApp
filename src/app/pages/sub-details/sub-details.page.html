@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Din Måltidskasse</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Levering
+      </ion-card-title>
+      <ion-card-subtitle *ngIf="details?.billing_interval==='1'">
+        Hver Uge
+      </ion-card-subtitle>
+      <ion-card-subtitle *ngIf="details?.billing_interval==='2'">
+        Hveranden Uge
+      </ion-card-subtitle>
+      <ion-card-subtitle *ngIf="details?.billing_interval==='4'">
+        Hver Fjerde Uge
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Næste Levering
+      </ion-card-title>
+      <ion-card-subtitle *ngIf="details">
+        {{ date | date:'fullDate':'da'}}
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+          Indhold
+      </ion-card-title>
+    </ion-card-header>
+  <ion-grid *ngIf="details">
+    <ion-row *ngFor="let item of details.line_items">
+      <ion-col size="10">
+        {{ item.name }}
+      </ion-col>
+      <ion-col size="2">
+        {{ item.quantity }}
+      </ion-col>
+    </ion-row>
+  </ion-grid></ion-card>
+  <ion-button expand="full" (click)="console()">Console Log</ion-button>
+</ion-content>
