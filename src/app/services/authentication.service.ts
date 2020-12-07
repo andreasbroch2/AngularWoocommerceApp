@@ -61,13 +61,22 @@ export class AuthenticationService {
     subdetails(id) {
       return this.http.get(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`)
       }
+
 skiplevering(id, date, interval) {
   let numWeeks = interval;
   let now = new Date(date);
-  now.setDate(now.getDate() + numWeeks * 7);
+  now.setDate(now.getDate() + (numWeeks * 7));
+  console.log(now);
+  let nydate = now.toISOString().replace('.000Z','').replace('T',' ');
+  console.log(nydate);
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-  {"next_payment_date" : now})     
+  {"next_payment_date" : nydate})     
 }
+frekvens(id, interval) {
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"billing_interval" : interval})     
+}
+
     
     orderdetails(id) {
         return this.http.get(`${this.url}wc/v3/orders/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
