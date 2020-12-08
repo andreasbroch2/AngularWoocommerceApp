@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Produkter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card button (click)="presentModal(prod.id)" class="side" *ngFor="let prod of varer">
+    <img class="prodimg" src={{prod.images[0].src}} />
+    <ion-card-header>
+        <ion-card-title >
+          {{prod.name}}
+        </ion-card-title>
+      </ion-card-header>
+    <ion-card-content>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

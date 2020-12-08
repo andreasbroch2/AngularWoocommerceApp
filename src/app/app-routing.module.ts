@@ -28,6 +28,15 @@ const routes: Routes = [
     path: 'order-details',
     loadChildren: () => import('./pages/order-details/order-details.module').then( m => m.OrderDetailsPageModule)
   },
+  {
+    path: 'products',
+    loadChildren: () => import('./pages/products/products.module').then( m => m.ProductsPageModule)
+  },  {
+    path: 'modal',
+    loadChildren: () => import('./pages/modal/modal.module').then( m => m.ModalPageModule)
+  },
+
+
 ];
 @NgModule({
   imports: [

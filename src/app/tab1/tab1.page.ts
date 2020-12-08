@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class Tab1Page implements OnInit {
   information = null;
+  count = null;
   constructor(private authService: AuthenticationService) {}
  
   ngOnInit(){

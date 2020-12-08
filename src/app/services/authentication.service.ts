@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable } from 'rxjs';
- 
 import { Plugins } from '@capacitor/core';
-import { identifierName } from '@angular/compiler';
 const { Storage } = Plugins;
  
 const TOKEN_KEY = 'my-token';
@@ -76,14 +74,39 @@ frekvens(id, interval) {
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"billing_interval" : interval})     
 }
-
-    
-    orderdetails(id) {
+status(id, status) {
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"status" : status})     
+}
+products(){
+  return this.http.get(`${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`,)
+}
+product(prodid){
+  return this.http.get(`${this.url}wc/v3/products/${prodid}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,)
+}
+addproduct(id, prodid, quant){
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"line_items" : [
+    {
+      product_id: prodid,
+      quantity: quant,
+    }
+  ]})   
+}
+removeproduct(id, prodid){
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"line_items" : [
+    {
+      id: prodid,
+      quantity: 0,
+    }
+  ]})   
+}
+orderdetails(id) {
         return this.http.get(`${this.url}wc/v3/orders/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
         )
         }
-
-  orders() {
+orders() {
     const email = localStorage.getItem("email");
     return this.http.get(`${this.url}wc/v3/orders?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`)
     }
@@ -101,4 +124,5 @@ frekvens(id, interval) {
   getCurrentUser() {
     return this.user.asObservable();
   }
+
 }

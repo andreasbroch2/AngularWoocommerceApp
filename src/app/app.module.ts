@@ -12,6 +12,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { registerLocaleData } from '@angular/common';
 import localeDa from '@angular/common/locales/da';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeDa, 'da');
@@ -19,7 +20,7 @@ registerLocaleData(localeDa, 'da');
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), BrowserAnimationsModule],
   providers: [
     StatusBar,
     SplashScreen,

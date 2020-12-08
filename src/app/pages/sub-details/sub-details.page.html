@@ -23,6 +23,22 @@
         Hver Fjerde Uge
       </ion-card-subtitle>
     </ion-card-header>
+  <ion-button expand="full" (click)="frek()">Ændre frekvens</ion-button>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Status
+      </ion-card-title>
+      <ion-card-subtitle *ngIf="details?.status==='active'">
+        Aktiv
+      </ion-card-subtitle>
+      <ion-card-subtitle *ngIf="details?.status==='on-hold'">
+        På Pause
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-button *ngIf="details?.status==='active'" expand="full" (click)="pause()">Sæt på pause</ion-button>
+    <ion-button *ngIf="details?.status==='on-hold'" expand="full" (click)="pause()">Aktiver</ion-button>
   </ion-card>
   <ion-card>
     <ion-card-header>
@@ -33,6 +49,7 @@
         {{ date | date:'fullDate':'da'}}
       </ion-card-subtitle>
     </ion-card-header>
+    <ion-button expand="full" (click)="skip()">Spring Over</ion-button>
   </ion-card>
   <ion-card>
     <ion-card-header>
@@ -42,15 +59,19 @@
     </ion-card-header>
   <ion-grid *ngIf="details">
     <ion-row *ngFor="let item of details.line_items">
-      <ion-col size="10">
+      <ion-col size="8">
         {{ item.name }}
       </ion-col>
       <ion-col size="2">
         {{ item.quantity }}
       </ion-col>
+      <ion-col size="2">
+        <ion-button color="tertiary" size="small" (click)="removeprod(item.id)">X</ion-button>
+      </ion-col>
     </ion-row>
-  </ion-grid></ion-card>
-  <ion-button expand="full" (click)="skip()">Spring Over</ion-button>
+  </ion-grid>
+  <ion-button expand="full" [routerLink]="['/', 'tabs','products', details?.id]">Tilføj</ion-button>
+</ion-card>
   <ion-button expand="full" (click)="frek()">Ændre frekvens</ion-button>
   <ion-button expand="full" (click)="console()">Console Log</ion-button>
 </ion-content>

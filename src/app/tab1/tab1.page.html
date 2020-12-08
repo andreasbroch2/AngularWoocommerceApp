@@ -6,18 +6,31 @@
   <ion-spinner name="circles"></ion-spinner>
 </div>
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]">
-    <ion-card-header>
-        <ion-card-title *ngIf="user?.billing_interval==='1'">
-          Hver Uge
+    <ion-card-header *ngIf="user?.billing_interval==='1'">
+        <ion-card-title >
+          Hver uge
         </ion-card-title>
-        <ion-card-title *ngIf="details?.billing_interval==='2'">
-          Hveranden Uge
+        <ion-card-subtitle *ngIf="user?.status==='active'">Aktiv</ion-card-subtitle>
+        <ion-card-subtitle *ngIf="user?.status==='on-hold'">På Pause</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-header *ngIf="user?.billing_interval==='2'">
+        <ion-card-title >
+          Hver anden uge
         </ion-card-title>
-        <ion-card-title *ngIf="details?.billing_interval==='4'">
-          Hver Fjerde Uge
+        <ion-card-subtitle *ngIf="user?.status==='active'">
+          Aktiv
+        </ion-card-subtitle>
+        <ion-card-subtitle *ngIf="user?.status==='on-hold'">På Pause</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-header *ngIf="user?.billing_interval==='4'">
+        <ion-card-title >
+          Hver fjerde uge
         </ion-card-title>
-    </ion-card-header>
+        <ion-card-subtitle *ngIf="user?.status==='active'">Aktiv</ion-card-subtitle>
+        <ion-card-subtitle *ngIf="user?.status==='on-hold'">På Pause</ion-card-subtitle>
+      </ion-card-header>
     <ion-card-content>
+      {{user?.line_items.length}}
     </ion-card-content>
   </ion-card>
   
