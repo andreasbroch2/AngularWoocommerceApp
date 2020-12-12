@@ -1,36 +1,47 @@
 <ion-content class="background">
-  <ion-text color="primary">
-    <h1>DINE MÅLTIDSKASSER</h1>
+  <ion-text color="light">
+    <h1>Dine Måltidskasser</h1>
   </ion-text>
 <div class="spin" *ngIf="!information">
   <ion-spinner name="circles"></ion-spinner>
 </div>
-  <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]">
-    <ion-card-header *ngIf="user?.billing_interval==='1'">
-        <ion-card-title >
-          Hver uge
-        </ion-card-title>
-        <ion-card-subtitle *ngIf="user?.status==='active'">Aktiv</ion-card-subtitle>
-        <ion-card-subtitle *ngIf="user?.status==='on-hold'">På Pause</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-header *ngIf="user?.billing_interval==='2'">
-        <ion-card-title >
-          Hver anden uge
-        </ion-card-title>
-        <ion-card-subtitle *ngIf="user?.status==='active'">
-          Aktiv
-        </ion-card-subtitle>
-        <ion-card-subtitle *ngIf="user?.status==='on-hold'">På Pause</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-header *ngIf="user?.billing_interval==='4'">
-        <ion-card-title >
-          Hver fjerde uge
-        </ion-card-title>
-        <ion-card-subtitle *ngIf="user?.status==='active'">Aktiv</ion-card-subtitle>
-        <ion-card-subtitle *ngIf="user?.status==='on-hold'">På Pause</ion-card-subtitle>
-      </ion-card-header>
+  <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>
-      {{user?.line_items.length}}
+    <ion-grid style="text-align: center;">
+      <ion-row>
+        <ion-col>
+          <ion-text *ngIf="user?.status==='active'">Aktiv</ion-text>
+          <ion-text *ngIf="user?.status==='on-hold'">På Pause</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-icon name="calendar"></ion-icon>
+          <br>
+          <ion-text *ngIf="user?.billing_interval==='1'">Hver Uge</ion-text>
+          <ion-text *ngIf="user?.billing_interval==='2'">Hver 2. Uge</ion-text>
+          <ion-text *ngIf="user?.billing_interval==='4'">Hver 4. Uge</ion-text>
+        </ion-col>
+        <ion-col>
+          <ion-icon src="/assets/icon/shipping.svg"></ion-icon>
+          <br>
+          <ion-text>  {{ addDays(user.next_payment_date) | date:'EEEE \'d\' d MMMM'}} </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-icon name="restaurant"></ion-icon>
+          <br>
+          <ion-text>{{user?.line_items.length}}</ion-text>
+        </ion-col>
+        <ion-col>
+          <ion-icon name="card"></ion-icon>
+          <br>
+          <ion-text>{{ user.next_payment_date | date:'EEEE \'d\' d MMMM'}} </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+      
     </ion-card-content>
   </ion-card>
   

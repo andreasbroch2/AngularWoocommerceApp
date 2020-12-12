@@ -1,7 +1,8 @@
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { ProductsPage } from '../products/products.page';
 
 
 @Component({
@@ -10,10 +11,11 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./sub-details.page.scss'],
 })
 export class SubDetailsPage implements OnInit {
+  id = this.activatedRoute.snapshot.paramMap.get('id');
   details = null;
   date = new Date;
   response = null;
-  constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, public alertController: AlertController) {}
+  constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, public alertController: AlertController, public modalController: ModalController) {}
   addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -27,6 +29,26 @@ export class SubDetailsPage implements OnInit {
       this.date = this.addDays(this.date, 4)
     });
 }
+async presentModal() {
+  let id = this.activatedRoute.snapshot.paramMap.get('id');
+  const modal = await this.modalController.create({
+    component: ProductsPage,
+    cssClass: 'product-modal',
+    componentProps: {
+      'subid': id,
+    }
+  });
+  await modal.present();
+  
+  const eventDetails = await modal.onDidDismiss();
+
+  if (eventDetails) {
+    console.log(eventDetails)
+    this.details = eventDetails.data;
+  }
+
+  }
+
 console(){
   console.log(this.details);
   console.log(this.date);

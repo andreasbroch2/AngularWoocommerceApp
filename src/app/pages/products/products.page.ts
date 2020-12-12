@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../services/authentication.service';
-import { ActivatedRoute } from '@angular/router';
-
-import { ModalController } from '@ionic/angular';
-import { ModalPage } from './../modal/modal.page'
+import { ActivatedRoute, Router} from '@angular/router';
+import { ModalController, PickerController } from '@ionic/angular';
 
 @Component({
   selector: 'app-products',
@@ -12,9 +10,10 @@ import { ModalPage } from './../modal/modal.page'
 })
 export class ProductsPage implements OnInit {
 
-  constructor(private authService: AuthenticationService, private activatedRoute: ActivatedRoute,  public modalController: ModalController) { }
-
+  constructor(private authService: AuthenticationService, private activatedRoute: ActivatedRoute,  private pickerController: PickerController, private router: Router, private modalController: ModalController) { }
+  details= null;
   varer = null;
+  @Input() subid: number;
 
   ngOnInit() {
     this.authService.products().subscribe(result => {
@@ -22,17 +21,44 @@ export class ProductsPage implements OnInit {
       console.log(result);
     })
   }
-async presentModal(prodid) {
-  console.log(prodid);
-  let id = this.activatedRoute.snapshot.paramMap.get('id');
-  const modal = await this.modalController.create({
-    component: ModalPage,
-    cssClass: 'product-modal',
-    componentProps: {
-      'subid': id,
-      'prodid': prodid,
+async openPicker(prodid){
+  const picker = await this.pickerController.create({
+    columns: [{
+      name: 'Antal',
+      options: [
+        {text: '1',value: 1},
+        {text: '2',value:2},
+        {text: '3',value:3},
+        {text: '4',value:4},
+        {text: '5',value:5},
+        {text: '6',value:6},
+        {text: '7',value:7},
+        {text: '8',value:8},
+        {text: '9',value:9},
+        {text: '10',value:10},
+       ]
+    }],
+    buttons: [
+      {
+        text: 'Fortryd',
+        role: 'cancel'
+      },
+      {
+        text: 'Tilføj',
+        handler: (value) => {
+          console.log(value.Antal.value);
+          console.log(prodid);
+          this.authService.addproduct(this.subid, prodid, value.Antal.value).subscribe(result => {
+            this.details = result;
+            console.log(result);
+            this.modalController.dismiss(this.details)
+        }
+      )
     }
+    }
+    ]
   });
-  return await modal.present();
+
+  await picker.present();
 }
 }

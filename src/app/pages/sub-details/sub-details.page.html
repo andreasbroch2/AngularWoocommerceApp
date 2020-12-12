@@ -22,8 +22,8 @@
       <ion-card-subtitle *ngIf="details?.billing_interval==='4'">
         Hver Fjerde Uge
       </ion-card-subtitle>
+  <ion-button (click)="frek()">Ændre frekvens</ion-button>
     </ion-card-header>
-  <ion-button expand="full" (click)="frek()">Ændre frekvens</ion-button>
   </ion-card>
   <ion-card>
     <ion-card-header>
@@ -37,8 +37,8 @@
         På Pause
       </ion-card-subtitle>
     </ion-card-header>
-    <ion-button *ngIf="details?.status==='active'" expand="full" (click)="pause()">Sæt på pause</ion-button>
-    <ion-button *ngIf="details?.status==='on-hold'" expand="full" (click)="pause()">Aktiver</ion-button>
+    <ion-button *ngIf="details?.status==='active'"  (click)="pause()">Sæt på pause</ion-button>
+    <ion-button *ngIf="details?.status==='on-hold'"  (click)="pause()">Aktiver</ion-button>
   </ion-card>
   <ion-card>
     <ion-card-header>
@@ -49,7 +49,7 @@
         {{ date | date:'fullDate':'da'}}
       </ion-card-subtitle>
     </ion-card-header>
-    <ion-button expand="full" (click)="skip()">Spring Over</ion-button>
+    <ion-button  (click)="skip()">Spring Over</ion-button>
   </ion-card>
   <ion-card>
     <ion-card-header>
@@ -70,8 +70,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-button expand="full" [routerLink]="['/', 'tabs','products', details?.id]">Tilføj</ion-button>
+  <ion-button  (click)="presentModal()">Tilføj</ion-button>
 </ion-card>
-  <ion-button expand="full" (click)="frek()">Ændre frekvens</ion-button>
-  <ion-button expand="full" (click)="console()">Console Log</ion-button>
+  <ion-button  (click)="console()">Console Log</ion-button>
 </ion-content>

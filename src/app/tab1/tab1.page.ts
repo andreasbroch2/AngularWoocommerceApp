@@ -1,7 +1,7 @@
 import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
- 
+
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -9,9 +9,14 @@ import { Observable } from 'rxjs';
 })
 export class Tab1Page implements OnInit {
   information = null;
-  count = null;
+  
   constructor(private authService: AuthenticationService) {}
  
+  addDays(date) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + 4);
+    return result;
+  }
   ngOnInit(){
     this.authService.subscription().subscribe(result => {
       this.information = result;
