@@ -23,9 +23,44 @@ ion-card{
 }
 ion-text{
   text-transform: capitalize;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 500;
 }
 h1{
   margin-top: 10px;
+  font-family: Quicksand;
+}
+.status{
+  font-weight: 600;
+  font-size: 18px;
+}
+.pris{
+  font-weight: 600;
+  font-size: 20px;
+  color:#006633
+}
+.aktiv{
+  background-color: #006633; /* Green */
+  border: solid;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.pause{
+  background-color: red; /* Green */
+  border: solid;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 18px;
+}
+ion-card-content{
+  padding: 5px
 }

@@ -1,7 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Dine Måltidskasser</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="info()">
+        <ion-icon slot="icon-only" name="help"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="background">
-  <ion-text color="light">
-    <h1>Dine Måltidskasser</h1>
-  </ion-text>
 <div class="spin" *ngIf="!information">
   <ion-spinner name="circles"></ion-spinner>
 </div>
@@ -10,8 +18,8 @@
     <ion-grid style="text-align: center;">
       <ion-row>
         <ion-col>
-          <ion-text *ngIf="user?.status==='active'">Aktiv</ion-text>
-          <ion-text *ngIf="user?.status==='on-hold'">På Pause</ion-text>
+          <ion-text class="aktiv" *ngIf="user?.status==='active'">Aktiv</ion-text>
+          <ion-text class="pause" *ngIf="user?.status==='on-hold'">På Pause</ion-text>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -38,6 +46,11 @@
           <ion-icon name="card"></ion-icon>
           <br>
           <ion-text>{{ user.next_payment_date | date:'EEEE \'d\' d MMMM'}} </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+         <ion-text class="pris"> {{ user.total  | currency:'DKK' }} </ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>

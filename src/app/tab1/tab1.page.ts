@@ -1,5 +1,7 @@
 import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { OversigtinfoPage } from '../pages/oversigtinfo/oversigtinfo.page';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class Tab1Page implements OnInit {
   information = null;
   
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private modalController: ModalController) {}
  
   addDays(date) {
     var result = new Date(date);
@@ -28,4 +30,12 @@ console(){
 logout(){
   this.authService.logout();
 }
+async info() {
+  const modal = await this.modalController.create({
+    component: OversigtinfoPage,
+    cssClass: 'product-modal',
+  });
+  await modal.present();
+
+  }
 }
