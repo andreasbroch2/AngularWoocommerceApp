@@ -15,10 +15,15 @@ export class SubDetailsPage implements OnInit {
   details = null;
   date = new Date;
   response = null;
+  total = null;
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, public alertController: AlertController, public modalController: ModalController) {}
   addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
+    return result;
+  }
+  addNumbers(number1, number2) {
+    const result: number = Number(number1) + Number(number2);
     return result;
   }
   ngOnInit(){
@@ -26,7 +31,7 @@ export class SubDetailsPage implements OnInit {
     this.authService.subdetails(id).subscribe(result => {
       this.details = result;
       this.date = this.details.next_payment_date;
-      this.date = this.addDays(this.date, 4)
+      this.date = this.addDays(this.date, 4);
     });
 }
 async presentModal() {
@@ -43,7 +48,8 @@ async presentModal() {
   const eventDetails = await modal.onDidDismiss();
 
   if (eventDetails) {
-    console.log(eventDetails)
+    console.log(eventDetails.data)
+    if(eventDetails.data)
     this.details = eventDetails.data;
   }
 

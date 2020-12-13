@@ -11,7 +11,7 @@
 
 <ion-content class="background">
 <div class="spin" *ngIf="!information">
-  <ion-spinner name="circles"></ion-spinner>
+  <ion-spinner color="light" name="circles"></ion-spinner>
 </div>
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>
@@ -57,6 +57,4 @@
       
     </ion-card-content>
   </ion-card>
-  
-  <ion-button expand="block" (click)="console()">Console Log</ion-button>
 </ion-content>

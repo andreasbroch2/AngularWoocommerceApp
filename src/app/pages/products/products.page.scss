@@ -1,5 +1,28 @@
 .side{
-    width:40vw;
+    width:45vw;
     display: inline-block;
     vertical-align: top;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
 }
+.spin {
+    text-align: center;
+    margin-top:100px;
+}
+  ion-spinner {
+    transform: scale(3);
+    stroke: #fff;
+    fill: #fff;
+  }
+  .produkt{
+      font-size: 16px;
+  }
+  ion-card{
+      --background: #fff;
+  }
+  ion-content{
+      text-align: center;
+  }
+  .picker-wrapper{
+    --background:#fff;
+  }

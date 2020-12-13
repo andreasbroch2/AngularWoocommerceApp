@@ -25,6 +25,7 @@ async openPicker(prodid){
   const picker = await this.pickerController.create({
     columns: [{
       name: 'Antal',
+      cssClass: 'picker',
       options: [
         {text: '1',value: 1},
         {text: '2',value:2},

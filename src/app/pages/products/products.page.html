@@ -1,15 +1,18 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Produkter</ion-title>
+  <ion-toolbar color="light">
+    <ion-title color="primary">Produkter</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="spin" *ngIf="!varer">
+    <ion-spinner color="light" name="circles"></ion-spinner>
+  </div>
   <ion-card button (click)="openPicker(prod.id)" class="side" *ngFor="let prod of varer">
     <img class="prodimg" src={{prod.images[0].src}} />
     <ion-card-header>
         <ion-card-title >
-          {{prod.name}}
+         <ion-text class="produkt"> {{prod.name}} </ion-text>
         </ion-card-title>
       </ion-card-header>
     <ion-card-content>
