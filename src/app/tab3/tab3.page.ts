@@ -14,6 +14,7 @@ export class Tab3Page {
   ngOnInit(){
     this.authService.kunde().subscribe(result => {
       this.kunde = result;
+      console.log(this.kunde);
     });
 }
 console(){

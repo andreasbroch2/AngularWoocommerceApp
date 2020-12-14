@@ -43,23 +43,34 @@ h1{
   background-color: #006633; /* Green */
   border: solid;
   color: white;
-  padding: 7px 15px;
+  padding: 5px 10px;
   text-align: center;
   display: inline-block;
   border-radius: 100px;
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
 }
 .pause{
+  background-color: rgb(133, 133, 4); /* Green */
+  border: solid;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 16px;
+}
+.annulleret{
   background-color: red; /* Green */
   border: solid;
   color: white;
-  padding: 7px 15px;
+  padding: 5px 10px;
   text-align: center;
   display: inline-block;
   border-radius: 100px;
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
 }
 ion-card-content{
   padding: 5px

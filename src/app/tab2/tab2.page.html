@@ -1,25 +1,23 @@
-
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Historik</ion-title>
+  <ion-toolbar>
+    <ion-title color="primary">Historik</ion-title>
   </ion-toolbar>
 </ion-header>
- 
 <ion-content padding>
 
   
-  <ion-card button *ngFor="let order of orders"[routerLink]="['/', 'tabs','tab2', order.id]">
+  <ion-card class="center" button *ngFor="let order of orders"[routerLink]="['/', 'tabs','tab2', order.id]">
     <ion-card-header>
       <ion-card-title>
-        {{ order.id }}
+        {{ order.date_created | date:'EEEE \'d\' d MMMM'}}
       </ion-card-title>
       <ion-card-subtitle>
-        {{ order.date_created }}
+        {{ order.id }}
       </ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content text-center>
+    <ion-card-content>
+      <ion-text class="pris">{{ order.total | number }},-</ion-text>
     </ion-card-content>
   </ion-card>
-  <ion-button expand="full" (click)="logout()">Log Ud</ion-button>
   <ion-button expand="full" (click)="console()">Console Log</ion-button>
 </ion-content>

@@ -1,11 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Din Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-text color="primary">
-    <h1>DIN PROFIL</h1>
+  <ion-text *ngIf="kunde" color="light">
+    <br>
+    Velkommen {{kunde.customer.first_name}}
   </ion-text>
-  <ion-text *ngIf="kunde" color="primary">
-    <h2>Velkommen {{kunde.customer.first_name}}</h2>
-  </ion-text>
-  <ion-card class="card" *ngIf="kunde">
+  <ion-card *ngIf="kunde">
     <ion-card-content >
       <ion-icon size="large" color="primary" name="home"></ion-icon>
       <p id="adresse">
@@ -25,6 +28,5 @@
       </p>
     </ion-card-content>
   </ion-card>
-  <ion-button expand="block" (click)="logout()">Log Ud</ion-button>
-  <ion-button expand="block" (click)="console()">Console Log</ion-button>
+  <ion-button color="tertiary" expand="block" (click)="logout()">Log Ud</ion-button>
 </ion-content>

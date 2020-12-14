@@ -1,0 +1,43 @@
+ion-card{
+    background-color: #ffffff;
+    border-radius: 20px;
+}
+ion-icon{
+    font-size:35px;
+    color: #006633;
+  }
+  ion-text{
+    text-transform: capitalize;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  h1{
+    margin-top: 10px;
+    font-family: Quicksand;
+  }
+  .pris{
+    font-weight: 600;
+    font-size: 20px;
+    color:#006633
+  }
+  ion-card-content{
+    padding: 5px
+  }
+.total{
+    font-weight: 600;
+}
+ion-card-header{
+    text-align: center;
+}
+.kort{
+    text-align: center;
+}
+.spin {
+    text-align: center;
+    margin-top:100px;
+}
+  ion-spinner {
+    transform: scale(3);
+    stroke: #fff;
+    fill: #fff;
+  }

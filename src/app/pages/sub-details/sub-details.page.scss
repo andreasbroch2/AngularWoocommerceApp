@@ -36,7 +36,7 @@ ion-icon{
     font-size: 12px;
   }
   .pause{
-    background-color: red; /* Green */
+    background-color: rgb(133, 133, 4); /* Green */
     border: solid;
     color: white;
     padding: 7px 15px;
@@ -45,6 +45,17 @@ ion-icon{
     border-radius: 100px;
     font-weight: 600;
     font-size: 12px;
+  }
+  .annulleret{
+    background-color: red; /* Green */
+    border: solid;
+    color: white;
+    padding: 7px 15px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 18px;
   }
   ion-card-content{
     padding: 5px

@@ -173,6 +173,20 @@ pause(){
     })
   }
 }
+afmeld(){
+  let id = this.activatedRoute.snapshot.paramMap.get('id');
+  if( this.details.status != 'cancelled'){
+    this.authService.status(id, 'cancelled').subscribe(result => {
+      this.details = result; 
+      console.log(result);
+    })
+  } else if (this.details.status === 'cancelled'){
+    this.authService.status(id, 'active').subscribe(result => {
+      this.details = result; 
+      console.log(result);
+    })
+  }
+}
 addprod(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
     this.authService.addproduct(id, 805, 2).subscribe(result => {

@@ -17,6 +17,7 @@
       <ion-col>
         <ion-text class="aktiv" *ngIf="details.status==='active'">Aktiv</ion-text>
         <ion-text class="pause" *ngIf="details.status==='on-hold'">På Pause</ion-text>
+        <ion-text class="annulleret" *ngIf="details.status==='cancelled'">Afmeldt</ion-text>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -62,11 +63,6 @@
         <ion-text>{{ details.next_payment_date | date:'EEEE \'d\' d MMMM'}} </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>
-       <ion-text class="pris"> {{ details.total  | currency:'DKK' }} </ion-text>
-      </ion-col>
-    </ion-row>
   </ion-grid>
     
   </ion-card-content>
@@ -104,7 +100,7 @@
     {{ details.shipping_lines[0].method_title}}
   </ion-col>
   <ion-col size="2">
-    <ion-text class="total">  {{ details.shipping_total | number}},- </ion-text>
+    <ion-text class="pris">  {{ details.shipping_total | number}},- </ion-text>
   </ion-col>
 </ion-row>
 <ion-row>
@@ -124,7 +120,10 @@ Total
   </ion-grid>
   <ion-button expand="block" (click)="presentModal()">Tilføj</ion-button>
 </ion-card>
-  <ion-button  (click)="console()">Console Log</ion-button>
   <ion-button expand="block" color="light" *ngIf="details?.status==='active'"  (click)="pause()">Sæt på pause</ion-button>
   <ion-button expand="block" color="light" *ngIf="details?.status==='on-hold'"  (click)="pause()">Aktiver</ion-button>
+  <div *ngIf="details">
+  <ion-button expand="block" color="tertiary" *ngIf="details?.status!='cancelled'"  (click)="afmeld()">Afmeld</ion-button>
+</div>
+  <ion-button expand="block" color="light" *ngIf="details?.status==='cancelled'"  (click)="afmeld()">Genaktivér</ion-button>
 </ion-content>

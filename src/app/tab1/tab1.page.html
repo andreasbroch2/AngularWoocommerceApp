@@ -20,6 +20,7 @@
         <ion-col>
           <ion-text class="aktiv" *ngIf="user?.status==='active'">Aktiv</ion-text>
           <ion-text class="pause" *ngIf="user?.status==='on-hold'">På Pause</ion-text>
+          <ion-text class="annulleret" *ngIf="user?.status==='cancelled'">Afmeldt</ion-text>
         </ion-col>
       </ion-row>
       <ion-row>
