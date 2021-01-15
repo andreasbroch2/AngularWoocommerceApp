@@ -14,9 +14,11 @@ export class ProductsPage implements OnInit {
   details= null;
   hovedretter = null;
   snacks = null;
+  drikkevarer = null;
   categories = null;
   hideMeHoved = false;
   hideMeSnacks = false;
+  hideMeDrikkevarer = false;
   @Input() subid: number;
 
   ngOnInit() {
@@ -31,6 +33,10 @@ export class ProductsPage implements OnInit {
     })
     this.authService.snacks().subscribe(result => {
       this.snacks = result;
+      console.log(result);
+    })
+    this.authService.drikkevarer().subscribe(result => {
+      this.drikkevarer = result;
       console.log(result);
     })
   }
@@ -84,5 +90,10 @@ hideSnacks() {
   if(this.hideMeSnacks == false)
   this.hideMeSnacks = true;
   else this.hideMeSnacks = false;
+}
+hideDrikkevarer() {
+  if(this.hideMeDrikkevarer == false)
+  this.hideMeDrikkevarer = true;
+  else this.hideMeDrikkevarer = false;
 }
 }

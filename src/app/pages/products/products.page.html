@@ -39,4 +39,21 @@
   </ion-card>
 </span>
 </div>
+<ion-item button (click)="hideDrikkevarer()">
+  <ion-label color="light">Drikkevarer</ion-label>
+</ion-item>
+<div *ngIf="hideMeDrikkevarer">
+  <span  *ngFor="let prod of drikkevarer">
+    <ion-card button (click)="openPicker(prod.id)" class="side" *ngIf="(prod.catalog_visibility == 'visible')">
+      <img class="prodimg" src={{prod.images[0].src}} />
+      <ion-card-header>
+          <ion-card-title >
+           <ion-text class="produkt"> {{prod.name}} </ion-text>
+          </ion-card-title>
+        </ion-card-header>
+      <ion-card-content>
+      </ion-card-content>
+    </ion-card>
+  </span>
+  </div>
 </ion-content>
