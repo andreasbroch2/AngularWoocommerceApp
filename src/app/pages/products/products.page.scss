@@ -2,8 +2,7 @@
     width:45vw;
     display: inline-block;
     vertical-align: top;
-    margin-left: 2.5vw;
-    margin-right: 2.5vw;
+    margin: 2.5vw;
 }
 .spin {
     text-align: center;
@@ -26,3 +25,6 @@
   .picker-wrapper{
     --background:#fff;
   }
+ion-item{
+  --detail-icon-color: #fff;
+}

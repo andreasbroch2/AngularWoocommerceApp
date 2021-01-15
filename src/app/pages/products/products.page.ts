@@ -12,12 +12,25 @@ export class ProductsPage implements OnInit {
 
   constructor(private authService: AuthenticationService, private activatedRoute: ActivatedRoute,  private pickerController: PickerController, private router: Router, private modalController: ModalController) { }
   details= null;
-  varer = null;
+  hovedretter = null;
+  snacks = null;
+  categories = null;
+  hideMeHoved = false;
+  hideMeSnacks = false;
   @Input() subid: number;
 
   ngOnInit() {
-    this.authService.products().subscribe(result => {
-      this.varer = result;
+    this.authService.categories().subscribe(result => {
+      this.categories = result;
+      this.categories = this.categories.sort((a, b) => a.id - b.id);
+      console.log(this.categories);
+    })
+    this.authService.hovedret().subscribe(result => {
+      this.hovedretter = result;
+      console.log(result);
+    })
+    this.authService.snacks().subscribe(result => {
+      this.snacks = result;
       console.log(result);
     })
   }
@@ -61,5 +74,15 @@ async openPicker(prodid){
   });
 
   await picker.present();
+}
+hideHoved() {
+  if(this.hideMeHoved == false)
+  this.hideMeHoved = true;
+  else this.hideMeHoved = false;
+}
+hideSnacks() {
+  if(this.hideMeSnacks == false)
+  this.hideMeSnacks = true;
+  else this.hideMeSnacks = false;
 }
 }
