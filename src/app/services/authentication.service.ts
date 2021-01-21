@@ -81,6 +81,18 @@ status(id, status) {
 products(){
   return this.http.get(`${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`,)
 }
+categories(){
+  return this.http.get(`${this.url}wc/v3/products/categories?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`,)
+}
+hovedret(){
+  return this.http.get(`${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=19`,)
+}
+snacks(){
+  return this.http.get(`${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=29`,)
+}
+drikkevarer(){
+  return this.http.get(`${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=23`,)
+}
 product(prodid){
   return this.http.get(`${this.url}wc/v3/products/${prodid}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,)
 }

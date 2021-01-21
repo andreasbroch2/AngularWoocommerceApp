@@ -39,6 +39,10 @@ const routes: Routes = [
     path: 'oversigtinfo',
     loadChildren: () => import('./pages/oversigtinfo/oversigtinfo.module').then( m => m.OversigtinfoPageModule)
   },
+  {
+    path: 'kategorier',
+    loadChildren: () => import('./pages/kategorier/kategorier.module').then( m => m.KategorierPageModule)
+  },
 
 
 ];

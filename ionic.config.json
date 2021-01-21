@@ -1,7 +1,8 @@
 {
-  "name": "angular",
+  "name": "gaia",
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "id": "7ee62c8e"
 }
