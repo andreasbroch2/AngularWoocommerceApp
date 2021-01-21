@@ -100,7 +100,7 @@
     {{ details.shipping_lines[0].method_title}}
   </ion-col>
   <ion-col size="2">
-    <ion-text class="pris">  {{ details.shipping_total | number}},- </ion-text>
+    <ion-text class="pris">  {{ addNumbers(details.shipping_total, details.shipping_tax) | number}},- </ion-text>
   </ion-col>
 </ion-row>
 <ion-row>
@@ -112,7 +112,7 @@ Total
 </ion-row>
 <ion-row>
   <ion-col>
-<ion-card-subtitle color="primary">
+<ion-card-subtitle color="primary" class="pris">
 {{details.total}}
 </ion-card-subtitle>
 </ion-col>
