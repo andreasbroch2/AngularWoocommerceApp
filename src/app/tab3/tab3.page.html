@@ -4,6 +4,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <div class="spin" *ngIf="!kunde">
+    <ion-spinner color="light" name="crescent"></ion-spinner>
+  </div>
   <ion-text *ngIf="kunde" color="light">
     <br>
     Velkommen {{kunde.customer.first_name}}

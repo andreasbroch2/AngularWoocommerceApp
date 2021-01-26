@@ -4,7 +4,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
-
+  <div class="spin" *ngIf="!orders">
+    <ion-spinner color="light" name="crescent"></ion-spinner>
+  </div>
   
   <ion-card class="center" button *ngFor="let order of orders"[routerLink]="['/', 'tabs','tab2', order.id]">
     <ion-card-header>

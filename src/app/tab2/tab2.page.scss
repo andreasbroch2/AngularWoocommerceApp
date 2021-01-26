@@ -10,3 +10,12 @@ ion-card{
 .center{
     text-align: center;
 }
+.spin {
+    text-align: center;
+    margin-top:100px;
+}
+  ion-spinner {
+    transform: scale(3);
+    stroke: #fff;
+    fill: #fff;
+  }

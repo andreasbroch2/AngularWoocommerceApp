@@ -26,3 +26,13 @@ ion-card{
 ion-content{
     text-align: center;
 }
+.spin {
+    text-align: center;
+    margin-top:100px;
+    margin-bottom: 50px;
+}
+  ion-spinner {
+    transform: scale(3);
+    stroke: #fff;
+    fill: #fff;
+  }
