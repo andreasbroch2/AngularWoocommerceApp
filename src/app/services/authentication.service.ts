@@ -64,7 +64,7 @@ skiplevering(id, date, interval) {
   let numWeeks = interval;
   let now = new Date(date);
   now.setDate(now.getDate() + (numWeeks * 7));
-  console.log(now);
+  now.setHours(now.getHours() + 1);
   let nydate = now.toISOString().replace('.000Z','').replace('T',' ');
   console.log(nydate);
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,

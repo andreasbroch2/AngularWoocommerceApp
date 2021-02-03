@@ -13,7 +13,7 @@ import { SubDetailsPage } from './sub-details.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    SubDetailsPageRoutingModule
+    SubDetailsPageRoutingModule,
   ],
   declarations: [SubDetailsPage]
 })

@@ -10,6 +10,11 @@
   <div class="spin" *ngIf="!details">
     <ion-spinner color="light" name="crescent"></ion-spinner>
   </div>
+  <div class="loadbar" *ngIf="load">
+    <ion-spinner color="light" name="crescent"></ion-spinner>
+    <ion-text color="light">  {{ load }}</ion-text>
+    
+  </div>
 <ion-card *ngIf="details" color="light">
   <ion-card-content>
   <ion-grid style="text-align: center;">

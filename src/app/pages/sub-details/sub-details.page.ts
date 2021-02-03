@@ -1,9 +1,8 @@
 import { AuthenticationService } from './../../services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ProductsPage } from '../products/products.page';
-
 
 @Component({
   selector: 'app-sub-details',
@@ -16,6 +15,7 @@ export class SubDetailsPage implements OnInit {
   date = new Date;
   response = null;
   total = null;
+  load = '';
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, public alertController: AlertController, public modalController: ModalController) {}
   addDays(date, days) {
     var result = new Date(date);
@@ -64,10 +64,12 @@ console(){
 }
 skip(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
+  this.load = 'Springer over...';
   this.authService.skiplevering(id, this.details.next_payment_date, this.details.billing_interval).subscribe(result => {
     this.details = result;
     this.date = this.details.next_payment_date;
     this.date = this.addDays(this.date, 4)
+    this.load = ''; 
     console.log(result)
   })
 }
@@ -143,32 +145,42 @@ async frek(){
   }}
 frek1(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
+  this.load = 'Ændrer frekvens...';
   this.authService.frekvens(id, 1).subscribe(result => {
     this.details = result;
+    this.load = '';
     console.log(result);
 })}
 frek2(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
+  this.load = 'Ændrer frekvens...';
   this.authService.frekvens(id, 2).subscribe(result => {
     this.details = result;
+    this.load = '';
     console.log(result);
 })}
 frek4(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
+  this.load = 'Ændrer frekvens...';
   this.authService.frekvens(id, 4).subscribe(result => {
     this.details = result;
+    this.load = '';
     console.log(result);
 })}
 pause(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
   if( this.details.status === 'active'){
+  this.load = 'Sætter på pause...';
     this.authService.status(id, 'on-hold').subscribe(result => {
       this.details = result; 
+      this.load = '';
       console.log(result);
     })
   } else if (this.details.status === 'on-hold'){
+  this.load = 'Aktiverer...';
     this.authService.status(id, 'active').subscribe(result => {
       this.details = result; 
+      this.load = '';
       console.log(result);
     })
   }
@@ -176,29 +188,28 @@ pause(){
 afmeld(){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
   if( this.details.status != 'cancelled'){
+  this.load = 'Afmelder...';
     this.authService.status(id, 'cancelled').subscribe(result => {
       this.details = result; 
+      this.load = '';
       console.log(result);
     })
   } else if (this.details.status === 'cancelled'){
+  this.load = 'Genaktiverer...';
     this.authService.status(id, 'active').subscribe(result => {
       this.details = result; 
+      this.load = '';
       console.log(result);
     })
   }
 }
-addprod(){
-  let id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.authService.addproduct(id, 805, 2).subscribe(result => {
-      this.details = result; 
-      console.log(result);
-    })
-}
 removeprod(prodid){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
+  this.load = 'Fjerner...';
   console.log(prodid);
     this.authService.removeproduct(id, prodid).subscribe(result => {
       this.details = result; 
+      this.load ='';
       console.log(result);
     })
 }

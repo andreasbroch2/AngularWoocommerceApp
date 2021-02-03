@@ -6,7 +6,7 @@ ion-icon{
     font-size:35px;
     color: #006633;
   }
-  ion-text{
+ ion-card ion-text{
     text-transform: capitalize;
     font-size: 17px;
     font-weight: 500;
@@ -79,8 +79,24 @@ ion-card-header{
     text-align: center;
     margin-top:100px;
 }
-  ion-spinner {
+ .spin ion-spinner {
     transform: scale(3);
     stroke: #fff;
     fill: #fff;
   }
+.loadbar{
+  width: 200px;
+  height: 30px;
+  margin:auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  background-color: #46b064;
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 12%;
+  z-index: 100;
+}
