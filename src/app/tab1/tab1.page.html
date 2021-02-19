@@ -15,52 +15,45 @@
 </ion-header>
 
 <ion-content class="background">
+<app-count-down></app-count-down>
 <div class="spin" *ngIf="!information">
   <ion-spinner color="light" name="crescent"></ion-spinner>
 </div>
+<h2>Måltidskasser</h2>
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>
     <ion-grid style="text-align: center;">
       <ion-row>
-        <ion-col>
+        <ion-col class="dot">
+          <ion-icon class="active" name="chevron-forward-circle" *ngIf="user?.status==='active'"></ion-icon>
           <ion-text class="aktiv" *ngIf="user?.status==='active'">Aktiv</ion-text>
+          <ion-icon class="hold" name="chevron-down-circle" *ngIf="user?.status==='on-hold'"></ion-icon>
           <ion-text class="pause" *ngIf="user?.status==='on-hold'">På Pause</ion-text>
+          <ion-icon color="tertiary" name="close-circle" *ngIf="user?.status==='cancelled'"></ion-icon>
           <ion-text class="annulleret" *ngIf="user?.status==='cancelled'">Afmeldt</ion-text>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col>
-          <ion-icon name="calendar"></ion-icon>
-          <br>
-          <ion-text *ngIf="user?.billing_interval==='1'">Hver Uge</ion-text>
-          <ion-text *ngIf="user?.billing_interval==='2'">Hver 2. Uge</ion-text>
-          <ion-text *ngIf="user?.billing_interval==='4'">Hver 4. Uge</ion-text>
-        </ion-col>
-        <ion-col>
-          <ion-icon src="/assets/icon/shipping.svg"></ion-icon>
-          <br>
-          <ion-text>  {{ addDays(user.next_payment_date) | date:'EEEE \'d\' d MMMM'}} </ion-text>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-icon name="restaurant"></ion-icon>
-          <br>
-          <ion-text>{{user?.line_items.length}}</ion-text>
-        </ion-col>
-        <ion-col>
-          <ion-icon name="card"></ion-icon>
-          <br>
-          <ion-text>{{ user.next_payment_date | date:'EEEE \'d\' d MMMM'}} </ion-text>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-         <ion-text class="pris"> {{ user.total  | currency:'DKK' }} </ion-text>
+        <ion-col class="oversigt">
+          <div>
+            <ion-icon id="cube" name="cube"></ion-icon>
+            <span id="antal"><ion-text>{{user?.line_items.length}}</ion-text></span>
+          </div>
+          <div>
+            <div class="grid2">
+              <ion-icon size="small" src="/assets/icon/shipping.svg"></ion-icon>
+              <ion-text class="nlevering">Næste levering</ion-text>
+            </div>
+            <ion-text class="ldato" *ngIf="user?.status==='active'">{{ addDays(user.next_payment_date) | date:'EEEE \'d\' d MMMM'}} </ion-text>
+            <ion-text class="ldato" *ngIf="user?.status==='on-hold'">{{ addDays(user.next_payment_date) | date:'EEEE \'d\' d MMMM'}} </ion-text>
+            <ion-text class="ldato" *ngIf="user?.status==='cancelled'">Afmeldt</ion-text>
+          </div>
+         <div>
+          <ion-icon size="small" name="chevron-forward"></ion-icon>
+         </div>
         </ion-col>
       </ion-row>
     </ion-grid>
-      
     </ion-card-content>
   </ion-card>
 </ion-content>

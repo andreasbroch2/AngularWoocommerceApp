@@ -38,3 +38,11 @@
   .picker-wrapper{
     --background:#fff;
   }
+ion-content{
+  --padding-top: 10px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+.contentheading ion-icon{
+  --ionicon-stroke-width: 64px;
+}

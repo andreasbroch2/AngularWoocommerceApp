@@ -27,11 +27,6 @@ export class Tab1Page implements OnInit{
     this.authService.subscription().subscribe(result => {
       this.information = result;
       console.log(result);
-      if (Object.keys(result).length === 1){
-        let idet = (result[0].id);
-        this.router.navigate(['/tabs/tab1/', idet]).then(() => {
-        })
-      }
     });
   }
   ngOnInit(){

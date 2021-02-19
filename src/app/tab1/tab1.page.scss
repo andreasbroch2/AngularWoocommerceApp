@@ -16,19 +16,20 @@ margin-top: 10px;
 }
 ion-icon{
   font-size:35px;
-  color: #006633;
 }
 ion-card{
   border-radius: 20px;
+  background-color: rgb(208, 238, 190);
+  margin: 0; 
 }
 ion-text{
-  text-transform: capitalize;
   font-size: 17px;
   font-weight: 500;
 }
-h1{
+h1, h2{
   margin-top: 10px;
   font-family: Quicksand;
+  font-weight: 600;
 }
 .status{
   font-weight: 600;
@@ -40,38 +41,100 @@ h1{
   color:#006633
 }
 .aktiv{
-  background-color: #006633; /* Green */
-  border: solid;
-  color: white;
-  padding: 5px 10px;
   text-align: center;
   display: inline-block;
-  border-radius: 100px;
   font-weight: 500;
   font-size: 16px;
+  justify-self: start;
+  align-self:center; 
 }
 .pause{
-  background-color: rgb(133, 133, 4); /* Green */
-  border: solid;
-  color: white;
-  padding: 5px 10px;
   text-align: center;
   display: inline-block;
-  border-radius: 100px;
   font-weight: 500;
   font-size: 16px;
+  justify-self: start;
+  align-self:center; 
 }
 .annulleret{
-  background-color: red; /* Green */
-  border: solid;
-  color: white;
-  padding: 5px 10px;
   text-align: center;
   display: inline-block;
-  border-radius: 100px;
   font-weight: 500;
   font-size: 16px;
+  justify-self: start;
+  align-self:center; 
 }
 ion-card-content{
   padding: 5px
+}
+.fifty{
+  width: 100%;
+  height: 45px; 
+  display: block;
+  justify-self: center;
+  align-self: center;
+  font-size: 12px;
+}
+.notice{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width:100%;
+  margin: 5px 0; 
+  padding: 10px; 
+  background-color: lightgrey;
+  border-radius: 10px; 
+}
+.dot ion-icon{
+  font-size: 24px;
+  align-self: center;
+  justify-self: end;
+  padding-right: 5px;
+}
+.dot{
+  display: grid; 
+  grid-template-columns: 1fr 1fr
+}
+.active{
+  color:rgb(56, 233, 56)
+}
+.hold{
+  color:rgb(126, 134, 14)
+}
+.oversigt{
+  display: grid; 
+  grid-template-columns: 20% 70% 10%;
+}
+.oversigt div{
+  align-self:center;
+}
+.oversigt #cube{
+  font-size:48px;
+  position: relative; 
+}
+#antal{
+  border-radius: 100px;
+  background-color: lightgrey;
+  color: white;
+  position: absolute;
+  left: 10px;
+  top:0;
+  padding: 1px 4px; 
+}
+.nlevering{
+  font-size: 12px;
+  justify-self:start;
+  align-self:center;
+}
+.ldato{
+  font-size:16px;
+  font-weight: bold;
+}
+.grid2{
+  display: grid; 
+  grid-template-columns: 38% 62%;
+}
+.grid2 ion-icon{
+  align-self: center;
+  justify-self: end;
+  padding-right: 5px;
 }

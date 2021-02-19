@@ -34,6 +34,7 @@ export class SubDetailsPage implements OnInit {
       this.date = this.addDays(this.date, 4);
     });
 }
+
 async presentModal() {
   let id = this.activatedRoute.snapshot.paramMap.get('id');
   const modal = await this.modalController.create({
@@ -212,5 +213,8 @@ removeprod(prodid){
       this.load ='';
       console.log(result);
     })
+}
+showContent(){
+  document.getElementById("leveringscontent").style.display = "block";
 }
 }
