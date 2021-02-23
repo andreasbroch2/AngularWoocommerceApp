@@ -34,9 +34,84 @@
               <ion-icon size="small" src="/assets/icon/shipping.svg"></ion-icon>
               <ion-text class="noticelabel">Næste levering</ion-text>
               <ion-text class="noticevalue">  {{ addDays(details.next_payment_date, 4) | date:'EEEE \'d\' d MMMM'}} </ion-text>
-              <ion-icon name="chevron-down"></ion-icon>
+              <ion-icon *ngIf="hidden" name="chevron-down"></ion-icon>
+              <ion-icon *ngIf="!hidden" name="chevron-up"></ion-icon>
           </div>
           <div id="leveringscontent">
+            <hr>
+            <p class="contentheading">Leveres </p>
+            <p *ngIf="details.billing_interval==='1'">Hver Uge <ion-icon size="small" name="pencil"></ion-icon></p>
+            <p *ngIf="details.billing_interval==='2'">Hver 2. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
+            <p *ngIf="details.billing_interval==='4'">Hver 4. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
+            <p class="contentheading">Leveringsadresse</p>
+              <div class="adresselabel">
+                Navn
+              </div>
+              <div class="adressevalue">
+                {{details.shipping.first_name}} {{details.shipping.last_name}}
+              </div>
+              <hr>
+              <div class="adresselabel">
+                Adresse
+              </div>
+              <div class="adressevalue">
+                {{details.shipping.address_1}} {{details.shipping.address_2}}
+              </div>
+              <hr>
+              <div class="adresselabel">
+                Postnr. og by
+              </div>
+              <div class="adressevalue">
+                {{details.shipping.postcode}} {{details.shipping.city}}
+              </div>
+          </div>
+        </div>
+        <div button (click)="showContentKasse()" class="collapsible">
+          <div class="grid154045">
+              <ion-icon size="small" name="cube"></ion-icon>
+              <ion-text class="noticelabel">Måltidskassen</ion-text>
+              <ion-text class="noticevalue">  {{details.line_items.length}} varer </ion-text>
+              <ion-icon *ngIf="hiddenkasse" name="chevron-down"></ion-icon>
+              <ion-icon *ngIf="!hiddenkasse" name="chevron-up"></ion-icon>
+          </div>
+          <div id="kassecontent">
+            <hr>
+            <p class="contentheading">Leveres </p>
+            <p *ngIf="details.billing_interval==='1'">Hver Uge <ion-icon size="small" name="pencil"></ion-icon></p>
+            <p *ngIf="details.billing_interval==='2'">Hver 2. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
+            <p *ngIf="details.billing_interval==='4'">Hver 4. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
+            <p class="contentheading">Leveringsadresse</p>
+              <div class="adresselabel">
+                Navn
+              </div>
+              <div class="adressevalue">
+                {{details.shipping.first_name}} {{details.shipping.last_name}}
+              </div>
+              <hr>
+              <div class="adresselabel">
+                Adresse
+              </div>
+              <div class="adressevalue">
+                {{details.shipping.address_1}} {{details.shipping.address_2}}
+              </div>
+              <hr>
+              <div class="adresselabel">
+                Postnr. og by
+              </div>
+              <div class="adressevalue">
+                {{details.shipping.postcode}} {{details.shipping.city}}
+              </div>
+          </div>
+        </div>
+        <div button (click)="showContentBetaling()" class="collapsible">
+          <div class="grid154045">
+              <ion-icon size="small" name="cube"></ion-icon>
+              <ion-text class="noticelabel">Måltidskassen</ion-text>
+              <ion-text class="noticevalue">  {{details.line_items.length}} varer </ion-text>
+              <ion-icon *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
+              <ion-icon *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
+          </div>
+          <div id="betalingcontent">
             <hr>
             <p class="contentheading">Leveres </p>
             <p *ngIf="details.billing_interval==='1'">Hver Uge <ion-icon size="small" name="pencil"></ion-icon></p>

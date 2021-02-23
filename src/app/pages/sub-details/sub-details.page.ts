@@ -214,7 +214,34 @@ removeprod(prodid){
       console.log(result);
     })
 }
+hidden = true;
 showContent(){
+  if(this.hidden){
   document.getElementById("leveringscontent").style.display = "block";
+  this.hidden = false;
+} else {
+  document.getElementById('leveringscontent').style.display = 'none';
+  this.hidden = true;
+}
+}
+hiddenkasse = true;
+showContentKasse(){
+  if(this.hiddenkasse){
+  document.getElementById("kassecontent").style.display = "block";
+  this.hiddenkasse = false;
+} else {
+  document.getElementById('kassecontent').style.display = 'none';
+  this.hiddenkasse = true;
+}
+}
+hiddenbetaling = true;
+showContentBetaling(){
+  if(this.hiddenbetaling){
+  document.getElementById("betalingcontent").style.display = "block";
+  this.hiddenbetaling = false;
+} else {
+  document.getElementById('betalingcontent').style.display = 'none';
+  this.hiddenbetaling = true;
+}
 }
 }

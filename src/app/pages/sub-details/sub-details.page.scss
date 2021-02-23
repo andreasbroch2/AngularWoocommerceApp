@@ -159,6 +159,7 @@ p{
   border-radius:20px; 
   padding:5px;
   background-color: rgb(235, 235, 235);
+  margin-bottom: 15px;
 }
 .collapsible ion-icon, ion-text{
   align-self:center;
@@ -167,6 +168,17 @@ p{
 #leveringscontent{
   display: none; 
   margin:10px;
+  overflow: auto; 
+}
+#kassecontent{
+  display: none; 
+  margin:10px;
+  overflow: auto; 
+}
+#betalingcontent{
+  display: none; 
+  margin:10px;
+  overflow: auto; 
 }
 hr{
   background-color: rgb(161, 160, 160);
