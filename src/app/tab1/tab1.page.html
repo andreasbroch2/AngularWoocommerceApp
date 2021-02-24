@@ -20,6 +20,7 @@
   <ion-spinner color="light" name="crescent"></ion-spinner>
 </div>
 <h2>Måltidskasser</h2>
+<div *ngIf="information">
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>
     <ion-grid style="text-align: center;">
@@ -56,4 +57,5 @@
     </ion-grid>
     </ion-card-content>
   </ion-card>
+</div>
 </ion-content>

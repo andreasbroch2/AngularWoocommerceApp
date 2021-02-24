@@ -105,33 +105,31 @@
           </div>
           <div id="betalingcontent">
             <hr>
-            <p class="contentheading">Leveres </p>
-            <p *ngIf="details.billing_interval==='1'">Hver Uge <ion-icon size="small" name="pencil"></ion-icon></p>
-            <p *ngIf="details.billing_interval==='2'">Hver 2. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
-            <p *ngIf="details.billing_interval==='4'">Hver 4. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
-            <p class="contentheading">Leveringsadresse</p>
-              <div class="adresselabel">
-                Navn
-              </div>
-              <div class="adressevalue">
-                {{details.shipping.first_name}} {{details.shipping.last_name}}
-              </div>
-              <hr>
-              <div class="adresselabel">
-                Adresse
-              </div>
-              <div class="adressevalue">
-                {{details.shipping.address_1}} {{details.shipping.address_2}}
-              </div>
-              <hr>
-              <div class="adresselabel">
-                Postnr. og by
-              </div>
-              <div class="adressevalue">
-                {{details.shipping.postcode}} {{details.shipping.city}}
-              </div>
+            <p class="contentheading">Detaljer </p>
+            <div class="adresselabel">
+              Subtotal
+            </div>
+            <div class="adressevalue">
+              {{details.total - details.shipping_total - details.shipping_tax}},-
+            </div>
+            <hr>
+            <div class="adresselabel">
+              Forsendelse
+            </div>
+            <div class="adressevalue">
+              {{ addNumbers(details.shipping_total, details.shipping_tax) | number}},-
+            </div>
+            <hr>
+            <div class="adresselabel">
+              Total
+            </div>
+            <div class="adressevalue">
+              {{details.total}},-
+            </div>
           </div>
         </div>
+  </div>
+  <div *ngIf="details">
         <h3>Handlinger</h3>
         <ion-item *ngIf="details.status==='active'" button (click)="pause()">
           <ion-icon slot="start" name="pause-circle"></ion-icon>
@@ -163,20 +161,5 @@
               Genaktivér
             </ion-label>
         </ion-item>
-        <ion-button (click)="frek()">Ændre frekvens</ion-button>
-        <ion-icon src="/assets/icon/shipping.svg"></ion-icon>
-        <br>
-        <ion-text>  {{ addDays(details.next_payment_date, 4) | date:'EEEE \'d\' d MMMM'}} </ion-text>
-        <br>
-        <ion-button  (click)="skip()">Spring Over</ion-button>
-        <ion-icon name="restaurant"></ion-icon>
-        <br>
-        <ion-text>{{details.line_items.length}}</ion-text>
-        <ion-icon name="card"></ion-icon>
-        <br>
-        <ion-text>{{ details.next_payment_date | date:'EEEE \'d\' d MMMM'}} </ion-text>
-</div>
-
-    {{ details.shipping_lines[0].method_title}}
-    <ion-text class="pris">  {{ addNumbers(details.shipping_total, details.shipping_tax) | number}},- </ion-text>
+      </div>
 </ion-content>
