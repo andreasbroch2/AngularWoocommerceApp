@@ -7,6 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
+  <app-count-down></app-count-down>
   <div class="spin" *ngIf="!details">
     <ion-spinner color="light" name="crescent"></ion-spinner>
   </div>
@@ -75,39 +76,30 @@
               <ion-icon *ngIf="!hiddenkasse" name="chevron-up"></ion-icon>
           </div>
           <div id="kassecontent">
-            <hr>
-            <p class="contentheading">Leveres </p>
-            <p *ngIf="details.billing_interval==='1'">Hver Uge <ion-icon size="small" name="pencil"></ion-icon></p>
-            <p *ngIf="details.billing_interval==='2'">Hver 2. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
-            <p *ngIf="details.billing_interval==='4'">Hver 4. Uge <ion-icon size="small" name="pencil"></ion-icon></p>
-            <p class="contentheading">Leveringsadresse</p>
-              <div class="adresselabel">
-                Navn
-              </div>
-              <div class="adressevalue">
-                {{details.shipping.first_name}} {{details.shipping.last_name}}
-              </div>
-              <hr>
-              <div class="adresselabel">
-                Adresse
-              </div>
-              <div class="adressevalue">
-                {{details.shipping.address_1}} {{details.shipping.address_2}}
-              </div>
-              <hr>
-              <div class="adresselabel">
-                Postnr. og by
-              </div>
-              <div class="adressevalue">
-                {{details.shipping.postcode}} {{details.shipping.city}}
-              </div>
+            <ion-button expand="block" (click)="presentModal()">Tilføj</ion-button>
+            <ion-grid class="kort" >
+              <ion-row *ngFor="let item of details.line_items">
+                <ion-col size="8">
+                  {{ item.name }}
+                </ion-col>
+                <ion-col size="1">
+                  {{ item.quantity }}
+                </ion-col>
+                <ion-col size="2">
+                  <ion-text class="total">  {{ addNumbers(item.total, item.total_tax) | number}},- </ion-text>
+                </ion-col>
+                <ion-col size="1">
+                  <ion-button color="tertiary" size="small" (click)="removeprod(item.id)">X</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </div>
         </div>
         <div button (click)="showContentBetaling()" class="collapsible">
           <div class="grid154045">
-              <ion-icon size="small" name="cube"></ion-icon>
-              <ion-text class="noticelabel">Måltidskassen</ion-text>
-              <ion-text class="noticevalue">  {{details.line_items.length}} varer </ion-text>
+              <ion-icon size="small" name="card"></ion-icon>
+              <ion-text class="noticelabel">Betaling</ion-text>
+              <ion-text class="noticevalue">  {{details.total}} </ion-text>
               <ion-icon *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
               <ion-icon *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
           </div>
@@ -140,6 +132,37 @@
               </div>
           </div>
         </div>
+        <h3>Handlinger</h3>
+        <ion-item *ngIf="details.status==='active'" button (click)="pause()">
+          <ion-icon slot="start" name="pause-circle"></ion-icon>
+            <ion-label>
+              Sæt på pause
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="details.status==='on-hold'" button (click)="pause()">
+          <ion-icon slot="start" name="play-circle"></ion-icon>
+            <ion-label>
+              Aktivér
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="details.status==='active'" button (click)="skip()">
+          <ion-icon slot="start" name="play-forward-circle"></ion-icon>
+            <ion-label>
+              Udskyd levering
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="details.status!='cancelled'" button (click)="afmeld()">
+          <ion-icon slot="start" name="trash"></ion-icon>
+            <ion-label>
+              Afmeld måltidskasse
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="details.status==='cancelled'" button (click)="afmeld()">
+          <ion-icon slot="start" name="play-circle"></ion-icon>
+            <ion-label>
+              Genaktivér
+            </ion-label>
+        </ion-item>
         <ion-button (click)="frek()">Ændre frekvens</ion-button>
         <ion-icon src="/assets/icon/shipping.svg"></ion-icon>
         <br>
@@ -153,63 +176,7 @@
         <br>
         <ion-text>{{ details.next_payment_date | date:'EEEE \'d\' d MMMM'}} </ion-text>
 </div>
-  <ion-card *ngIf="details">
-    <ion-card-header>
-      <ion-card-subtitle color="primary">
-          Indhold
-      </ion-card-subtitle>
-    </ion-card-header>
-  <ion-grid class="kort" >
-    <ion-row *ngFor="let item of details.line_items">
-      <ion-col size="2">
-        <ion-button color="tertiary" size="small" (click)="removeprod(item.id)">X</ion-button>
-      </ion-col>
-      <ion-col size="6">
-        {{ item.name }}
-      </ion-col>
-      <ion-col size="2">
-        {{ item.quantity }}
-      </ion-col>
-      <ion-col size="2">
-        <ion-text class="total">  {{ addNumbers(item.total, item.total_tax) | number}},- </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-  <ion-card-subtitle color="primary">
-    Levering
-</ion-card-subtitle>
-</ion-col>
-</ion-row>
-<ion-row>
-  <ion-col size="10">
+
     {{ details.shipping_lines[0].method_title}}
-  </ion-col>
-  <ion-col size="2">
     <ion-text class="pris">  {{ addNumbers(details.shipping_total, details.shipping_tax) | number}},- </ion-text>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col>
-<ion-card-subtitle color="primary">
-Total
-</ion-card-subtitle>
-</ion-col>
-</ion-row>
-<ion-row>
-  <ion-col>
-<ion-card-subtitle color="primary" class="pris">
-{{details.total}}
-</ion-card-subtitle>
-</ion-col>
-</ion-row>
-  </ion-grid>
-  <ion-button expand="block" (click)="presentModal()">Tilføj</ion-button>
-</ion-card>
-  <ion-button expand="block" color="light" *ngIf="details?.status==='active'"  (click)="pause()">Sæt på pause</ion-button>
-  <ion-button expand="block" color="light" *ngIf="details?.status==='on-hold'"  (click)="pause()">Aktiver</ion-button>
-  <div *ngIf="details">
-  <ion-button expand="block" color="tertiary" *ngIf="details?.status!='cancelled'"  (click)="afmeld()">Afmeld</ion-button>
-</div>
-  <ion-button expand="block" color="light" *ngIf="details?.status==='cancelled'"  (click)="afmeld()">Genaktivér</ion-button>
 </ion-content>

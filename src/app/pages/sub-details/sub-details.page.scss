@@ -64,7 +64,8 @@ ion-button{
     --border-radius: 100px;
     --padding-top:0px;
     --padding-bottom:0px;
-    font-size: 12px;
+    font-size: 10px;
+    margin: 0px;
 }
 .total{
     font-weight: 600;
@@ -73,7 +74,7 @@ ion-card-header{
     text-align: center;
 }
 .kort{
-    text-align: center;
+  padding:0;
 }
 .spin {
     text-align: center;
@@ -163,7 +164,9 @@ p{
 }
 .collapsible ion-icon, ion-text{
   align-self:center;
-  justify-self:center
+}
+.collapsible ion-icon{
+  justify-self: center;
 }
 #leveringscontent{
   display: none; 
@@ -173,7 +176,6 @@ p{
 #kassecontent{
   display: none; 
   margin:10px;
-  overflow: auto; 
 }
 #betalingcontent{
   display: none; 
@@ -207,6 +209,7 @@ hr{
 .noticevalue{
   font-size: 14px;
   font-weight: 600;
+  text-align: right;
 }
 .grid154045 ion-icon{
   color: #000;
