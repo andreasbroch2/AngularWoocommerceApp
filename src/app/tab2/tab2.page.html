@@ -5,20 +5,12 @@
 </ion-header>
 <ion-content padding>
   <div class="spin" *ngIf="!orders">
-    <ion-spinner color="light" name="crescent"></ion-spinner>
+    <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
-  
-  <ion-card class="center" button *ngFor="let order of orders"[routerLink]="['/', 'tabs','tab2', order.id]">
-    <ion-card-header>
-      <ion-card-title>
+  <ion-item *ngFor="let order of orders" button [routerLink]="['/', 'tabs','tab2', order.id]">
+    <ion-icon slot="start" name="cube"></ion-icon>
+      <ion-label>
         {{ order.date_created | date:'EEEE \'d\' d MMMM'}}
-      </ion-card-title>
-      <ion-card-subtitle>
-        {{ order.id }}
-      </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-text class="pris">{{ order.total | number }},-</ion-text>
-    </ion-card-content>
-  </ion-card>
+      </ion-label>
+  </ion-item>
 </ion-content>

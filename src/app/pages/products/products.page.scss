@@ -2,16 +2,17 @@
     width:45vw;
     display: inline-block;
     vertical-align: top;
-    margin: 2.5vw;
+    margin: 1vw;
 }
 .spin {
     text-align: center;
-    margin-top:100px;
+    height:100px;
+    margin-top:50px;
 }
   ion-spinner {
     transform: scale(3);
-    stroke: #fff;
-    fill: #fff;
+    stroke: #063;
+    fill: #063;
   }
   .produkt{
       font-size: 16px;

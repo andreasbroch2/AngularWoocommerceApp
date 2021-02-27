@@ -1,3 +1,5 @@
+import { ProductsPageModule } from './../products/products.module';
+import { OversigtinfoPageModule } from './../oversigtinfo/oversigtinfo.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +16,9 @@ import { SubDetailsPage } from './sub-details.page';
     FormsModule,
     IonicModule,
     SubDetailsPageRoutingModule,
+    OversigtinfoPageModule,
+    ProductsPageModule,
   ],
-  declarations: [SubDetailsPage]
+  declarations: [SubDetailsPage, ]
 })
 export class SubDetailsPageModule {}

@@ -2,11 +2,6 @@
   <ion-toolbar color="light">
     <ion-title color="primary">Dine Måltidskasser</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="info()">
-        <ion-icon slot="icon-only" name="help"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
       <ion-button (click)="auth()">
         <ion-icon slot="icon-only" name="reload"></ion-icon>
       </ion-button>
@@ -16,10 +11,10 @@
 
 <ion-content class="background">
 <app-count-down></app-count-down>
-<div class="spin" *ngIf="!information">
-  <ion-spinner color="light" name="crescent"></ion-spinner>
-</div>
 <h2>Måltidskasser</h2>
+<div class="spin" *ngIf="!information">
+  <ion-spinner color="primary" name="crescent"></ion-spinner>
+</div>
 <div *ngIf="information">
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>

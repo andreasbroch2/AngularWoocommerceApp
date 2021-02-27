@@ -3,6 +3,7 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ProductsPage } from '../products/products.page';
+import { OversigtinfoPage } from '../oversigtinfo/oversigtinfo.page';
 
 @Component({
   selector: 'app-sub-details',
@@ -16,6 +17,7 @@ export class SubDetailsPage implements OnInit {
   response = null;
   total = null;
   load = '';
+  noticeopen = true; 
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, public alertController: AlertController, public modalController: ModalController) {}
   addDays(date, days) {
     var result = new Date(date);
@@ -30,6 +32,7 @@ export class SubDetailsPage implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     this.authService.subdetails(id).subscribe(result => {
       this.details = result;
+      console.log(result);
       this.date = this.details.next_payment_date;
       this.date = this.addDays(this.date, 4);
     });
@@ -244,4 +247,16 @@ showContentBetaling(){
   this.hiddenbetaling = true;
 }
 }
+async info() {
+  const modal = await this.modalController.create({
+    component: OversigtinfoPage,
+    cssClass: 'product-modal',
+  });
+  await modal.present();
+
+  }
+
+  closeNotice(){
+    this.noticeopen = false; 
+  }
 }

@@ -7,6 +7,7 @@ import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { CountDownComponent, CountDownModule } from '../count-down/count-down.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    Tab1PageRoutingModule, 
+    CountDownModule
   ],
   declarations: [Tab1Page]
 })

@@ -3,13 +3,16 @@
     <ion-title color="primary">Produkter</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<div class="spin" *ngIf="!hovedretter">
+  <ion-spinner color="primary" name="crescent"></ion-spinner>
+</div>
 <ion-content>
+<div *ngIf="hovedretter">
 <ion-item button (click)="hideHoved()">
-  <ion-label color="light">Hoved/Frokostretter</ion-label>
+  <ion-label color="primary">Hoved/Frokostretter</ion-label>
 </ion-item>
 <div *ngIf="hideMeHoved">
-<span  *ngFor="let prod of hovedretter">
+<span class="side" *ngFor="let prod of hovedretter">
   <ion-card button (click)="openPicker(prod.id)" class="side" *ngIf="(prod.catalog_visibility == 'visible')">
     <img class="prodimg" src={{prod.images[0].src}} />
     <ion-card-header>
@@ -18,12 +21,13 @@
         </ion-card-title>
       </ion-card-header>
     <ion-card-content>
+      {{ prod.price }},-
     </ion-card-content>
   </ion-card>
 </span>
 </div>
 <ion-item button (click)="hideSnacks()">
-  <ion-label color="light">Pålæg/Snacks/Tilbehør</ion-label>
+  <ion-label color="primary">Pålæg/Snacks/Tilbehør</ion-label>
 </ion-item>
 <div *ngIf="hideMeSnacks">
 <span  *ngFor="let prod of snacks">
@@ -40,7 +44,7 @@
 </span>
 </div>
 <ion-item button (click)="hideDrikkevarer()">
-  <ion-label color="light">Drikkevarer</ion-label>
+  <ion-label color="primary">Drikkevarer</ion-label>
 </ion-item>
 <div *ngIf="hideMeDrikkevarer">
   <span  *ngFor="let prod of drikkevarer">
@@ -56,4 +60,5 @@
     </ion-card>
   </span>
   </div>
+</div>
 </ion-content>

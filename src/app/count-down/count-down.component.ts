@@ -1,5 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
 
 @Component({
   selector: 'app-count-down',
@@ -72,3 +76,11 @@ export class CountDownComponent implements OnInit, OnDestroy {
    }
 
 }
+
+@NgModule({
+  imports: [ CommonModule, IonicModule],
+  exports: [CountDownComponent],
+  declarations: [CountDownComponent],
+  providers: [],
+})
+export class CountDownModule {}

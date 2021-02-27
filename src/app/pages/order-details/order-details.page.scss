@@ -1,43 +1,214 @@
 ion-card{
-    background-color: #ffffff;
-    border-radius: 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
 }
 ion-icon{
-    font-size:35px;
-    color: #006633;
-  }
-  ion-text{
-    text-transform: capitalize;
-    font-size: 17px;
-    font-weight: 500;
-  }
-  h1{
-    margin-top: 10px;
-    font-family: Quicksand;
-  }
-  .pris{
-    font-weight: 600;
-    font-size: 20px;
-    color:#006633
-  }
-  ion-card-content{
-    padding: 5px
-  }
+  font-size:40px;
+  color: #006633;
+}
+ion-card ion-text{
+  text-transform: capitalize;
+  font-size: 17px;
+  font-weight: 500;
+}
+h1{
+  margin-top: 10px;
+  font-family: Quicksand;
+}
+.status{
+  font-weight: 600;
+  font-size: 18px;
+}
+.pris{
+  font-weight: 600;
+  font-size: 20px;
+  color:#006633
+}
+.aktiv{
+  background-color: #006633; /* Green */
+  border: solid;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.pause{
+  background-color: rgb(133, 133, 4); /* Green */
+  border: solid;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.annulleret{
+  background-color: red; /* Green */
+  border: solid;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 18px;
+}
+ion-card-content{
+  padding: 5px
+}
+ion-button{
+  --border-radius: 100px;
+  --padding-top:0px;
+  --padding-bottom:0px;
+  font-size: 10px;
+  margin: 0px;
+}
 .total{
-    font-weight: 600;
+  font-weight: 600;
 }
 ion-card-header{
-    text-align: center;
+  text-align: center;
 }
 .kort{
-    text-align: center;
+padding:0;
 }
 .spin {
-    text-align: center;
-    margin-top:100px;
+  text-align: center;
+  margin-top:100px;
 }
-  ion-spinner {
-    transform: scale(3);
-    stroke: #fff;
-    fill: #fff;
-  }
+.spin ion-spinner {
+  transform: scale(3);
+  stroke: #fff;
+  fill: #fff;
+}
+.loadbar{
+width: 200px;
+height: 30px;
+margin:auto;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 25px;
+background-color: #46b064;
+text-align: center;
+position: fixed;
+left: 50%;
+transform: translateX(-50%);
+top: 12%;
+z-index: 100;
+}
+.abonnement{
+display: grid; 
+grid-template-columns: 16% 54% 30%;
+margin-bottom:20px;
+}
+.abonnement div{
+align-self: center;
+}
+p{
+margin: 0px;
+}
+#id{
+font-size: 12px; 
+text-align: left;
+}
+#overskrift{
+font-size: 16px;
+font-weight: bold;
+text-align: left;
+}
+.statusboksaktiv{
+width: 100%;
+padding: 5px;
+border-radius:5px;
+border-style: solid;
+border-width: 2px;
+background-color: rgb(208, 238, 190);
+border-color: #006633;
+text-align: center;
+}
+.statusbokspause{
+width: 100%;
+padding: 5px;
+border-radius:5px;
+border-style: solid;
+border-width: 2px;
+background-color: rgb(237, 238, 190);
+border-color: #5f6600;
+text-align: center;
+}
+.statusboksafmeldt{
+width: 100%;
+padding: 5px;
+border-radius:5px;
+border-style: solid;
+border-width: 2px;
+background-color: rgb(238, 190, 190);
+border-color: #660000;
+text-align: center;
+}
+.grid154045{
+display: grid;
+height: 50px;
+grid-template-columns: 10% 30% 50% 10%;
+}
+.collapsible{
+border-radius:20px; 
+padding:5px;
+background-color: rgb(235, 235, 235);
+margin-bottom: 15px;
+}
+.collapsible ion-icon, ion-text{
+align-self:center;
+}
+.collapsible ion-icon{
+justify-self: center;
+}
+#leveringscontent{
+margin:10px;
+overflow: auto; 
+}
+#kassecontent{
+margin:10px;
+}
+#betalingcontent{
+margin:10px;
+overflow: auto; 
+}
+hr{
+background-color: rgb(161, 160, 160);
+width:100%;
+}
+.contentheading{
+font-weight: 600;
+margin: 10px 0px;
+}
+.adressegrid{
+display: grid; 
+grid-template-columns: 1fr 1fr;
+}
+.adresselabel{
+float:left;
+margin: 10px 0px;
+}
+.adressevalue{
+float: right;
+margin: 10px 0px;
+}
+.noticelabel{
+font-size:12px;
+font-weight: 500;
+}
+.noticevalue{
+font-size: 14px;
+font-weight: 600;
+text-align: right;
+}
+.grid154045 ion-icon{
+color: #000;
+font-size:16px;
+}

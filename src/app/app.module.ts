@@ -1,4 +1,3 @@
-import { CountDownModule } from './count-down/count-down.module';
 import { NgModule, LOCALE_ID} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -14,7 +13,6 @@ import { registerLocaleData } from '@angular/common';
 import localeDa from '@angular/common/locales/da';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpRequestInterceptor } from './services/http-request-interceptor';
-import { CountDownComponent } from './count-down/count-down.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeDa, 'da');
@@ -22,7 +20,7 @@ registerLocaleData(localeDa, 'da');
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), BrowserAnimationsModule, CountDownModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), BrowserAnimationsModule],
   providers: [
     StatusBar,
     SplashScreen,
