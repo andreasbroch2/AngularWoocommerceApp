@@ -259,4 +259,94 @@ async info() {
   closeNotice(){
     this.noticeopen = false; 
   }
+  async note(){
+      const alert = await this.alertController.create({
+        cssClass: 'notealert',
+        header: 'Leveringsnote',
+        inputs: [
+          {
+            name: 'note',
+            type: 'textarea',
+            placeholder: 'Fortæl os hvis der er noget vi skal tage højde for ved levering(dørkode, sted mm.). Vi forsøger altid at sætte kassen ved fordøren, og alternativt et passende sted i læ.'
+          },
+        ],
+        buttons: [
+          {
+            text: 'Fortryd',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Bekræft',
+            handler: (value) => {
+              console.log(value.note);
+              let id = this.activatedRoute.snapshot.paramMap.get('id');
+              this.authService.addNote(id, value.note).subscribe(result => {
+                this.details = result;
+            })
+          }
+      }]
+    });
+      await alert.present();
+    }
+    async adresse(){
+      const alert = await this.alertController.create({
+        cssClass: 'adressealert',
+        header: 'Leveringsadresse',
+        inputs: [
+          {
+            name: 'first_name',
+            type: 'text',
+            placeholder: 'Fornavn'
+          },
+          {
+            name: 'last_name',
+            type: 'text',
+            placeholder: 'Efternavn'
+          },
+          {
+            name: 'address_1',
+            type: 'text',
+            placeholder: 'Vejnavn og nr.'
+          },
+          {
+            name: 'address_2',
+            type: 'text',
+            placeholder: 'Etage, dør, mm.'
+          },
+          {
+            name: 'postcode',
+            type: 'text',
+            placeholder: 'Postnummer'
+          },
+          {
+            name: 'city',
+            type: 'text',
+            placeholder: 'By'
+          },
+      ],
+        buttons: [
+          {
+            text: 'Fortryd',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Bekræft',
+            handler: (value) => {
+              console.log(value);
+              let id = this.activatedRoute.snapshot.paramMap.get('id');
+              this.authService.addAdresse(id, value).subscribe(result => {
+                this.details = result;
+                console.log(this.details);
+            })
+          }
+    }]
+  });
+      await alert.present();
+    }
 }

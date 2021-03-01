@@ -7,29 +7,38 @@
   <div class="spin" *ngIf="!kunde">
     <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
-  <ion-text *ngIf="kunde" color="light">
-    <br>
+  <h3 class="ion-text-center" *ngIf="kunde">
     Velkommen {{kunde.customer.first_name}}
-  </ion-text>
+  </h3>
   <ion-card *ngIf="kunde">
     <ion-card-content >
-      <ion-icon size="large" color="primary" name="home"></ion-icon>
-      <p id="adresse">
+      <p class="contentheading">Email<ion-icon button (click)="note()" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p>{{kunde.customer.email}}</p>
+      <p class="contentheading">Telefon<ion-icon button (click)="note()" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p>{{kunde.customer.billing_address.phone}}</p>
+      <p class="contentheading">Kontoadresse<ion-icon button (click)="note()" class="edit" size="small" name="pencil"></ion-icon></p>
+      <div class="adresselabel">
+        Navn
+      </div>
+      <div class="adressevalue">
         {{kunde.customer.first_name}} {{kunde.customer.last_name}}
-        <br>
+      </div>
+      <hr>
+      <div class="adresselabel">
+        Adresse
+      </div>
+      <div class="adressevalue">
         {{kunde.customer.billing_address.address_1}} {{kunde.customer.billing_address.address_2}}
-        <br>
+      </div>
+      <hr>
+      <div class="adresselabel">
+        Postnr. og by
+      </div>
+      <div class="adressevalue">
         {{kunde.customer.billing_address.postcode}} {{kunde.customer.billing_address.city}}
-      </p>
-      <ion-icon size="large" color="primary" name="mail"></ion-icon>
-      <p id="adresse">
-        {{kunde.customer.email}}
-      </p>
-      <ion-icon size="large" color="primary" name="call"></ion-icon>
-      <p id="adresse">
-        {{kunde.customer.billing_address.phone}}
-      </p>
+      </div>
+      <br>
     </ion-card-content>
   </ion-card>
-  <ion-button color="tertiary" expand="block" (click)="logout()">Log Ud</ion-button>
+  <ion-button color="tertiary" expand="block" (click)="logout()">Log ud</ion-button>
 </ion-content>

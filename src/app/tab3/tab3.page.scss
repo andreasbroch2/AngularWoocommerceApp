@@ -2,7 +2,6 @@ ion-text{
     text-align: center;
     font-size: 22px;
     font-family: Quicksand;
-    padding-top: 15px;
 }
 ion-card-header{
     text-align:center;
@@ -13,7 +12,8 @@ ion-button{
     margin:10px;
 }
 ion-icon{
-    margin:10px;
+    margin:0px;
+    color:#006633;
 }
 #adresse{
     text-align: center;
@@ -21,10 +21,11 @@ ion-icon{
 }
 ion-card{
     background-color: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
+    margin: 20px 0px;
 }
-ion-content{
-    text-align: center;
+ion-card-content{
+    overflow:auto;
 }
 .spin {
     text-align: center;
@@ -35,4 +36,14 @@ ion-content{
     transform: scale(3);
     stroke: #fff;
     fill: #fff;
+  }
+  .statusbokspause{
+    width: 100%;
+    padding: 5px;
+    border-radius:5px;
+    border-style: solid;
+    border-width: 2px;
+    background-color: rgb(237, 238, 190);
+    border-color: #5f6600;
+    text-align: center;
   }

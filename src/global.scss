@@ -46,3 +46,25 @@ ion-content{
 .contentheading ion-icon{
   --ionicon-stroke-width: 64px;
 }
+.notealert .alert-input-wrapper textarea{
+  min-height:200px;
+}
+.adresselabel{
+  float:left;
+  margin: 10px 0px;
+}
+.adressevalue{
+  float: right;
+  margin: 10px 0px;
+}
+hr{
+  background-color: rgb(161, 160, 160);
+  width:100%;
+}
+.contentheading{
+  font-weight: 600;
+  margin: 10px 0px!important;
+}
+.edit{
+  float: right;
+}

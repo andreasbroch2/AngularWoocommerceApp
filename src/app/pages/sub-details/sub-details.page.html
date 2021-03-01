@@ -74,6 +74,7 @@
               <hr>
               <p class="contentheading">Note<ion-icon button (click)="note()" class="edit" size="small" name="pencil"></ion-icon></p>
               <p>{{ details.customer_note}}</p>
+              <p *ngIf="!details.customer_note">Ingen note</p>
           </div>
         </div>
         <div class="collapsible">
@@ -134,7 +135,7 @@
               Rabat
             </div>
             <div class="adressevalue">
-              {{ details.discount_total | number}},-
+              -{{ details.discount_total | number}},-
             </div>
             <hr>
           </div>

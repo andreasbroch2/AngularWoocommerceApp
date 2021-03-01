@@ -4,9 +4,9 @@ import { map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
- 
+
 const TOKEN_KEY = 'my-token';
- 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -106,6 +106,14 @@ addproduct(id, prodid, quant){
     }
   ]})   
 }
+addNote(id, note){
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"customer_note" : note})  
+}
+addAdresse(id, adresse){
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"shipping" : adresse})  
+}
 removeproduct(id, prodid){
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"line_items" : [
@@ -123,6 +131,9 @@ orders() {
     const email = localStorage.getItem("email");
     return this.http.get(`${this.url}wc/v3/orders?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`)
     }
+kode(username){
+  return this.http.get(`${this.url}wp/v2/users/lostpassword?user_login=${username}`)
+}
     kunde() {
       const email = localStorage.getItem("email");
       return this.http.get(`https://gaiamadservice.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`)

@@ -28,9 +28,6 @@ ion-icon{
     font-size: 20px;
     color:#006633
   }
-  .edit{
-    float: right;
-  }
   .aktiv{
     background-color: #006633; /* Green */
     border: solid;
@@ -192,25 +189,9 @@ p{
   margin:10px;
   overflow: auto; 
 }
-hr{
-  background-color: rgb(161, 160, 160);
-  width:100%;
-}
-.contentheading{
-  font-weight: 600;
-  margin: 10px 0px;
-}
 .adressegrid{
   display: grid; 
   grid-template-columns: 1fr 1fr;
-}
-.adresselabel{
-  float:left;
-  margin: 10px 0px;
-}
-.adressevalue{
-  float: right;
-  margin: 10px 0px;
 }
 .noticelabel{
   font-size:15px;
@@ -242,4 +223,7 @@ hr{
 }
 .produkt{
   font-weight:500;
+}
+.alert-input-wrapper{
+  min-height: 400px;
 }
