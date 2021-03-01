@@ -70,6 +70,9 @@ async openPicker(prodid){
           console.log(prodid);
           this.authService.addproduct(this.subid, prodid, value.Antal.value).subscribe(result => {
             this.details = result;
+            if (Number(this.details.total) > 599 &&	this.details.shipping_lines[0].id==50870){
+              console.log('over');
+            }
             console.log(result);
             this.modalController.dismiss(this.details)
         }

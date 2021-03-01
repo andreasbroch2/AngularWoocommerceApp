@@ -6,11 +6,11 @@
     <p>Deadline for ændringer inden næste levering</p>
   </div>
   <div class="tid">
-    <span class="alignend"> {{daysToDday}} </span>
-    <span class="alignend"> {{hoursToDday}} </span>
-    <span class="alignend"> {{minutesToDday}} </span>
-    <span>Dage</span>
-    <span>Timer</span>
-    <span>Min</span>
+    <span class="alignend">0{{daysToDday}}</span>
+    <span class="alignend"><span *ngIf="hoursToDday < 10">0</span>{{hoursToDday}} </span>
+    <span class="alignend">{{minutesToDday}}</span>
+    <span>DAGE</span>
+    <span>TIMER</span>
+    <span>MIN</span>
   </div>
 </div>

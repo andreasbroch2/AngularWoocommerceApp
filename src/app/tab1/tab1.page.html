@@ -15,25 +15,19 @@
 <div class="spin" *ngIf="!information">
   <ion-spinner color="primary" name="crescent"></ion-spinner>
 </div>
-<div *ngIf="information">
+<div class="border" *ngIf="information">
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>
     <ion-grid style="text-align: center;">
       <ion-row>
-        <ion-col class="dot">
-          <ion-icon class="active" name="chevron-forward-circle" *ngIf="user?.status==='active'"></ion-icon>
-          <ion-text class="aktiv" *ngIf="user?.status==='active'">Aktiv</ion-text>
-          <ion-icon class="hold" name="chevron-down-circle" *ngIf="user?.status==='on-hold'"></ion-icon>
-          <ion-text class="pause" *ngIf="user?.status==='on-hold'">På Pause</ion-text>
-          <ion-icon color="tertiary" name="close-circle" *ngIf="user?.status==='cancelled'"></ion-icon>
-          <ion-text class="annulleret" *ngIf="user?.status==='cancelled'">Afmeldt</ion-text>
-        </ion-col>
-      </ion-row>
-      <ion-row>
         <ion-col class="oversigt">
-          <div>
-            <ion-icon id="cube" name="cube"></ion-icon>
-            <span id="antal"><ion-text>{{user?.line_items.length}}</ion-text></span>
+          <div class="dot">
+            <ion-icon class="active" name="chevron-forward-circle" *ngIf="user?.status==='active'"></ion-icon>
+            <ion-text class="aktiv" *ngIf="user?.status==='active'">Aktiv</ion-text>
+            <ion-icon class="hold" name="chevron-down-circle" *ngIf="user?.status==='on-hold'"></ion-icon>
+            <ion-text class="pause" *ngIf="user?.status==='on-hold'">På Pause</ion-text>
+            <ion-icon color="tertiary" name="close-circle" *ngIf="user?.status==='cancelled'"></ion-icon>
+            <ion-text class="annulleret" *ngIf="user?.status==='cancelled'">Afmeldt</ion-text>
           </div>
           <div>
             <div class="grid2">

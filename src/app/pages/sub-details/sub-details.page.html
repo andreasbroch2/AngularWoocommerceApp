@@ -12,12 +12,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
-  <h3 style="text-align: center;" *ngIf="details">Go'dag {{details.billing.first_name}}</h3>
-  <div *ngIf="noticeopen" class="notice"><ion-icon button (click)="closeNotice()" size="small" name="close"></ion-icon>
-    Velkommen til!
-    <br>
-    Herfra kan du styrer din måltidskasse. Klik på spørgsmåltegnet herover for at lære mere.
-  </div>
+  <h4 style="text-align: center;" *ngIf="details">Go'dag {{details.billing.first_name}}</h4>
+
   <div class="spin" *ngIf="!details">
     <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
@@ -54,7 +50,7 @@
             <p *ngIf="details.billing_interval==='1'">Hver Uge </p>
             <p *ngIf="details.billing_interval==='2'">Hver 2. Uge</p>
             <p *ngIf="details.billing_interval==='4'">Hver 4. Uge</p>
-            <p class="contentheading">Leveringsadresse<ion-icon button (click)="adresse()" class="edit" size="small" name="pencil"></ion-icon></p>
+            <p *ngIf="details.shipping_lines[0].id!=72170" class="contentheading">Leveringsadresse<ion-icon button (click)="adresse()" class="edit" size="small" name="pencil"></ion-icon></p>
               <div class="adresselabel">
                 Navn
               </div>
@@ -75,6 +71,9 @@
               <div class="adressevalue">
                 {{details.shipping.postcode}} {{details.shipping.city}}
               </div>
+              <hr>
+              <p class="contentheading">Note<ion-icon button (click)="note()" class="edit" size="small" name="pencil"></ion-icon></p>
+              <p>{{ details.customer_note}}</p>
           </div>
         </div>
         <div class="collapsible">
