@@ -138,6 +138,12 @@ kode(username){
       const email = localStorage.getItem("email");
       return this.http.get(`https://gaiamadservice.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`)
       }
+addKundeAdresse(id, adresse){
+  return this.http.put(`https://gaiamadservice.dk/wc/v3/customers/${id}?consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"billing_address" : adresse}
+  )
+      
+}
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
     console.log('Removed')
