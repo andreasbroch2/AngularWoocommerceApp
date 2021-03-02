@@ -138,6 +138,9 @@ kode(username){
       const email = localStorage.getItem("email");
       return this.http.get(`https://gaiamadservice.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`)
       }
+customer(id){
+  return this.http.get(`${this.url}wc/v3/customers/${id}?consumer_key=${this.key}&consumer_secret=${this.secret}`)
+}
 addKundeAdresse(id, adresse){
   return this.http.put(`${this.url}wc/v3/customers/${id}?consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"billing" : adresse }

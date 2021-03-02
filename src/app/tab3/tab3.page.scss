@@ -32,7 +32,7 @@ ion-card-content{
     margin-top:100px;
     margin-bottom: 50px;
 }
-  ion-spinner {
+.spin ion-spinner {
     transform: scale(3);
     stroke: #fff;
     fill: #fff;
@@ -46,4 +46,20 @@ ion-card-content{
     background-color: rgb(237, 238, 190);
     border-color: #5f6600;
     text-align: center;
+  }
+  .loadbar{
+    width: 200px;
+    height: 30px;
+    margin:auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    background-color: #46b064;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top:90%;
+    z-index: 100;
   }

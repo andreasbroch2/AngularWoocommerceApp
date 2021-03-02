@@ -10,11 +10,17 @@ import {Router} from '@angular/router';
 })
 export class Tab3Page {
   kunde=null;
+  customer=null; 
+  load = '';
   constructor(private authService: AuthenticationService, private router: Router, private alertController: AlertController) {};
  
   ngOnInit(){
     this.authService.kunde().subscribe(result => {
-      this.kunde = result;
+      this.customer = result; 
+      console.log(this.customer.customer.id);
+      this.authService.customer(this.customer.customer.id).subscribe(result => {
+        this.kunde = result;
+      })
       console.log(this.kunde);
     });
 }
@@ -28,7 +34,7 @@ logout(){
 async kundeAdresse(id){
   const alert = await this.alertController.create({
     cssClass: 'adressealert',
-    header: 'Leveringsadresse',
+    header: 'Kontoadresse',
     inputs: [
       {
         name: 'first_name',
@@ -72,10 +78,12 @@ async kundeAdresse(id){
       }, {
         text: 'Bekræft',
         handler: (value) => {
+          this.load = "Skifter adresse";
           console.log(value);
           this.authService.addKundeAdresse(id, value).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
+            this.load = "";
         })
       }
 }]
@@ -84,8 +92,8 @@ async kundeAdresse(id){
 }
 async kundeTelefon(id){
   const alert = await this.alertController.create({
-    cssClass: 'adressealert',
-    header: 'Leveringsadresse',
+    cssClass: 'telefonalert',
+    header: 'Telefonnummer',
     inputs: [
       {
         name: 'phone',
@@ -104,10 +112,12 @@ async kundeTelefon(id){
       }, {
         text: 'Bekræft',
         handler: (value) => {
-          console.log(value.phone);
+          this.load = "Skifter nummer";
+          console.log(value);
           this.authService.addKundeTelefon(id, value.phone).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
+            this.load = "";
         })
       }
 }]
@@ -116,8 +126,8 @@ async kundeTelefon(id){
 }
 async kundeEmail(id){
   const alert = await this.alertController.create({
-    cssClass: 'adressealert',
-    header: 'Leveringsadresse',
+    cssClass: 'emailealert',
+    header: 'Email',
     inputs: [
       {
         name: 'email',
@@ -136,10 +146,12 @@ async kundeEmail(id){
       }, {
         text: 'Bekræft',
         handler: (value) => {
+          this.load = "Skifter email";
           console.log(value.email);
           this.authService.addKundeEmail(id, value.email).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
+            this.load = "";
         })
       }
 }]

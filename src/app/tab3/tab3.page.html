@@ -7,35 +7,39 @@
   <div class="spin" *ngIf="!kunde">
     <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
+  <div class="loadbar" *ngIf="load">
+    <ion-spinner color="light" name="crescent"></ion-spinner>
+    <ion-text color="light">  {{ load }}</ion-text> 
+  </div>
   <h3 class="ion-text-center" *ngIf="kunde">
-    Velkommen, {{kunde.customer.first_name}}
+    Velkommen, {{kunde.billing.first_name}}
   </h3>
   <ion-card *ngIf="kunde">
     <ion-card-content >
-      <p class="contentheading">Email<ion-icon button (click)="kundeEmail(kunde.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
-      <p>{{kunde.customer.email}}</p>
-      <p class="contentheading">Telefon<ion-icon button (click)="kundeTelefon(kunde.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
-      <p>{{kunde.customer.billing_address.phone}}</p>
-      <p class="contentheading">Kontoadresse<ion-icon button (click)="kundeAdresse(kunde.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p class="contentheading">Email<ion-icon button (click)="kundeEmail(customer.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p>{{kunde.billing.email}}</p>
+      <p class="contentheading">Telefon<ion-icon button (click)="kundeTelefon(customer.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p>{{kunde.billing.phone}}</p>
+      <p class="contentheading">Kontoadresse<ion-icon button (click)="kundeAdresse(customer.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
       <div class="adresselabel">
         Navn
       </div>
       <div class="adressevalue">
-        {{kunde.customer.first_name}} {{kunde.customer.last_name}}
+        {{kunde.billing.first_name}} {{kunde.billing.last_name}}
       </div>
       <hr>
       <div class="adresselabel">
         Adresse
       </div>
       <div class="adressevalue">
-        {{kunde.customer.billing_address.address_1}} {{kunde.customer.billing_address.address_2}}
+        {{kunde.billing.address_1}} {{kunde.billing.address_2}}
       </div>
       <hr>
       <div class="adresselabel">
         Postnr. og by
       </div>
       <div class="adressevalue">
-        {{kunde.customer.billing_address.postcode}} {{kunde.customer.billing_address.city}}
+        {{kunde.billing.postcode}} {{kunde.billing.city}}
       </div>
       <br>
     </ion-card-content>

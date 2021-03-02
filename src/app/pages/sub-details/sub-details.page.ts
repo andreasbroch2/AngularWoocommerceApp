@@ -281,10 +281,12 @@ async info() {
           }, {
             text: 'Bekræft',
             handler: (value) => {
+              this.load = "Skifter note"
               console.log(value.note);
               let id = this.activatedRoute.snapshot.paramMap.get('id');
               this.authService.addNote(id, value.note).subscribe(result => {
                 this.details = result;
+                this.load = "";
             })
           }
       }]
@@ -338,11 +340,13 @@ async info() {
           }, {
             text: 'Bekræft',
             handler: (value) => {
+              this.load = "Skifter adresse"
               console.log(value);
               let id = this.activatedRoute.snapshot.paramMap.get('id');
               this.authService.addAdresse(id, value).subscribe(result => {
                 this.details = result;
                 console.log(this.details);
+                this.load = "";
             })
           }
     }]
