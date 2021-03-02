@@ -15,7 +15,7 @@
 <div class="spin" *ngIf="!information">
   <ion-spinner color="primary" name="crescent"></ion-spinner>
 </div>
-<div class="border" *ngIf="information">
+<div *ngIf="information">
   <ion-card button *ngFor="let user of information"[routerLink]="['/', 'tabs','tab1', user.id]" color="light">
     <ion-card-content>
     <ion-grid style="text-align: center;">
