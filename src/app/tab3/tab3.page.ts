@@ -73,7 +73,7 @@ async kundeAdresse(id){
         text: 'Bekræft',
         handler: (value) => {
           console.log(value);
-          this.authService.addKundeAdresse(id, value).subscribe(result => {
+          this.authService.addKundeAdresse(value).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
         })
