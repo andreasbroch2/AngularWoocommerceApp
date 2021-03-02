@@ -141,8 +141,21 @@ kode(username){
 addKundeAdresse(id, adresse){
   return this.http.put(`https://gaiamadservice.dk/wc/v3/customers/${id}?consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"billing_address" : adresse}
-  )
-      
+  )      
+}
+addKundeTelefon(id, telefon){
+  return this.http.put(`https://gaiamadservice.dk/wc/v3/customers/${id}?consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"billing_address" : [{
+    "phone" : telefon,
+  }]}
+  )     
+}
+addKundeEmail(id, email){
+  return this.http.put(`https://gaiamadservice.dk/wc/v3/customers/${id}?consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"billing_address" : [{
+    "email" : email,
+  }]}
+  )    
 }
   logout(): Promise<void> {
     this.isAuthenticated.next(false);

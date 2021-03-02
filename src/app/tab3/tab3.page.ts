@@ -82,4 +82,68 @@ async kundeAdresse(id){
 });
   await alert.present();
 }
+async kundeTelefon(id){
+  const alert = await this.alertController.create({
+    cssClass: 'adressealert',
+    header: 'Leveringsadresse',
+    inputs: [
+      {
+        name: 'phone',
+        type: 'number',
+        placeholder: 'Telefon'
+      },
+  ],
+    buttons: [
+      {
+        text: 'Fortryd',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel');
+        }
+      }, {
+        text: 'Bekræft',
+        handler: (value) => {
+          console.log(value.phone);
+          this.authService.addKundeTelefon(id, value.phone).subscribe(result => {
+            this.kunde = result;
+            console.log(this.kunde);
+        })
+      }
+}]
+});
+  await alert.present();
+}
+async kundeEmail(id){
+  const alert = await this.alertController.create({
+    cssClass: 'adressealert',
+    header: 'Leveringsadresse',
+    inputs: [
+      {
+        name: 'email',
+        type: 'text',
+        placeholder: 'Email'
+      },
+  ],
+    buttons: [
+      {
+        text: 'Fortryd',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel');
+        }
+      }, {
+        text: 'Bekræft',
+        handler: (value) => {
+          console.log(value.email);
+          this.authService.addKundeEmail(id, value.email).subscribe(result => {
+            this.kunde = result;
+            console.log(this.kunde);
+        })
+      }
+}]
+});
+  await alert.present();
+}
 }

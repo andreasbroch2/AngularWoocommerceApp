@@ -12,9 +12,9 @@
   </h3>
   <ion-card *ngIf="kunde">
     <ion-card-content >
-      <p class="contentheading">Email<ion-icon button (click)="kundeEmail()" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p class="contentheading">Email<ion-icon button (click)="kundeEmail(kunde.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
       <p>{{kunde.customer.email}}</p>
-      <p class="contentheading">Telefon<ion-icon button (click)="kundeTelefon()" class="edit" size="small" name="pencil"></ion-icon></p>
+      <p class="contentheading">Telefon<ion-icon button (click)="kundeTelefon(kunde.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
       <p>{{kunde.customer.billing_address.phone}}</p>
       <p class="contentheading">Kontoadresse<ion-icon button (click)="kundeAdresse(kunde.customer.id)" class="edit" size="small" name="pencil"></ion-icon></p>
       <div class="adresselabel">
