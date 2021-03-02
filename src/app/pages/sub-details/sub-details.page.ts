@@ -66,17 +66,37 @@ console(){
   console.log(this.details.next_payment_date);
   console.log(this.details.billing_interval);
 }
-skip(){
-  let id = this.activatedRoute.snapshot.paramMap.get('id');
-  this.load = 'Springer over...';
-  this.authService.skiplevering(id, this.details.next_payment_date, this.details.billing_interval).subscribe(result => {
-    this.details = result;
-    this.date = this.details.next_payment_date;
-    this.date = this.addDays(this.date, 4)
-    this.load = ''; 
-    console.log(result)
-  })
-}
+async skip(){
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Er du sikker?',
+      buttons: [
+        {
+          text: 'Fortryd',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }, {
+          text: 'Yes!',
+          handler: () => {
+            let id = this.activatedRoute.snapshot.paramMap.get('id');
+            this.load = 'Springer over...';
+            this.authService.skiplevering(id, this.details.next_payment_date, this.details.billing_interval).subscribe(result => {
+              this.details = result;
+              this.date = this.details.next_payment_date;
+              this.date = this.addDays(this.date, 4)
+              this.load = ''; 
+              console.log(result)
+            })
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 async frek(){
   console.log(this.details.billing_interval)
   if (this.details.billing_interval === '1') {
@@ -171,42 +191,81 @@ frek4(){
     this.load = '';
     console.log(result);
 })}
-pause(){
-  let id = this.activatedRoute.snapshot.paramMap.get('id');
-  if( this.details.status === 'active'){
-  this.load = 'Sætter på pause...';
-    this.authService.status(id, 'on-hold').subscribe(result => {
-      this.details = result; 
-      this.load = '';
-      console.log(result);
-    })
-  } else if (this.details.status === 'on-hold'){
-  this.load = 'Aktiverer...';
-    this.authService.status(id, 'active').subscribe(result => {
-      this.details = result; 
-      this.load = '';
-      console.log(result);
-    })
+async pause(){
+    const alert = await this.alertController.create({
+      cssClass: 'sikker',
+      header: 'Er du sikker?',
+      buttons: [
+        {
+          text: 'Fortryd',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Yes!',
+          handler: () => {
+            let id = this.activatedRoute.snapshot.paramMap.get('id');
+            if( this.details.status === 'active'){
+            this.load = 'Sætter på pause...';
+              this.authService.status(id, 'on-hold').subscribe(result => {
+                this.details = result; 
+                this.load = '';
+                console.log(result);
+              })
+            } else if (this.details.status === 'on-hold'){
+            this.load = 'Aktiverer...';
+              this.authService.status(id, 'active').subscribe(result => {
+                this.details = result; 
+                this.load = '';
+                console.log(result);
+              })
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
-}
-afmeld(){
-  let id = this.activatedRoute.snapshot.paramMap.get('id');
-  if( this.details.status != 'cancelled'){
-  this.load = 'Afmelder...';
-    this.authService.status(id, 'cancelled').subscribe(result => {
-      this.details = result; 
-      this.load = '';
-      console.log(result);
-    })
-  } else if (this.details.status === 'cancelled'){
-  this.load = 'Genaktiverer...';
-    this.authService.status(id, 'active').subscribe(result => {
-      this.details = result; 
-      this.load = '';
-      console.log(result);
-    })
+async afmeld(){
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Er du sikker?',
+      buttons: [
+        {
+          text: 'Fortryd',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }, {
+          text: 'Yes!',
+          handler: () => {
+            let id = this.activatedRoute.snapshot.paramMap.get('id');
+            if( this.details.status != 'cancelled'){
+            this.load = 'Afmelder...';
+              this.authService.status(id, 'cancelled').subscribe(result => {
+                this.details = result; 
+                this.load = '';
+                console.log(result);
+              })
+            } else if (this.details.status === 'cancelled'){
+            this.load = 'Genaktiverer...';
+              this.authService.status(id, 'active').subscribe(result => {
+                this.details = result; 
+                this.load = '';
+                console.log(result);
+              })
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
-}
 removeprod(prodid){
   let id = this.activatedRoute.snapshot.paramMap.get('id');
   this.load = 'Fjerner...';
