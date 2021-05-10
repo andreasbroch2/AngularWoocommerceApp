@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { Plugins } from '@capacitor/core';
+import { notEqual } from 'assert';
 const { Storage } = Plugins;
 
 const TOKEN_KEY = 'my-token';
@@ -60,14 +61,26 @@ export class AuthenticationService {
     subdetails(id) {
       return this.http.get(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`)
       }
-
+orderNote(id,note){
+  return this.http.post(`${this.url}wc/v1/subscriptions/${id}/notes?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  { "note": note})
+}
+shippingMethods(){
+  return this.http.get(`${this.url}wc/v3/shipping_methods?&consumer_key=${this.key}&consumer_secret=${this.secret}`)
+}
+setShipping(id, shipping_id, pris){
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"shipping_lines" : [{
+    id: shipping_id, 
+    total: pris
+  }]}) 
+}
 skiplevering(id, date, interval) {
   let numWeeks = interval;
   let now = new Date(date);
   now.setDate(now.getDate() + (numWeeks * 7));
-  now.setHours(now.getHours() + 1);
+  now.setHours(now.getHours() + 2);
   let nydate = now.toISOString().replace('.000Z','').replace('T',' ');
-  console.log(nydate);
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"next_payment_date" : nydate})     
 }
