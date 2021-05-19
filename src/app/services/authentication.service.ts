@@ -54,8 +54,7 @@ export class AuthenticationService {
   }
   subscription() {
     const email = localStorage.getItem("email");
-    console.log(`${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`);
-    return this.http.get(`${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`)
+    return this.http.get(`${this.url}wc/v1/subscriptions?search=${email}&status=active&status=on-hold&consumer_key=${this.key}&consumer_secret=${this.secret}`)
     }
 
     subdetails(id) {
