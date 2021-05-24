@@ -1,7 +1,8 @@
 {
   "name": "gaia",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular",
   "id": "7ee62c8e"
