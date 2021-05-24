@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { map, tap, switchMap, catchError } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
 import { Plugins } from '@capacitor/core';
+import { notEqual } from 'assert';
 const { Storage } = Plugins;
 
 const TOKEN_KEY = 'my-token';
@@ -36,43 +37,61 @@ export class AuthenticationService {
   }
  
   login(credentials: {email, password}): Observable<any> {
+    console.log('1');
     return this.http.post(`https://gaiamadservice.dk/wp-json/jwt-auth/v1/token`, {
       'username': credentials.email,
       'password': credentials.password
-    }).pipe(
+    }).pipe(      
+      catchError((error) => {
+        console.log('3');
+        return throwError(error);
+      }),
       map((data: any) => data),
       switchMap(data => {
+        console.log('2');
         localStorage.setItem("email", data.user_email);
         from(Storage.set({key:'email', value: JSON.stringify(data.user_email)}));
         return from(Storage.set({key: TOKEN_KEY, value: data.token}));
       }),
       tap(_ => {
+        console.log('4');
         this.isAuthenticated.next(true);
-      })
+      }),
     )
   }
   subscription() {
     const email = localStorage.getItem("email");
-    console.log(`${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`);
     return this.http.get(`${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`)
     }
 
     subdetails(id) {
       return this.http.get(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`)
       }
-
+orderNote(id,note){
+  return this.http.post(`${this.url}wc/v1/subscriptions/${id}/notes?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  { "note": note})
+}
+shippingMethods(){
+  return this.http.get(`${this.url}wc/v3/shipping_methods?&consumer_key=${this.key}&consumer_secret=${this.secret}`)
+}
+setShipping(id, shipping_id, pris){
+  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  {"shipping_lines" : [{
+    id: shipping_id, 
+    total: pris
+  }]}) 
+}
 skiplevering(id, date, interval) {
   let numWeeks = interval;
   let now = new Date(date);
   now.setDate(now.getDate() + (numWeeks * 7));
-  now.setHours(now.getHours() + 1);
+  now.setHours(now.getHours() + 2);
   let nydate = now.toISOString().replace('.000Z','').replace('T',' ');
-  console.log(nydate);
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"next_payment_date" : nydate})     
 }
 frekvens(id, interval) {
-  return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+  return this.http.put(`${this.url}wp/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"billing_interval" : interval})     
 }
 status(id, status) {

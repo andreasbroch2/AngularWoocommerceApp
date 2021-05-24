@@ -36,6 +36,9 @@ export class SubDetailsPage implements OnInit {
       this.date = this.details.next_payment_date;
       this.date = this.addDays(this.date, 4);
     });
+    this.authService.shippingMethods().subscribe(result => {
+      console.log(result);
+    });
 }
 
 async presentModal() {
@@ -84,6 +87,9 @@ async skip(){
             this.load = 'Springer over...';
             this.authService.skiplevering(id, this.details.next_payment_date, this.details.billing_interval).subscribe(result => {
               this.details = result;
+              this.authService.orderNote(id, "Dato ændret fra app " + this.details.next_payment_date).subscribe(result => {
+                console.log(result)
+              });
               this.date = this.details.next_payment_date;
               this.date = this.addDays(this.date, 4)
               this.load = ''; 
@@ -172,6 +178,9 @@ frek1(){
   this.load = 'Ændrer frekvens...';
   this.authService.frekvens(id, 1).subscribe(result => {
     this.details = result;
+    this.authService.orderNote(id, "Interval ændret til 1 - Fra app.").subscribe(result => {
+      console.log(result)
+    });
     this.load = '';
     console.log(result);
 })}
@@ -180,6 +189,9 @@ frek2(){
   this.load = 'Ændrer frekvens...';
   this.authService.frekvens(id, 2).subscribe(result => {
     this.details = result;
+    this.authService.orderNote(id, "Interval ændret til 2 - Fra app.").subscribe(result => {
+      console.log(result)
+    });
     this.load = '';
     console.log(result);
 })}
@@ -188,6 +200,9 @@ frek4(){
   this.load = 'Ændrer frekvens...';
   this.authService.frekvens(id, 4).subscribe(result => {
     this.details = result;
+    this.authService.orderNote(id, "Interval ændret til 4 - Fra app.").subscribe(result => {
+      console.log(result)
+    });
     this.load = '';
     console.log(result);
 })}
@@ -211,6 +226,9 @@ async pause(){
             this.load = 'Sætter på pause...';
               this.authService.status(id, 'on-hold').subscribe(result => {
                 this.details = result; 
+                this.authService.orderNote(id, "Sat på pause - Fra app.").subscribe(result => {
+                  console.log(result)
+                });
                 this.load = '';
                 console.log(result);
               })
@@ -218,6 +236,9 @@ async pause(){
             this.load = 'Aktiverer...';
               this.authService.status(id, 'active').subscribe(result => {
                 this.details = result; 
+                this.authService.orderNote(id, "Aktiveret - Fra app.").subscribe(result => {
+                  console.log(result)
+                });
                 this.load = '';
                 console.log(result);
               })
@@ -248,6 +269,9 @@ async afmeld(){
             this.load = 'Afmelder...';
               this.authService.status(id, 'cancelled').subscribe(result => {
                 this.details = result; 
+                this.authService.orderNote(id, "Afmeldt- Fra app.").subscribe(result => {
+                  console.log(result)
+                });
                 this.load = '';
                 console.log(result);
               })
@@ -255,6 +279,9 @@ async afmeld(){
             this.load = 'Genaktiverer...';
               this.authService.status(id, 'active').subscribe(result => {
                 this.details = result; 
+                this.authService.orderNote(id, "Genaktiveret - Fra app.").subscribe(result => {
+                  console.log(result)
+                });
                 this.load = '';
                 console.log(result);
               })
@@ -272,8 +299,23 @@ removeprod(prodid){
   console.log(prodid);
     this.authService.removeproduct(id, prodid).subscribe(result => {
       this.details = result; 
+      this.authService.orderNote(id, "Produkt fjernet - Fra app - " + prodid).subscribe(result => {
+        console.log(result)
+      });
+      let subtotal = this.details.total - this.details.shipping_total - this.details.shipping_tax;
+      if(subtotal <= 599){
+        console.log('Ingen gratis levering')
+        this.authService.setShipping(id, this.details.shipping_lines[0].id, "55.20").subscribe(result => {
+          this.details = result;
+        })
+      }else{
+        console.log('Gratis Levering')
+        this.authService.setShipping(id, this.details.shipping_lines[0].id, "0.00").subscribe(result => {
+          this.details = result;
+        })
+      }
       this.load ='';
-      console.log(result);
+      console.log(this.details);
     })
 }
 hidden = true;
@@ -345,6 +387,9 @@ async info() {
               let id = this.activatedRoute.snapshot.paramMap.get('id');
               this.authService.addNote(id, value.note).subscribe(result => {
                 this.details = result;
+                this.authService.orderNote(id, "Note ændret - Fra app.").subscribe(result => {
+                  console.log(result)
+                });
                 this.load = "";
             })
           }
@@ -404,6 +449,9 @@ async info() {
               let id = this.activatedRoute.snapshot.paramMap.get('id');
               this.authService.addAdresse(id, value).subscribe(result => {
                 this.details = result;
+                this.authService.orderNote(id, "Adresse ændret - Fra app.").subscribe(result => {
+                  console.log(result)
+                });
                 console.log(this.details);
                 this.load = "";
             })

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
  
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginPage implements OnInit {
     private authService: AuthenticationService,
     private alertController: AlertController,
     private router: Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private iab: InAppBrowser
   ) {}
  
   ngOnInit() {
@@ -30,21 +32,21 @@ export class LoginPage implements OnInit {
   async login() {
     const loading = await this.loadingController.create();
     await loading.present();
-    
     this.authService.login(this.credentials.value).subscribe(
-      async (res) => {
+      result => {
+        console.log('succes');
         loading.dismiss();
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       },
-      async (res) => {
+      async error => {
+        console.log('fail' + error);
         await loading.dismiss();
-        const alert = await this.alertController.create({
-          header: 'Login failed',
-          message: res.error.error,
+        const alert =  await this.alertController.create({
+          header: 'Log ind mislykkedes',
+          message: error.message,
           buttons: ['OK'],
         });
- 
-        await alert.present();
+      await alert.present();
       }
     );
   }
@@ -56,5 +58,8 @@ export class LoginPage implements OnInit {
   
   get password() {
     return this.credentials.get('password');
+  }
+  adgangskode(){
+    const browser = this.iab.create('https://gaiamadservice.dk/kundeportal/nulstil-adgangskode/');
   }
 }
