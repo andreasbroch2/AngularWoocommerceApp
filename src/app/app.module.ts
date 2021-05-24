@@ -13,6 +13,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDa from '@angular/common/locales/da';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpRequestInterceptor } from './services/http-request-interceptor';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeDa, 'da');
@@ -24,6 +25,7 @@ registerLocaleData(localeDa, 'da');
   providers: [
     StatusBar,
     SplashScreen,
+    InAppBrowser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     { provide: LOCALE_ID, useValue:"da-DK"},
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true}
