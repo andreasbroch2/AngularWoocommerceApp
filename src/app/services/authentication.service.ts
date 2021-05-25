@@ -98,6 +98,13 @@ status(id, status) {
   return this.http.put(`${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
   {"status" : status})     
 }
+cancelReason(id, reason){
+  return this.http.post(`${this.url}myplugin/v1/cancel`,
+  {
+    "reason" : reason,
+    'user-id' : id,
+  })
+}
 products(){
   return this.http.get(`${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`,)
 }
