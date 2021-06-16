@@ -117,6 +117,86 @@ export class SubDetailsPage implements OnInit {
     await alert.present();
   }
 
+  async editLineItem(prodid) {
+    let id = this.activatedRoute.snapshot.paramMap.get("id");
+    const alert = await this.alertController.create({
+      cssClass: "my-custom-class",
+      header: "Ændre antal eller fjern vare",
+      message:
+        "Skriv nyt antal og derefter Bekræft, for at ændre antal. Tryk på Fjern for at fjerne varen fra din kasse.",
+      inputs: [
+        {
+          name: "Antal",
+          type: "number",
+        },
+      ],
+      buttons: [
+        {
+          text: "Fjern vare(r)",
+          cssClass: "secondary",
+          handler: () => {
+            this.load = "Fjerner produkt...";
+            this.authService
+              .removeproduct(id, prodid, 0)
+              .subscribe((result) => {
+                this.details = result;
+                this.authService
+                  .orderNote(id, "Produkt fjernet - Fra app - " + prodid)
+                  .subscribe((result) => {
+                    console.log(result);
+                  });
+                let subtotal =
+                  this.details.total -
+                  this.details.shipping_total -
+                  this.details.shipping_tax;
+                if (subtotal <= 599) {
+                  console.log("Ingen gratis levering");
+                  this.authService
+                    .setShipping(id, this.details.shipping_lines[0].id, "55.20")
+                    .subscribe((result) => {
+                      this.details = result;
+                    });
+                } else {
+                  console.log("Gratis Levering");
+                  this.authService
+                    .setShipping(id, this.details.shipping_lines[0].id, "0.00")
+                    .subscribe((result) => {
+                      this.details = result;
+                    });
+                }
+                this.load = "";
+              });
+          },
+        },
+        {
+          text: "Gem ændringer",
+          handler: (value) => {
+            let id = this.activatedRoute.snapshot.paramMap.get("id");
+            this.load = "Ændrer antal...";
+            console.log(id, prodid, value.Antal);
+            this.authService
+              .changeQuantity(prodid, id, value.Antal)
+              .subscribe((result) => {
+                console.log(result);
+                this.authService
+                  .orderNote(
+                    id,
+                    "Antal ændret fra app " + prodid + value.Antal
+                  )
+                  .subscribe((result) => {
+                    console.log(result);
+                  });
+                this.load = "";
+                location.reload();
+              });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   async frek() {
     console.log(this.details.billing_interval);
     if (this.details.billing_interval === "1") {
@@ -313,11 +393,13 @@ export class SubDetailsPage implements OnInit {
                   .subscribe((result) => {
                     console.log(result);
                   });
-              this.authService.cancelReason(this.details.customer_id, data.reason).subscribe((result) => {
+                this.authService
+                  .cancelReason(this.details.customer_id, data.reason)
+                  .subscribe((result) => {
+                    console.log(result);
+                  });
+                this.load = "";
                 console.log(result);
-              });    
-              this.load = "";
-              console.log(result);
               });
             } else if (this.details.status === "cancelled") {
               this.load = "Genaktiverer...";
@@ -338,40 +420,6 @@ export class SubDetailsPage implements OnInit {
     });
 
     await alert.present();
-  }
-  removeprod(prodid) {
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.load = "Fjerner...";
-    console.log(prodid);
-    this.authService.removeproduct(id, prodid).subscribe((result) => {
-      this.details = result;
-      this.authService
-        .orderNote(id, "Produkt fjernet - Fra app - " + prodid)
-        .subscribe((result) => {
-          console.log(result);
-        });
-      let subtotal =
-        this.details.total -
-        this.details.shipping_total -
-        this.details.shipping_tax;
-      if (subtotal <= 599) {
-        console.log("Ingen gratis levering");
-        this.authService
-          .setShipping(id, this.details.shipping_lines[0].id, "55.20")
-          .subscribe((result) => {
-            this.details = result;
-          });
-      } else {
-        console.log("Gratis Levering");
-        this.authService
-          .setShipping(id, this.details.shipping_lines[0].id, "0.00")
-          .subscribe((result) => {
-            this.details = result;
-          });
-      }
-      this.load = "";
-      console.log(this.details);
-    });
   }
   hidden = true;
   showContent() {

@@ -12,6 +12,7 @@ import { Router } from '@angular/router'
 })
 export class Tab1Page implements OnInit{
   information = null;
+  orders = null;
   
   constructor(private authService: AuthenticationService, private modalController: ModalController, public router: Router, public elementRef: ElementRef) {
  
@@ -31,6 +32,10 @@ export class Tab1Page implements OnInit{
   }
   ngOnInit(){
     this.auth();
+    this.authService.processingOrders().subscribe(result => {
+      this.orders = result;
+      console.log(result);
+    })
   }
 console(){
   console.log(this.information)

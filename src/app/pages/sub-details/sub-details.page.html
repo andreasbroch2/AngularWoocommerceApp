@@ -99,7 +99,7 @@
                   <ion-text>  {{ addNumbers(item.total, item.total_tax) | number}},- </ion-text>
                 </ion-col>
                 <ion-col size="1">
-                  <ion-button color="tertiary" size="small" (click)="removeprod(item.id)">X</ion-button>
+                  <fa-icon [icon]="['fas', 'pencil-alt']" (click)="editLineItem(item.id)"></fa-icon>
                 </ion-col>
               </ion-row>
             </ion-grid>

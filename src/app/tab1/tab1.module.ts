@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { CountDownComponent, CountDownModule } from '../count-down/count-down.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { CountDownComponent, CountDownModule } from '../count-down/count-down.co
     FormsModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule, 
-    CountDownModule
+    CountDownModule,
+    FontAwesomeModule
   ],
   declarations: [Tab1Page]
 })

@@ -14,6 +14,8 @@ import localeDa from '@angular/common/locales/da';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpRequestInterceptor } from './services/http-request-interceptor';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faPencilAlt, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeDa, 'da');
@@ -21,7 +23,7 @@ registerLocaleData(localeDa, 'da');
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), BrowserAnimationsModule],
+  imports: [BrowserModule, FontAwesomeModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), BrowserAnimationsModule],
   providers: [
     StatusBar,
     SplashScreen,
@@ -33,4 +35,9 @@ registerLocaleData(localeDa, 'da');
   bootstrap: [AppComponent]
 })
 
-export class AppModule {}
+export class AppModule {
+  constructor(private library: FaIconLibrary) {
+        // Add an icon to the library for convenient access in other components
+        library.addIcons(faPencilAlt, faBoxOpen);
+  }
+}

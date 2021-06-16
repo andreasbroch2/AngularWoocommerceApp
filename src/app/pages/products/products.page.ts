@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ModalController, PickerController } from "@ionic/angular";
+import { catchError, map, switchMap } from "rxjs/operators";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
+import { identifierModuleUrl } from "@angular/compiler";
 
 @Component({
   selector: "app-products",
@@ -20,30 +23,41 @@ export class ProductsPage implements OnInit {
   hovedretter = null;
   snacks = null;
   drikkevarer = null;
-  categories = null;
+  familieportioner = null;
+  morgenmad = null;
+  paalaeg = null;
+  glutenfri = null;
   hideMeHoved = false;
   hideMeSnacks = false;
   hideMeDrikkevarer = false;
+  hideMeFamilieportioner = false;
+  hideMeMorgenmad = false;
+  hideMePaalaeg = false;
+  hideMeGlutenfri = false;
   @Input() subid: number;
 
   ngOnInit() {
-    this.authService.categories().subscribe((result) => {
-      this.categories = result;
-      this.categories = this.categories.sort((a, b) => a.id - b.id);
-      console.log(this.categories);
-    });
-    this.authService.hovedret().subscribe((result) => {
-      this.hovedretter = result;
-      console.log(result);
-    });
-    this.authService.snacks().subscribe((result) => {
-      this.snacks = result;
-      console.log(result);
-    });
-    this.authService.drikkevarer().subscribe((result) => {
-      this.drikkevarer = result;
-      console.log(result);
-    });
+      this.authService.hovedret().subscribe((result) => {
+        this.hovedretter = result;
+      })
+      this.authService.snacks().subscribe((result) => {
+        this.snacks = result;
+      })
+      this.authService.drikkevarer().subscribe((result) => {
+        this.drikkevarer = result;
+      })
+      this.authService.familieportioner().subscribe((result) => {
+        this.familieportioner = result;
+      })
+      this.authService.morgenmad().subscribe((result) => {
+        this.morgenmad = result;
+      })
+      this.authService.paalaeg().subscribe((result) => {
+        this.paalaeg = result;
+      })
+      this.authService.glutenfri().subscribe((result) => {
+        this.glutenfri = result;
+      })
   }
   async openPicker(prodid) {
     const picker = await this.pickerController.create({
@@ -129,5 +143,21 @@ export class ProductsPage implements OnInit {
   hideDrikkevarer() {
     if (this.hideMeDrikkevarer == false) this.hideMeDrikkevarer = true;
     else this.hideMeDrikkevarer = false;
+  }
+  hideFamilieportioner() {
+    if (this.hideMeFamilieportioner == false) this.hideMeFamilieportioner = true;
+    else this.hideMeFamilieportioner = false;
+  }
+  hideMorgenmad() {
+    if (this.hideMeMorgenmad == false) this.hideMeMorgenmad = true;
+    else this.hideMeMorgenmad = false;
+  }
+  hidePaalaeg() {
+    if (this.hideMePaalaeg == false) this.hideMePaalaeg = true;
+    else this.hideMePaalaeg = false;
+  }
+  hideGlutenfri() {
+    if (this.hideMeGlutenfri == false) this.hideMeGlutenfri = true;
+    else this.hideMeGlutenfri = false;
   }
 }
