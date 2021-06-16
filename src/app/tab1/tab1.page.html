@@ -28,6 +28,7 @@
           <div>
               <h3>Levering</h3>
               <strong>{{orders[0].shipping_lines[0].method_title}}</strong>
+              <br>
               <div *ngIf="orders[0].shipping_lines[0].method_id == 'local_pickup'; else levering">
                     Lørdag
               </div>
