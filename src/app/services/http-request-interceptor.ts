@@ -24,7 +24,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this._loading.setLoading(true, request.url);
-    console.log('request');
     return next.handle(request)
       .pipe(catchError((err) => {
         console.log('intercept - error' + err);
@@ -33,7 +32,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       }))
       .pipe(map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
         if (evt instanceof HttpResponse) {
-          console.log('evt');
           this._loading.setLoading(false, request.url);
         }
         return evt;

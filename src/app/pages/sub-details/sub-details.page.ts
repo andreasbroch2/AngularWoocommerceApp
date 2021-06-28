@@ -37,12 +37,10 @@ export class SubDetailsPage implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     this.authService.subdetails(id).subscribe((result) => {
       this.details = result;
-      console.log(result);
       this.date = this.details.next_payment_date;
       this.date = this.addDays(this.date, 4);
     });
     this.authService.shippingMethods().subscribe((result) => {
-      console.log(result);
     });
   }
 
@@ -65,13 +63,6 @@ export class SubDetailsPage implements OnInit {
     }
   }
 
-  console() {
-    console.log(this.details);
-    console.log(this.date);
-    console.log(this.response);
-    console.log(this.details.next_payment_date);
-    console.log(this.details.billing_interval);
-  }
   async skip() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
@@ -99,7 +90,7 @@ export class SubDetailsPage implements OnInit {
                 this.authService
                   .orderNote(
                     id,
-                    "Dato ændret fra app " + this.details.next_payment_date
+                    "Dato ændret fra app til - " + this.details.next_payment_date
                   )
                   .subscribe((result) => {
                     console.log(result);
@@ -117,7 +108,7 @@ export class SubDetailsPage implements OnInit {
     await alert.present();
   }
 
-  async editLineItem(prodid) {
+  async editLineItem(prodid, prodname) {
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
@@ -141,23 +132,20 @@ export class SubDetailsPage implements OnInit {
               .subscribe((result) => {
                 this.details = result;
                 this.authService
-                  .orderNote(id, "Produkt fjernet - Fra app - " + prodid)
+                  .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
                   .subscribe((result) => {
-                    console.log(result);
                   });
                 let subtotal =
                   this.details.total -
                   this.details.shipping_total -
                   this.details.shipping_tax;
                 if (subtotal <= 599) {
-                  console.log("Ingen gratis levering");
                   this.authService
                     .setShipping(id, this.details.shipping_lines[0].id, "55.20")
                     .subscribe((result) => {
                       this.details = result;
                     });
                 } else {
-                  console.log("Gratis Levering");
                   this.authService
                     .setShipping(id, this.details.shipping_lines[0].id, "0.00")
                     .subscribe((result) => {
@@ -173,19 +161,9 @@ export class SubDetailsPage implements OnInit {
           handler: (value) => {
             let id = this.activatedRoute.snapshot.paramMap.get("id");
             this.load = "Ændrer antal...";
-            console.log(id, prodid, value.Antal);
             this.authService
-              .changeQuantity(prodid, id, value.Antal)
-              .subscribe((result) => {
-                console.log(result);
-                this.authService
-                  .orderNote(
-                    id,
-                    "Antal ændret fra app " + prodid + value.Antal
-                  )
-                  .subscribe((result) => {
-                    console.log(result);
-                  });
+              .changeQuantity(prodid, id, value.Antal, prodname)
+              .subscribe(() => {
                 this.load = "";
                 location.reload();
               });

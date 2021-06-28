@@ -13,11 +13,8 @@ import { Router } from '@angular/router'
 export class Tab1Page implements OnInit{
   information = null;
   orders = null;
-  
   constructor(private authService: AuthenticationService, private modalController: ModalController, public router: Router, public elementRef: ElementRef) {
- 
   }
-
 
   addDays(date) {
     var result = new Date(date);

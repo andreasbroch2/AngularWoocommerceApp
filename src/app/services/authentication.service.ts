@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { map, tap, switchMap, catchError } from "rxjs/operators";
 import { BehaviorSubject, from, Observable, throwError } from "rxjs";
 import { Plugins } from "@capacitor/core";
-import { notEqual } from "assert";
 const { Storage } = Plugins;
 
 const TOKEN_KEY = "my-token";
@@ -133,11 +132,12 @@ export class AuthenticationService {
       "user-id": id,
     });
   }
-  changeQuantity(id, subid, quant) {
+  changeQuantity(id, subid, quant, name) {
     return this.http.post(`${this.url}myplugin/v1/quantity`, {
       quant: quant,
       id: id,
       subscription: subid,
+      name: name,
     });
   }
   products() {
