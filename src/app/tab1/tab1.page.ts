@@ -35,6 +35,7 @@ export class Tab1Page implements OnInit{
     this.authService.processingOrders().subscribe(result => {
       this.orders = result;
       console.log(result);
+      console.log(this.orders);
     })
   }
 console(){
