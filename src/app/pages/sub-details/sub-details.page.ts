@@ -98,7 +98,6 @@ export class SubDetailsPage implements OnInit {
                 this.date = this.details.next_payment_date;
                 this.date = this.addDays(this.date, 4);
                 this.load = "";
-                console.log(result);
               });
           },
         },
@@ -187,14 +186,12 @@ export class SubDetailsPage implements OnInit {
             text: "Hver anden uge",
             handler: () => {
               this.frek2();
-              console.log("2");
             },
           },
           {
             text: "Hver fjerde uge",
             handler: () => {
               this.frek4();
-              console.log("4");
             },
           },
         ],
@@ -210,14 +207,12 @@ export class SubDetailsPage implements OnInit {
             text: "Hver uge",
             handler: () => {
               this.frek1();
-              console.log("1");
             },
           },
           {
             text: "Hver fjerde uge",
             handler: () => {
               this.frek4();
-              console.log("4");
             },
           },
         ],
@@ -233,14 +228,12 @@ export class SubDetailsPage implements OnInit {
             text: "Hver uge",
             handler: () => {
               this.frek1();
-              console.log("1");
             },
           },
           {
             text: "Hver anden uge",
             handler: () => {
               this.frek2();
-              console.log("2");
             },
           },
         ],
@@ -256,10 +249,8 @@ export class SubDetailsPage implements OnInit {
       this.authService
         .orderNote(id, "Interval ændret til 1 - Fra app.")
         .subscribe((result) => {
-          console.log(result);
         });
       this.load = "";
-      console.log(result);
     });
   }
   frek2() {

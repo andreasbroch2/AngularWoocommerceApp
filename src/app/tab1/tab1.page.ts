@@ -24,15 +24,12 @@ export class Tab1Page implements OnInit{
   auth(){
     this.authService.subscription().subscribe(result => {
       this.information = result;
-      console.log(result);
     });
   }
   ngOnInit(){
     this.auth();
     this.authService.processingOrders().subscribe(result => {
       this.orders = result;
-      console.log(result);
-      console.log(this.orders);
     })
   }
 console(){
