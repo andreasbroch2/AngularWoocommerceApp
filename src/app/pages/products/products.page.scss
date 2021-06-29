@@ -56,3 +56,19 @@ ion-item {
   font-weight: 600;
   line-height: 2rem;
 }
+.loadbar{
+  width: 200px;
+  height: 30px;
+  margin:auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  background-color: #46b064;
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top:90%;
+  z-index: 100;
+}

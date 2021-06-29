@@ -33,24 +33,31 @@
           <div>
             <div *ngIf="details.status==='active'" class="statusboksaktiv">Aktiv</div>
             <div *ngIf="details.status==='on-hold'" class="statusbokspause">På pause</div>
-            <div *ngIf="details.status==='cancelled'" class="statusboksafmeldt">Afmeldt</div>
           </div> 
         </div>
         <div class="collapsible">
           <div button (click)="showContent()" class="grid154045">
               <ion-icon class="subicon" size="small" src="/assets/icon/shipping.svg"></ion-icon>
               <ion-text class="noticelabel">Næste kasse</ion-text>
-              <ion-text class="noticevalue">  {{ addDays(details.next_payment_date, 4) | date:'EEEE \'d\' d MMMM'}} </ion-text>
+              <ion-text class="noticevalue" *ngIf="details.shipping.postcode > 3699 && details.shipping.postcode < 3800">
+                {{ addDays(details.next_payment_date, 6) | date:'EEEE \'d\' d MMMM'}} 
+              </ion-text>
+              <ion-text class="noticevalue" *ngIf="details.shipping_lines[0].method_title=='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
+                {{ addDays(details.next_payment_date, 4) | date:'EEEE \'d\' d MMMM'}} 
+              </ion-text>
+              <ion-text class="noticevalue" *ngIf="details.shipping_lines[0].method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
+                {{ addDays(details.next_payment_date, 3) | date:'EEEE \'d\' d MMMM'}} 
+              </ion-text>
               <ion-icon *ngIf="hidden" name="chevron-down"></ion-icon>
               <ion-icon *ngIf="!hidden" name="chevron-up"></ion-icon>
           </div>
           <div id="leveringscontent">
             <hr>
-            <p class="contentheading">Leveres<ion-icon button (click)="frek()" class="edit" size="small" name="pencil"></ion-icon></p>
-            <p *ngIf="details.billing_interval==='1'">Hver Uge </p>
+            <p class="contentheading">Leveres<fa-icon [icon]="['fas', 'pencil-alt']" class="edit" (click)="frek()"></fa-icon></p>
+            <p *ngIf="details.billing_interval==='1'"><strong>Hver uge</strong></p>
             <p *ngIf="details.billing_interval==='2'">Hver 2. Uge</p>
             <p *ngIf="details.billing_interval==='4'">Hver 4. Uge</p>
-            <p class="contentheading">Leveringsadresse<ion-icon button (click)="adresse()" class="edit" size="small" name="pencil"></ion-icon></p>
+            <p class="contentheading">Leveringsadresse<fa-icon [icon]="['fas', 'pencil-alt']" class="edit" (click)="adresse()"></fa-icon></p>
               <div class="adresselabel">
                 Navn
               </div>
@@ -72,7 +79,7 @@
                 {{details.shipping.postcode}} {{details.shipping.city}}
               </div>
               <hr>
-              <p class="contentheading">Note<ion-icon button (click)="note()" class="edit" size="small" name="pencil"></ion-icon></p>
+              <p class="contentheading">Note<fa-icon [icon]="['fas', 'pencil-alt']" class="edit" (click)="note()"></fa-icon></p>
               <p>{{ details.customer_note}}</p>
               <p *ngIf="!details.customer_note">Ingen note</p>
           </div>
@@ -99,7 +106,7 @@
                   <ion-text>  {{ addNumbers(item.total, item.total_tax) | number}},- </ion-text>
                 </ion-col>
                 <ion-col size="1">
-                  <fa-icon [icon]="['fas', 'pencil-alt']" (click)="editLineItem(item.id, item.name)"></fa-icon>
+                  <fa-icon [icon]="['fas', 'pencil-alt']" (click)="openEditModal(item.id, item.name)"></fa-icon>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -181,4 +188,16 @@
             </ion-label>
         </ion-item>
       </div>
+      <div id="editmodal">
+        <strong><p id="productname" class="text-center"></p></strong>
+        <div class="text-center" style="margin:10px 0;">
+        <fa-icon class="editicon" [icon]="['fas', 'minus']" (click)="decrement()"></fa-icon>
+        <input label="Antal" value="1" type="number" min="1" step="1" max="" id="prodquant" name="prodquant" style="width:50px;vertical-align:super">
+        <fa-icon class="editicon" [icon]="['fas', 'plus']" (click)="increment()"></fa-icon>
+      </div>
+        <div class="modalbuttons" style="margin-top:10px">
+            <div style="color:red;" (click)="removeProduct()">Fjern vare(r)</div>
+            <div style="color:#006633;" (click)="changeQuantity()">Gem ændringer</div>
+        </div>
+    </div>
 </ion-content>

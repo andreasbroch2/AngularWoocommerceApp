@@ -6,6 +6,9 @@
 <div class="spin" *ngIf="!hovedretter">
   <ion-spinner color="primary" name="crescent"></ion-spinner>
 </div>
+<div class="loadbar" *ngIf="load">
+  <ion-text color="light">  {{ load }}</ion-text> 
+</div>
 <ion-content>
   <div *ngIf="hovedretter">
     <ion-item button (click)="hideHoved()">
@@ -16,7 +19,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >
@@ -44,7 +47,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >
@@ -72,7 +75,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >
@@ -100,7 +103,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >
@@ -128,7 +131,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >
@@ -156,7 +159,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >
@@ -184,7 +187,7 @@
         <ion-row>
           <ion-col
             button
-            (click)="openPicker(prod.id)"
+            (click)="openPicker(prod.id, prod.name)"
             class="side"
             *ngIf="(prod.catalog_visibility == 'visible')"
           >

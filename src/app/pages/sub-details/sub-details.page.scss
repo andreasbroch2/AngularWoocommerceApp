@@ -111,6 +111,9 @@ ion-card-header{
   margin-bottom:20px;
   margin-top:10px;
 }
+.contentheading{
+  color: #006633;
+}
 .abonnement div{
   align-self: center;
 }
@@ -225,4 +228,51 @@ p{
 }
 .alert-input-wrapper{
   min-height: 400px;
+}
+
+#editmodal {
+  width: fit-content;
+  background-color: #fff;
+  position: fixed;
+  z-index: 10;
+  padding: 10px;
+  top: 200px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  display: none;
+  border-radius: 10px;
+  box-shadow: 0 0 38px rgba(0,0,0,0.30), 10px 15px 12px rgba(0,0,0,0.22);
+}
+#productname{
+  font-size:20px;
+  padding: 5px 0;
+}
+.editicon{
+  vertical-align: super;
+  font-size: 20px;
+  padding: 0 10px;
+}
+#editmodal input[type="number"] {
+  width: 40px;
+  vertical-align: top;
+  text-align: center;
+  border-style: hidden;
+  font-size: 2rem;
+}
+
+#editmodal .modalbuttons {
+  width: 100%;
+  font-weight: bold;
+  padding:10px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+
+#editmodal .modalbuttons div {
+  -ms-grid-column-align: center;
+      justify-self: center;
 }

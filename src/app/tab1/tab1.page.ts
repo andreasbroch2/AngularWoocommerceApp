@@ -16,14 +16,15 @@ export class Tab1Page implements OnInit{
   constructor(private authService: AuthenticationService, private modalController: ModalController, public router: Router, public elementRef: ElementRef) {
   }
 
-  addDays(date) {
+  addDays(date, days) {
     var result = new Date(date);
-    result.setDate(result.getDate() + 4);
+    result.setDate(result.getDate() + days);
     return result;
   }
   auth(){
     this.authService.subscription().subscribe(result => {
       this.information = result;
+      console.log(this.information);
     });
   }
   ngOnInit(){

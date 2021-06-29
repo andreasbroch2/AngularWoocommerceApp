@@ -34,6 +34,7 @@ export class ProductsPage implements OnInit {
   hideMeMorgenmad = false;
   hideMePaalaeg = false;
   hideMeGlutenfri = false;
+  load = "";
   @Input() subid: number;
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class ProductsPage implements OnInit {
         this.glutenfri = result;
       })
   }
-  async openPicker(prodid) {
+  async openPicker(prodid, prodname) {
     const picker = await this.pickerController.create({
       columns: [
         {
@@ -87,11 +88,18 @@ export class ProductsPage implements OnInit {
         {
           text: "Tilføj",
           handler: (value) => {
-            console.log(value.Antal.value);
-            console.log(prodid);
+            this.load = "Tilføjer vare(r)"
             this.authService
               .addproduct(this.subid, prodid, value.Antal.value)
               .subscribe((result) => {
+                this.authService
+                .orderNote(
+                  this.subid,
+                  "Vare(r) tilføjet fra app - " + value.Antal.value + "x " + prodname
+                )
+                .subscribe((result) => {
+                  console.log(result);
+                });
                 this.details = result;
                 let subtotal =
                   this.details.total -
@@ -120,6 +128,7 @@ export class ProductsPage implements OnInit {
                     )
                     .subscribe((result) => {
                       this.details = result;
+                      this.load = "";
                       console.log(this.details);
                       this.modalController.dismiss(this.details);
                     });

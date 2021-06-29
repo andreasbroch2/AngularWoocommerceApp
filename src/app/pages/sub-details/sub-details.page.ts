@@ -24,6 +24,21 @@ export class SubDetailsPage implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController
   ) {}
+  addToInput(element, amount) {
+    var val = parseInt(element.value, 10) || 0;
+    val += amount;
+    if(val < 1){
+      element.value = 1;
+    } else{
+    element.value = val;
+    }
+  }
+  increment(){
+    this.addToInput(document.getElementById("prodquant"), 1);
+  }
+  decrement(){
+    this.addToInput(document.getElementById("prodquant"), -1);
+  }
   addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -40,8 +55,7 @@ export class SubDetailsPage implements OnInit {
       this.date = this.details.next_payment_date;
       this.date = this.addDays(this.date, 4);
     });
-    this.authService.shippingMethods().subscribe((result) => {
-    });
+    this.authService.shippingMethods().subscribe((result) => {});
   }
 
   async presentModal() {
@@ -90,7 +104,8 @@ export class SubDetailsPage implements OnInit {
                 this.authService
                   .orderNote(
                     id,
-                    "Dato ændret fra app til - " + this.details.next_payment_date
+                    "Dato ændret fra app til - " +
+                      this.details.next_payment_date
                   )
                   .subscribe((result) => {
                     console.log(result);
@@ -107,33 +122,36 @@ export class SubDetailsPage implements OnInit {
     await alert.present();
   }
 
-  async editLineItem(prodid, prodname) {
+  openEditModal(prodid, name) {
+    document.getElementById("editmodal").style.display = "block";
+    document.getElementById("editmodal").setAttribute("data-prodid", prodid);
+    document.getElementById("productname").innerHTML = name;
+    let target = document.getElementById("editmodal");
+    let hideEditModal = function(event){
+      let withinBoundaries = event.composedPath().includes(target);
+
+      if (!withinBoundaries) {
+        document.removeEventListener("click", hideEditModal);
+        document.getElementById("editmodal").style.display = "none";
+      } }
+    setTimeout(function(){
+    document.addEventListener("click", hideEditModal);
+  }, 200)
+  }
+  removeProduct(){
+    console.log('remove');
     let id = this.activatedRoute.snapshot.paramMap.get("id");
-    const alert = await this.alertController.create({
-      cssClass: "my-custom-class",
-      header: "Ændre antal eller fjern vare",
-      message:
-        "Skriv nyt antal og derefter Bekræft, for at ændre antal. Tryk på Fjern for at fjerne varen fra din kasse.",
-      inputs: [
-        {
-          name: "Antal",
-          type: "number",
-        },
-      ],
-      buttons: [
-        {
-          text: "Fjern vare(r)",
-          cssClass: "secondary",
-          handler: () => {
-            this.load = "Fjerner produkt...";
+    let prodid = document.getElementById("editmodal").getAttribute("data-prodid");
+    let prodname = document.getElementById("productname").innerHTML;
+    this.load = "Fjerner produkt...";
             this.authService
               .removeproduct(id, prodid, 0)
               .subscribe((result) => {
+        document.getElementById("editmodal").style.display = "none";
                 this.details = result;
                 this.authService
                   .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
-                  .subscribe((result) => {
-                  });
+                  .subscribe((result) => {});
                 let subtotal =
                   this.details.total -
                   this.details.shipping_total -
@@ -153,27 +171,20 @@ export class SubDetailsPage implements OnInit {
                 }
                 this.load = "";
               });
-          },
-        },
-        {
-          text: "Gem ændringer",
-          handler: (value) => {
-            let id = this.activatedRoute.snapshot.paramMap.get("id");
-            this.load = "Ændrer antal...";
-            this.authService
-              .changeQuantity(prodid, id, value.Antal, prodname)
-              .subscribe(() => {
-                this.load = "";
-                location.reload();
-              });
-          },
-        },
-      ],
-    });
-
-    await alert.present();
   }
-
+  changeQuantity(){
+    this.load = "Ændrer antal...";
+    let id = this.activatedRoute.snapshot.paramMap.get("id");
+    let prodid = document.getElementById("editmodal").getAttribute("data-prodid");
+    let prodname = document.getElementById("productname").innerHTML;
+    var antal = (<HTMLInputElement>document.getElementById('prodquant')).value;
+    this.authService
+    .changeQuantity(prodid, id, antal, prodname)
+    .subscribe(() => {
+      this.load = "";
+      location.reload();
+    });
+  }
   async frek() {
     console.log(this.details.billing_interval);
     if (this.details.billing_interval === "1") {
@@ -248,8 +259,7 @@ export class SubDetailsPage implements OnInit {
       this.details = result;
       this.authService
         .orderNote(id, "Interval ændret til 1 - Fra app.")
-        .subscribe((result) => {
-        });
+        .subscribe((result) => {});
       this.load = "";
     });
   }

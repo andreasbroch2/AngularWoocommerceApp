@@ -63,9 +63,18 @@
               <ion-icon size="small" src="/assets/icon/shipping.svg"></ion-icon>
               <ion-text class="nlevering">Næste levering</ion-text>
             </div>
-            <ion-text class="ldato" *ngIf="user?.status==='active'">{{ addDays(user.next_payment_date) | date:'EEEE \'d\' d MMMM'}} </ion-text>
-            <ion-text class="ldato" *ngIf="user?.status==='on-hold'">{{ addDays(user.next_payment_date) | date:'EEEE \'d\' d MMMM'}} </ion-text>
-            <ion-text class="ldato" *ngIf="user?.status==='cancelled'">Afmeldt</ion-text>
+            <ion-text class="ldato" *ngIf="user?.status==='active'">
+            <span *ngIf="user?.shipping.postcode > 3699 && user?.shipping.postcode < 3800">
+              {{ addDays(user.next_payment_date, 6) | date:'EEEE \'d\' d MMMM'}} 
+            </span>
+            <span *ngIf="user?.shipping_lines[0].method_title=='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699">
+              {{ addDays(user.next_payment_date, 4) | date:'EEEE \'d\' d MMMM'}} 
+            </span>
+            <span *ngIf="user?.shipping_lines[0].method_title!='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699">
+              {{ addDays(user.next_payment_date, 3) | date:'EEEE \'d\' d MMMM'}} 
+            </span>
+            </ion-text>
+            <ion-text class="ldato" *ngIf="user?.status==='on-hold'">På pause</ion-text>
           </div>
          <div>
           <ion-icon size="small" name="chevron-forward"></ion-icon>
