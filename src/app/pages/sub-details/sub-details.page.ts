@@ -10,7 +10,6 @@ import { OversigtinfoPage } from "../oversigtinfo/oversigtinfo.page";
   templateUrl: "./sub-details.page.html",
   styleUrls: ["./sub-details.page.scss"],
 })
-
 export class SubDetailsPage implements OnInit {
   id = this.activatedRoute.snapshot.paramMap.get("id");
   details = null;
@@ -26,8 +25,8 @@ export class SubDetailsPage implements OnInit {
     private authService: AuthenticationService,
     public alertController: AlertController,
     public modalController: ModalController
-  ) { }
-  saveDate(date){
+  ) {}
+  saveDate(date) {
     this.saveddate = date;
   }
   addToInput(element, amount) {
@@ -61,17 +60,14 @@ export class SubDetailsPage implements OnInit {
       this.date = this.details.next_payment_date;
       this.date = this.addDays(this.date, 4);
     });
-
-    var sunday = new Date()
+    var sunday = new Date();
     sunday.setDate(sunday.getDate() + 4);
     sunday.setDate(sunday.getDate() + 7 - sunday.getDay());
 
     for (var i = 0; i < 12; i++) {
-      console.log(sunday.toLocaleString());
       this.sundays.push(new Date(sunday.getTime()));
       sunday.setDate(sunday.getDate() + 7);
     }
-    console.log(this.sundays);
   }
 
   async presentModal() {
@@ -88,131 +84,80 @@ export class SubDetailsPage implements OnInit {
     const eventDetails = await modal.onDidDismiss();
 
     if (eventDetails) {
-      console.log(eventDetails.data);
       if (eventDetails.data) this.details = eventDetails.data;
     }
   }
-
-  async skip() {
-    const alert = await this.alertController.create({
-      cssClass: "my-custom-class",
-      header: "Er du sikker?",
-      buttons: [
-        {
-          text: "Fortryd",
-          role: "cancel",
-          cssClass: "secondary",
-          handler: () => { },
-        },
-        {
-          text: "Yes!",
-          handler: () => {
-            let id = this.activatedRoute.snapshot.paramMap.get("id");
-            this.load = "Springer over...";
-            this.authService
-              .skiplevering(
-                id,
-                this.details.next_payment_date,
-                this.details.billing_interval
-              )
-              .subscribe((result) => {
-                this.details = result;
-                this.authService
-                  .orderNote(
-                    id,
-                    "Dato ændret fra app til - " +
-                    this.details.next_payment_date
-                  )
-                  .subscribe((result) => {
-                    console.log(result);
-                  });
-                this.date = this.details.next_payment_date;
-                this.date = this.addDays(this.date, 4);
-                this.load = "";
-              });
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
   openEditModal(prodid, name) {
     document.getElementById("editmodal").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
     document.getElementById("editmodal").setAttribute("data-prodid", prodid);
     document.getElementById("productname").innerHTML = name;
-    let target = document.getElementById("editmodal");
-    let hideEditModal = function (event) {
-      let withinBoundaries = event.composedPath().includes(target);
-
-      if (!withinBoundaries) {
-        document.removeEventListener("click", hideEditModal);
-        document.getElementById("editmodal").style.display = "none";
-      }
-    }
     setTimeout(function () {
-      document.addEventListener("click", hideEditModal);
-    }, 200)
+      document.getElementById("overlay").addEventListener("click", function(){
+        document.getElementById("editmodal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      });
+    }, 200);
   }
   openDateModal() {
     document.getElementById("datomodal").style.display = "block";
-    let target = document.getElementById("datomodal");
-    let hideDateModal = function (event) {
-      let withinBoundaries = event.composedPath().includes(target);
-
-      if (!withinBoundaries) {
-        document.removeEventListener("click", hideDateModal);
-        document.getElementById("datomodal").style.display = "none";
-      }
-    }
+    document.getElementById("overlay").style.display = "block";
     setTimeout(function () {
-      document.addEventListener("click", hideDateModal);
-    }, 200)
+      document.getElementById("overlay").addEventListener("click", function(){
+        document.getElementById("datomodal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      });
+    }, 200);
   }
   removeProduct() {
-    console.log('remove');
     let id = this.activatedRoute.snapshot.paramMap.get("id");
-    let prodid = document.getElementById("editmodal").getAttribute("data-prodid");
+    let prodid = document
+      .getElementById("editmodal")
+      .getAttribute("data-prodid");
     let prodname = document.getElementById("productname").innerHTML;
     this.load = "Fjerner produkt...";
-    this.authService
-      .removeproduct(id, prodid, 0)
-      .subscribe((result) => {
-        document.getElementById("editmodal").style.display = "none";
-        this.details = result;
+    this.authService.removeproduct(id, prodid, 0).subscribe((result) => {
+      document.getElementById("editmodal").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+      this.details = result;
+      this.authService
+        .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
+        .subscribe((result) => {});
+      let subtotal =
+        this.details.total -
+        this.details.shipping_total -
+        this.details.shipping_tax;
+      if (subtotal <= 599 && this.details.shipping_total == 0) {
         this.authService
-          .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
-          .subscribe((result) => { });
-        let subtotal =
-          this.details.total -
-          this.details.shipping_total -
-          this.details.shipping_tax;
-        if (subtotal <= 599) {
-          this.authService
-            .setShipping(id, this.details.shipping_lines[0].id, "55.20")
-            .subscribe((result) => {
-              this.details = result;
-            });
-        } else {
-          this.authService
-            .setShipping(id, this.details.shipping_lines[0].id, "0.00")
-            .subscribe((result) => {
-              this.details = result;
-            });
-        }
-        this.load = "";
-      });
+          .setShipping(id, this.details.shipping_lines[0].id, "55.20")
+          .subscribe((result) => {
+            this.details = result;
+            this.authService
+              .orderNote(id, "Tilføj Fragt - Auto - App")
+              .subscribe((result) => {});
+          });
+      }
+      this.load = "";
+    });
   }
-  changeDate(){
-    console.log(this.saveddate);
+  changeDate() {
+    this.load = "Ændrer dato...";
+    let id = this.activatedRoute.snapshot.paramMap.get("id");
+    let date = new Date(this.saveddate);
+    let datestring = date.toISOString();
+    this.authService.changeDate(datestring, id).subscribe(() => {
+      this.load = "";
+      location.reload();
+    });
   }
   changeQuantity() {
     this.load = "Ændrer antal...";
     let id = this.activatedRoute.snapshot.paramMap.get("id");
-    let prodid = document.getElementById("editmodal").getAttribute("data-prodid");
+    let prodid = document
+      .getElementById("editmodal")
+      .getAttribute("data-prodid");
     let prodname = document.getElementById("productname").innerHTML;
-    var antal = (<HTMLInputElement>document.getElementById('prodquant')).value;
+    var antal = (<HTMLInputElement>document.getElementById("prodquant")).value;
     this.authService
       .changeQuantity(prodid, id, antal, prodname)
       .subscribe(() => {
@@ -221,7 +166,6 @@ export class SubDetailsPage implements OnInit {
       });
   }
   async frek() {
-    console.log(this.details.billing_interval);
     if (this.details.billing_interval === "1") {
       const alert = await this.alertController.create({
         cssClass: "my-custom-class",
@@ -231,13 +175,19 @@ export class SubDetailsPage implements OnInit {
           {
             text: "Hver anden uge",
             handler: () => {
-              this.frek2();
+              this.frekvens(2);
+            },
+          },
+          {
+            text: "Hver tredje uge",
+            handler: () => {
+              this.frekvens(3);
             },
           },
           {
             text: "Hver fjerde uge",
             handler: () => {
-              this.frek4();
+              this.frekvens(4);
             },
           },
         ],
@@ -252,13 +202,46 @@ export class SubDetailsPage implements OnInit {
           {
             text: "Hver uge",
             handler: () => {
-              this.frek1();
+              this.frekvens(1);
+            },
+          },
+          {
+            text: "Hver tredje uge",
+            handler: () => {
+              this.frekvens(3);
             },
           },
           {
             text: "Hver fjerde uge",
             handler: () => {
-              this.frek4();
+              this.frekvens(4);
+            },
+          },
+        ],
+      });
+      await alert.present();
+    } else if (this.details.billing_interval === "3") {
+      const alert = await this.alertController.create({
+        cssClass: "my-custom-class",
+        header: "Vælg Frekvens",
+        message: "Hvor ofte vil du have leveret",
+        buttons: [
+          {
+            text: "Hver uge",
+            handler: () => {
+              this.frekvens(1);
+            },
+          },
+          {
+            text: "Hver anden uge",
+            handler: () => {
+              this.frekvens(2);
+            },
+          },
+          {
+            text: "Hver fjerde uge",
+            handler: () => {
+              this.frekvens(4);
             },
           },
         ],
@@ -273,13 +256,19 @@ export class SubDetailsPage implements OnInit {
           {
             text: "Hver uge",
             handler: () => {
-              this.frek1();
+              this.frekvens(1);
             },
           },
           {
             text: "Hver anden uge",
             handler: () => {
-              this.frek2();
+              this.frekvens(2);
+            },
+          },
+          {
+            text: "Hver tredje uge",
+            handler: () => {
+              this.frekvens(3);
             },
           },
         ],
@@ -287,43 +276,15 @@ export class SubDetailsPage implements OnInit {
       await alert.present();
     }
   }
-  frek1() {
+  frekvens(value) {
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     this.load = "Ændrer frekvens...";
-    this.authService.frekvens(id, 1).subscribe((result) => {
+    this.authService.frekvens(id, value).subscribe((result) => {
       this.details = result;
       this.authService
-        .orderNote(id, "Interval ændret til 1 - Fra app.")
-        .subscribe((result) => { });
+        .orderNote(id, "Interval ændret fra app til: " + value)
+        .subscribe((result) => {});
       this.load = "";
-    });
-  }
-  frek2() {
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.load = "Ændrer frekvens...";
-    this.authService.frekvens(id, 2).subscribe((result) => {
-      this.details = result;
-      this.authService
-        .orderNote(id, "Interval ændret til 2 - Fra app.")
-        .subscribe((result) => {
-          console.log(result);
-        });
-      this.load = "";
-      console.log(result);
-    });
-  }
-  frek4() {
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.load = "Ændrer frekvens...";
-    this.authService.frekvens(id, 4).subscribe((result) => {
-      this.details = result;
-      this.authService
-        .orderNote(id, "Interval ændret til 4 - Fra app.")
-        .subscribe((result) => {
-          console.log(result);
-        });
-      this.load = "";
-      console.log(result);
     });
   }
   async pause() {
@@ -336,7 +297,6 @@ export class SubDetailsPage implements OnInit {
           role: "cancel",
           cssClass: "secondary",
           handler: () => {
-            console.log("Confirm Cancel: blah");
           },
         },
         {
@@ -350,10 +310,8 @@ export class SubDetailsPage implements OnInit {
                 this.authService
                   .orderNote(id, "Sat på pause - Fra app.")
                   .subscribe((result) => {
-                    console.log(result);
                   });
                 this.load = "";
-                console.log(result);
               });
             } else if (this.details.status === "on-hold") {
               this.load = "Aktiverer...";
@@ -362,10 +320,8 @@ export class SubDetailsPage implements OnInit {
                 this.authService
                   .orderNote(id, "Aktiveret - Fra app.")
                   .subscribe((result) => {
-                    console.log(result);
                   });
                 this.load = "";
-                console.log(result);
               });
             }
           },
@@ -392,7 +348,7 @@ export class SubDetailsPage implements OnInit {
           text: "Fortryd",
           role: "cancel",
           cssClass: "secondary",
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: "Bekræft",
@@ -403,31 +359,16 @@ export class SubDetailsPage implements OnInit {
               this.authService.status(id, "cancelled").subscribe((result) => {
                 this.details = result;
                 this.authService
-                  .orderNote(id, "Afmeldt- Fra app.")
+                  .orderNote(id, "Afmeldt- Fra app: " + data.reason)
                   .subscribe((result) => {
-                    console.log(result);
                   });
                 this.authService
                   .cancelReason(this.details.customer_id, data.reason)
                   .subscribe((result) => {
-                    console.log(result);
                   });
                 this.load = "";
-                console.log(result);
               });
-            } else if (this.details.status === "cancelled") {
-              this.load = "Genaktiverer...";
-              this.authService.status(id, "active").subscribe((result) => {
-                this.details = result;
-                this.authService
-                  .orderNote(id, "Genaktiveret - Fra app.")
-                  .subscribe((result) => {
-                    console.log(result);
-                  });
-                this.load = "";
-                console.log(result);
-              });
-            }
+            } 
           },
         },
       ],
@@ -494,21 +435,18 @@ export class SubDetailsPage implements OnInit {
           role: "cancel",
           cssClass: "secondary",
           handler: () => {
-            console.log("Confirm Cancel");
           },
         },
         {
           text: "Bekræft",
           handler: (value) => {
             this.load = "Skifter note";
-            console.log(value.note);
             let id = this.activatedRoute.snapshot.paramMap.get("id");
             this.authService.addNote(id, value.note).subscribe((result) => {
               this.details = result;
               this.authService
-                .orderNote(id, "Note ændret - Fra app.")
+                .orderNote(id, "Note ændret - Fra app: " + value.note)
                 .subscribe((result) => {
-                  console.log(result);
                 });
               this.load = "";
             });
@@ -560,23 +498,19 @@ export class SubDetailsPage implements OnInit {
           role: "cancel",
           cssClass: "secondary",
           handler: () => {
-            console.log("Confirm Cancel");
           },
         },
         {
           text: "Bekræft",
           handler: (value) => {
             this.load = "Skifter adresse";
-            console.log(value);
             let id = this.activatedRoute.snapshot.paramMap.get("id");
             this.authService.addAdresse(id, value).subscribe((result) => {
               this.details = result;
               this.authService
                 .orderNote(id, "Adresse ændret - Fra app.")
                 .subscribe((result) => {
-                  console.log(result);
                 });
-              console.log(this.details);
               this.load = "";
             });
           },

@@ -116,7 +116,7 @@ export class AuthenticationService {
   }
   frekvens(id, interval) {
     return this.http.put(
-      `${this.url}wp/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
+      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
       { billing_interval: interval }
     );
   }
@@ -130,6 +130,12 @@ export class AuthenticationService {
     return this.http.post(`${this.url}myplugin/v1/cancel`, {
       reason: reason,
       "user-id": id,
+    });
+  }
+  changeDate(date, subid) {
+    return this.http.post(`${this.url}myplugin/v1/date`, {
+      date: date,
+      subscription: subid,
     });
   }
   changeQuantity(id, subid, quant, name) {
