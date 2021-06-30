@@ -229,14 +229,13 @@ p{
 .alert-input-wrapper{
   min-height: 400px;
 }
-
-#editmodal {
+#editmodal, #datomodal {
   width: fit-content;
   background-color: #fff;
   position: fixed;
   z-index: 10;
   padding: 10px;
-  top: 200px;
+  top: 100px;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
@@ -260,7 +259,6 @@ p{
   border-style: hidden;
   font-size: 2rem;
 }
-
 #editmodal .modalbuttons {
   width: 100%;
   font-weight: bold;
@@ -271,8 +269,21 @@ p{
       grid-template-columns: 1fr 1fr;
   column-gap: 10px;
 }
-
+#datomodal .modalbuttons{
+  width: 100%;
+  font-weight: bold;
+  padding:10px;
+  text-align: center;
+}
 #editmodal .modalbuttons div {
   -ms-grid-column-align: center;
       justify-self: center;
+}
+.sundays{
+  max-height: 400px;
+  overflow: auto;
+  margin: 10px 0;
+}
+.sundays ion-item{
+  --background-activated: #006633;
 }

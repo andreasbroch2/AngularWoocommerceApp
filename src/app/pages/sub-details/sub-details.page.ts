@@ -10,6 +10,7 @@ import { OversigtinfoPage } from "../oversigtinfo/oversigtinfo.page";
   templateUrl: "./sub-details.page.html",
   styleUrls: ["./sub-details.page.scss"],
 })
+
 export class SubDetailsPage implements OnInit {
   id = this.activatedRoute.snapshot.paramMap.get("id");
   details = null;
@@ -18,25 +19,30 @@ export class SubDetailsPage implements OnInit {
   total = null;
   load = "";
   noticeopen = true;
+  sundays = [];
+  saveddate = "";
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService,
     public alertController: AlertController,
     public modalController: ModalController
-  ) {}
+  ) { }
+  saveDate(date){
+    this.saveddate = date;
+  }
   addToInput(element, amount) {
     var val = parseInt(element.value, 10) || 0;
     val += amount;
-    if(val < 1){
+    if (val < 1) {
       element.value = 1;
-    } else{
-    element.value = val;
+    } else {
+      element.value = val;
     }
   }
-  increment(){
+  increment() {
     this.addToInput(document.getElementById("prodquant"), 1);
   }
-  decrement(){
+  decrement() {
     this.addToInput(document.getElementById("prodquant"), -1);
   }
   addDays(date, days) {
@@ -55,7 +61,17 @@ export class SubDetailsPage implements OnInit {
       this.date = this.details.next_payment_date;
       this.date = this.addDays(this.date, 4);
     });
-    this.authService.shippingMethods().subscribe((result) => {});
+
+    var sunday = new Date()
+    sunday.setDate(sunday.getDate() + 4);
+    sunday.setDate(sunday.getDate() + 7 - sunday.getDay());
+
+    for (var i = 0; i < 12; i++) {
+      console.log(sunday.toLocaleString());
+      this.sundays.push(new Date(sunday.getTime()));
+      sunday.setDate(sunday.getDate() + 7);
+    }
+    console.log(this.sundays);
   }
 
   async presentModal() {
@@ -86,7 +102,7 @@ export class SubDetailsPage implements OnInit {
           text: "Fortryd",
           role: "cancel",
           cssClass: "secondary",
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: "Yes!",
@@ -105,7 +121,7 @@ export class SubDetailsPage implements OnInit {
                   .orderNote(
                     id,
                     "Dato ændret fra app til - " +
-                      this.details.next_payment_date
+                    this.details.next_payment_date
                   )
                   .subscribe((result) => {
                     console.log(result);
@@ -127,63 +143,82 @@ export class SubDetailsPage implements OnInit {
     document.getElementById("editmodal").setAttribute("data-prodid", prodid);
     document.getElementById("productname").innerHTML = name;
     let target = document.getElementById("editmodal");
-    let hideEditModal = function(event){
+    let hideEditModal = function (event) {
       let withinBoundaries = event.composedPath().includes(target);
 
       if (!withinBoundaries) {
         document.removeEventListener("click", hideEditModal);
         document.getElementById("editmodal").style.display = "none";
-      } }
-    setTimeout(function(){
-    document.addEventListener("click", hideEditModal);
-  }, 200)
+      }
+    }
+    setTimeout(function () {
+      document.addEventListener("click", hideEditModal);
+    }, 200)
   }
-  removeProduct(){
+  openDateModal() {
+    document.getElementById("datomodal").style.display = "block";
+    let target = document.getElementById("datomodal");
+    let hideDateModal = function (event) {
+      let withinBoundaries = event.composedPath().includes(target);
+
+      if (!withinBoundaries) {
+        document.removeEventListener("click", hideDateModal);
+        document.getElementById("datomodal").style.display = "none";
+      }
+    }
+    setTimeout(function () {
+      document.addEventListener("click", hideDateModal);
+    }, 200)
+  }
+  removeProduct() {
     console.log('remove');
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     let prodid = document.getElementById("editmodal").getAttribute("data-prodid");
     let prodname = document.getElementById("productname").innerHTML;
     this.load = "Fjerner produkt...";
-            this.authService
-              .removeproduct(id, prodid, 0)
-              .subscribe((result) => {
+    this.authService
+      .removeproduct(id, prodid, 0)
+      .subscribe((result) => {
         document.getElementById("editmodal").style.display = "none";
-                this.details = result;
-                this.authService
-                  .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
-                  .subscribe((result) => {});
-                let subtotal =
-                  this.details.total -
-                  this.details.shipping_total -
-                  this.details.shipping_tax;
-                if (subtotal <= 599) {
-                  this.authService
-                    .setShipping(id, this.details.shipping_lines[0].id, "55.20")
-                    .subscribe((result) => {
-                      this.details = result;
-                    });
-                } else {
-                  this.authService
-                    .setShipping(id, this.details.shipping_lines[0].id, "0.00")
-                    .subscribe((result) => {
-                      this.details = result;
-                    });
-                }
-                this.load = "";
-              });
+        this.details = result;
+        this.authService
+          .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
+          .subscribe((result) => { });
+        let subtotal =
+          this.details.total -
+          this.details.shipping_total -
+          this.details.shipping_tax;
+        if (subtotal <= 599) {
+          this.authService
+            .setShipping(id, this.details.shipping_lines[0].id, "55.20")
+            .subscribe((result) => {
+              this.details = result;
+            });
+        } else {
+          this.authService
+            .setShipping(id, this.details.shipping_lines[0].id, "0.00")
+            .subscribe((result) => {
+              this.details = result;
+            });
+        }
+        this.load = "";
+      });
   }
-  changeQuantity(){
+  changeDate(){
+    console.log(this.saveddate);
+  }
+  changeQuantity() {
     this.load = "Ændrer antal...";
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     let prodid = document.getElementById("editmodal").getAttribute("data-prodid");
     let prodname = document.getElementById("productname").innerHTML;
     var antal = (<HTMLInputElement>document.getElementById('prodquant')).value;
     this.authService
-    .changeQuantity(prodid, id, antal, prodname)
-    .subscribe(() => {
-      this.load = "";
-      location.reload();
-    });
+      .changeQuantity(prodid, id, antal, prodname)
+      .subscribe(() => {
+        this.load = "";
+        location.reload();
+      });
   }
   async frek() {
     console.log(this.details.billing_interval);
@@ -259,7 +294,7 @@ export class SubDetailsPage implements OnInit {
       this.details = result;
       this.authService
         .orderNote(id, "Interval ændret til 1 - Fra app.")
-        .subscribe((result) => {});
+        .subscribe((result) => { });
       this.load = "";
     });
   }
@@ -357,7 +392,7 @@ export class SubDetailsPage implements OnInit {
           text: "Fortryd",
           role: "cancel",
           cssClass: "secondary",
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: "Bekræft",
