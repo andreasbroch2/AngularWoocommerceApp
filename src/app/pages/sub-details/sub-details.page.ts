@@ -87,9 +87,10 @@ export class SubDetailsPage implements OnInit {
       if (eventDetails.data) this.details = eventDetails.data;
     }
   }
-  openEditModal(prodid, name) {
+  openEditModal(prodid, name, quant) {
     document.getElementById("editmodal").style.display = "block";
     document.getElementById("overlay").style.display = "block";
+    document.getElementById("prodquant").setAttribute('value', quant);
     document.getElementById("editmodal").setAttribute("data-prodid", prodid);
     document.getElementById("productname").innerHTML = name;
     setTimeout(function () {
