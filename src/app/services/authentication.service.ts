@@ -121,10 +121,10 @@ export class AuthenticationService {
     );
   }
   status(id, status) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      { status: status }
-    );
+    return this.http.post(`${this.url}myplugin/v1/status`, {
+      status: status,
+      subscription: id,
+    });
   }
   cancelReason(id, reason) {
     return this.http.post(`${this.url}myplugin/v1/cancel`, {
