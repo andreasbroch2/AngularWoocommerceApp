@@ -15,7 +15,7 @@
 <ion-content padding>
   <div id="overlay"></div>
     <h4 style="text-align: center" *ngIf="details">
-      Go'dag {{details.billing.first_name}}
+      Go'dag {{details?.billing.first_name}}
     </h4>
 
     <div class="spin" *ngIf="!details">
@@ -67,8 +67,7 @@
           </ion-text>
           <ion-text
             class="noticevalue"
-            *ngIf="details.shipping_lines[0].method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699"
-          >
+            *ngIf="details.shipping_lines[0].method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
             {{ addDays(details.next_payment_date, 3) | date:'EEEE \'d\' d
             MMMM'}}
           </ion-text>

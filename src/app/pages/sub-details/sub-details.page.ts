@@ -307,21 +307,21 @@ export class SubDetailsPage implements OnInit {
             if (this.details.status === "active") {
               this.load = "Sætter på pause...";
               this.authService.status(id, "on-hold").subscribe((result) => {
-                this.details = result;
-                this.authService
-                  .orderNote(id, "Sat på pause - Fra app.")
-                  .subscribe((result) => {
-                  });
+                this.authService.subdetails(id).subscribe((result) => {
+                  this.details = result;
+                  this.date = this.details.next_payment_date;
+                  this.date = this.addDays(this.date, 4);
+                });
                 this.load = "";
               });
             } else if (this.details.status === "on-hold") {
               this.load = "Aktiverer...";
               this.authService.status(id, "active").subscribe((result) => {
-                this.details = result;
-                this.authService
-                  .orderNote(id, "Aktiveret - Fra app.")
-                  .subscribe((result) => {
-                  });
+                this.authService.subdetails(id).subscribe((result) => {
+                  this.details = result;
+                  this.date = this.details.next_payment_date;
+                  this.date = this.addDays(this.date, 4);
+                });
                 this.load = "";
               });
             }
