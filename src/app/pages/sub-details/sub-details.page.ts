@@ -110,6 +110,16 @@ export class SubDetailsPage implements OnInit {
       });
     }, 200);
   }
+  openCouponModal() {
+    document.getElementById("couponmodal").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+    setTimeout(function () {
+      document.getElementById("overlay").addEventListener("click", function(){
+        document.getElementById("couponmodal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      });
+    }, 200);
+  }
   removeProduct() {
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     let prodid = document
@@ -147,8 +157,12 @@ export class SubDetailsPage implements OnInit {
     let date = new Date(this.saveddate);
     let datestring = date.toISOString();
     this.authService.changeDate(datestring, id).subscribe(() => {
+      this.authService.subdetails(id).subscribe((result) => {
+        this.details = result;
+      });
       this.load = "";
-      location.reload();
+      document.getElementById("datomodal").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
     });
   }
   changeQuantity() {
@@ -327,6 +341,45 @@ export class SubDetailsPage implements OnInit {
             }
           },
         },
+      ],
+    });
+
+    await alert.present();
+  }
+  async coupon() {
+    const alert = await this.alertController.create({
+      cssClass: "my-custom-class",
+      header: "Tilføj rabatkode",
+      inputs: [
+        {
+          name: "coupon",
+          placeholder: "Rabatkode",
+        },
+      ],
+      buttons: [
+        {
+          text: "Fortryd",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: () => {},
+        },
+        {
+          text: "Bekræft",
+          handler: (data) => {
+            let id = this.activatedRoute.snapshot.paramMap.get("id");
+              this.load = "Tilføjer rabatkode...";
+              this.authService.coupon(id, data.coupon).subscribe((result) => {
+                this.authService.subdetails(id).subscribe((result) => {
+                  this.details = result;
+                });
+                this.authService
+                  .orderNote(id, "Rabatkode tilføjet - Fra app: " + data.coupon)
+                  .subscribe((result) => {
+                  });
+                this.load = "";
+              });
+            } 
+          },
       ],
     });
 

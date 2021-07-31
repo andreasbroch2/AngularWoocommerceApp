@@ -189,7 +189,8 @@
           <div *ngIf="details.coupon_lines.length > 0">
             <div class="adresselabel">Rabat</div>
             <div class="adressevalue">
-              -{{ details.discount_total | number}},-
+              -{{ addNumbers(details.discount_total, details.discount_tax) |
+                number}},-
             </div>
             <hr />
           </div>
@@ -200,6 +201,10 @@
     </div>
     <div *ngIf="details">
       <h3>Handlinger</h3>
+      <ion-item button (click)="coupon()">
+        <ion-icon class="subicon" slot="start" name="cash-outline"></ion-icon>
+        <ion-label> Tilføj rabatkode </ion-label>
+      </ion-item>
       <ion-item *ngIf="details.status==='active'" button (click)="pause()">
         <ion-icon class="subicon" slot="start" name="pause-circle"></ion-icon>
         <ion-label> Sæt på pause </ion-label>
@@ -223,10 +228,6 @@
       <ion-item *ngIf="details.status!='cancelled'" button (click)="afmeld()">
         <ion-icon class="subicon" slot="start" name="trash"></ion-icon>
         <ion-label> Afmeld måltidskasse </ion-label>
-      </ion-item>
-      <ion-item *ngIf="details.status==='cancelled'" button (click)="afmeld()">
-        <ion-icon class="subicon" slot="start" name="play-circle"></ion-icon>
-        <ion-label> Genaktivér </ion-label>
       </ion-item>
     </div>
     <div id="editmodal">

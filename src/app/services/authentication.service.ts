@@ -126,6 +126,12 @@ export class AuthenticationService {
       subscription: id,
     });
   }
+  coupon(id, coupon) {
+    return this.http.post(`${this.url}myplugin/v1/coupon`, {
+      coupon: coupon,
+      subscription: id,
+    });
+  }
   cancelReason(id, reason) {
     return this.http.post(`${this.url}myplugin/v1/cancel`, {
       reason: reason,
