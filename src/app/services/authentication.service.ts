@@ -132,6 +132,12 @@ export class AuthenticationService {
       subscription: id,
     });
   }
+  removeCoupon(id, coupon) {
+    return this.http.post(`${this.url}myplugin/v1/remove-coupon`, {
+      coupon: coupon,
+      subscription: id,
+    });
+  }
   cancelReason(id, reason) {
     return this.http.post(`${this.url}myplugin/v1/cancel`, {
       reason: reason,

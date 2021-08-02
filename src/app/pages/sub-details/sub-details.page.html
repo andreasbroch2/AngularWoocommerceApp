@@ -175,27 +175,29 @@
         <div id="betalingcontent">
           <hr />
           <p class="contentheading">Detaljer</p>
-          <div class="adresselabel">Subtotal</div>
-          <div class="adressevalue">
+          <span class="adresselabel">Subtotal</span>
+          <span class="adressevalue">
             {{details.total - details.shipping_total - details.shipping_tax}},-
-          </div>
+          </span>
           <hr />
-          <div class="adresselabel">Forsendelse</div>
-          <div class="adressevalue">
+          <span class="adresselabel">Levering</span>
+          <span class="adressevalue">
             {{ addNumbers(details.shipping_total, details.shipping_tax) |
             number}},-
-          </div>
+          </span>
           <hr />
           <div *ngIf="details.coupon_lines.length > 0">
-            <div class="adresselabel">Rabat</div>
-            <div class="adressevalue">
+            <span class="adresselabel">Rabat</span>
+            <span class="adressevalue">
               -{{ addNumbers(details.discount_total, details.discount_tax) |
                 number}},-
-            </div>
+            </span>
+            <p style="margin:10px 0;" *ngFor="let coupon of details.coupon_lines">Rabatkode: {{ coupon.code }} <fa-icon [icon]="['fas', 'times']" (click)="removeCoupon(coupon.code)" style="color:red;">
+            </fa-icon></p>
             <hr />
           </div>
-          <div class="adresselabel">Total</div>
-          <div class="adressevalue">{{details.total | number}},-</div>
+          <span class="adresselabel">Total</span>
+          <span class="adressevalue">{{details.total | number}},-</span>
         </div>
       </div>
     </div>

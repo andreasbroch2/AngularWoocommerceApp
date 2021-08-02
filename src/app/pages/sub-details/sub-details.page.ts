@@ -165,6 +165,17 @@ export class SubDetailsPage implements OnInit {
       document.getElementById("overlay").style.display = "none";
     });
   }
+  removeCoupon(coupon) {
+    this.load = "Fjerner rabatkode...";
+    console.log(coupon);
+    let id = this.activatedRoute.snapshot.paramMap.get("id");
+    this.authService.removeCoupon(id, coupon).subscribe(() => {
+      this.authService.subdetails(id).subscribe((result) => {
+        this.details = result;
+      });
+      this.load = "";
+    });
+  }
   changeQuantity() {
     this.load = "Ændrer antal...";
     let id = this.activatedRoute.snapshot.paramMap.get("id");
