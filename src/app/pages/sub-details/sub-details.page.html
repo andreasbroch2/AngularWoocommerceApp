@@ -60,14 +60,14 @@
           </ion-text>
           <ion-text
             class="noticevalue"
-            *ngIf="details.shipping_lines[0].method_title=='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699"
+            *ngIf="details.shipping_lines[0]?.method_title=='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699"
           >
             {{ addDays(details.next_payment_date, 4) | date:'EEEE \'d\' d
             MMMM'}}
           </ion-text>
           <ion-text
             class="noticevalue"
-            *ngIf="details.shipping_lines[0].method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
+            *ngIf="details.shipping_lines[0]?.method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
             {{ addDays(details.next_payment_date, 3) | date:'EEEE \'d\' d
             MMMM'}}
           </ion-text>
