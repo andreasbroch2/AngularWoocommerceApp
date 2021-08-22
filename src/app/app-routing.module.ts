@@ -33,10 +33,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/products/products.module').then( m => m.ProductsPageModule)
   },
   {
-    path: 'modal',
-    loadChildren: () => import('./pages/modal/modal.module').then( m => m.ModalPageModule)
-  },
-  {
     path: 'oversigtinfo',
     loadChildren: () => import('./pages/oversigtinfo/oversigtinfo.module').then( m => m.OversigtinfoPageModule)
   },

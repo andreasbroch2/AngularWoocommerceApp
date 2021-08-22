@@ -77,10 +77,3 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
 }
 
-@NgModule({
-  imports: [ CommonModule, IonicModule],
-  exports: [CountDownComponent],
-  declarations: [CountDownComponent],
-  providers: [],
-})
-export class CountDownModule {}

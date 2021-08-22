@@ -13,6 +13,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "defaultConfiguration": "development",
           "options": {
             "outputPath": "www",
             "index": "src/index.html",
