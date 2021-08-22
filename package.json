@@ -1,8 +1,8 @@
 {
-  "name": "gaia",
+  "name": "herbally",
   "version": "0.0.1",
   "author": "Andreas Broch",
-  "homepage": "https://gaiamadservice.dk/",
+  "homepage": "https://herbally.dk/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
