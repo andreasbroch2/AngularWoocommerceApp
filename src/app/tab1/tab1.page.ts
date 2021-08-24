@@ -13,6 +13,8 @@ import { Router } from '@angular/router'
 export class Tab1Page implements OnInit{
   information = null;
   orders = null;
+  user = null;
+  customer = null;
   constructor(private authService: AuthenticationService, private modalController: ModalController, public router: Router, public elementRef: ElementRef) {
   }
 
@@ -21,16 +23,19 @@ export class Tab1Page implements OnInit{
     result.setDate(result.getDate() + days);
     return result;
   }
-  auth(){
-    this.authService.subscription().subscribe(result => {
-      this.information = result;
-      console.log(this.information);
-    });
-  }
   ngOnInit(){
-    this.auth();
     this.authService.processingOrders().subscribe(result => {
       this.orders = result;
+    })
+    this.authService.kunde().subscribe(result => {
+      this.user = result;
+      console.log(this.user);
+      this.authService.customer(result[0].id).subscribe(result => {
+          this.customer = result;
+      })
+      this.authService.subscription(this.user[0].id).subscribe(result => {
+        this.information = result;
+      });
     })
   }
 console(){

@@ -50,7 +50,7 @@ export class AuthenticationService {
         }),
         map((data: any) => data),
         switchMap((data) => {
-          console.log("2");
+          console.log(data);
           localStorage.setItem("email", data.user_email);
           from(
             Storage.set({
@@ -66,10 +66,9 @@ export class AuthenticationService {
         })
       );
   }
-  subscription() {
-    const email = localStorage.getItem("email");
+  subscription(id) {
     return this.http.get(
-      `${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`
+      `${this.url}wc/v1/subscriptions?customer=${id}&consumer_key=${this.key}&consumer_secret=${this.secret}`
     );
   }
 
@@ -275,7 +274,7 @@ export class AuthenticationService {
   kunde() {
     const email = localStorage.getItem("email");
     return this.http.get(
-      `https://herbally.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`
+      `${this.url}wp/v2/users?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`
     );
   }
   customer(id) {
