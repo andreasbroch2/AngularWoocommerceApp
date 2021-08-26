@@ -13,7 +13,6 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "defaultConfiguration": "development",
           "options": {
             "outputPath": "www",
             "index": "src/index.html",
@@ -70,14 +69,6 @@
             },
             "ci": {
               "progress": false
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
             }
           }
         },
@@ -92,12 +83,8 @@
             },
             "ci": {
               "progress": false
-            },
-            "development": {
-              "browserTarget": "app:build:development"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

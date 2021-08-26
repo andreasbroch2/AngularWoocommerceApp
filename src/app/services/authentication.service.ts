@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map, tap, switchMap, catchError } from "rxjs/operators";
 import { BehaviorSubject, from, Observable, throwError } from "rxjs";
-import { Storage } from "@capacitor/storage";
+import { Plugins } from "@capacitor/core";
+const { Storage } = Plugins;
 
 const TOKEN_KEY = "my-token";
 
@@ -10,9 +11,9 @@ const TOKEN_KEY = "my-token";
   providedIn: "root",
 })
 export class AuthenticationService {
-  url = "https://herbally.dk/wp-json/";
-  secret = "cs_91e5f772309b27800932fdacf530569a2bd9a336";
-  key = "ck_8b5336b4c9c3936ec6dccb75b2830a6c643272ba";
+  url = "https://gaiamadservice.dk/wp-json/";
+  secret = "cs_87bc1989827871fc19c2ae6d15af63e894ec212d";
+  key = "ck_faf50963dee1b3e3cca1ab77630b6f09c6a4129e";
 
   private user = new BehaviorSubject(null);
   // Init with null to filter out the first value in a guard!
@@ -39,7 +40,7 @@ export class AuthenticationService {
   login(credentials: { email; password }): Observable<any> {
     console.log("1");
     return this.http
-      .post(`https://herbally.dk/wp-json/jwt-auth/v1/token`, {
+      .post(`https://gaiamadservice.dk/wp-json/jwt-auth/v1/token`, {
         username: credentials.email,
         password: credentials.password,
       })
@@ -50,7 +51,7 @@ export class AuthenticationService {
         }),
         map((data: any) => data),
         switchMap((data) => {
-          console.log(data);
+          console.log("2");
           localStorage.setItem("email", data.user_email);
           from(
             Storage.set({
@@ -66,9 +67,10 @@ export class AuthenticationService {
         })
       );
   }
-  subscription(id) {
+  subscription() {
+    const email = localStorage.getItem("email");
     return this.http.get(
-      `${this.url}wc/v1/subscriptions?customer=${id}&consumer_key=${this.key}&consumer_secret=${this.secret}`
+      `${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`
     );
   }
 
@@ -274,7 +276,7 @@ export class AuthenticationService {
   kunde() {
     const email = localStorage.getItem("email");
     return this.http.get(
-      `${this.url}wp/v2/users?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`
+      `https://gaiamadservice.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`
     );
   }
   customer(id) {

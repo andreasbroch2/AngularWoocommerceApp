@@ -25,12 +25,13 @@
         <div *ngIf="details.status==='refunded'" class="statusboksafmeldt">Refunderet</div>
       </div> 
     </div>
-    <div button class="collapsible">
+    <div button (click)="showContent()" class="collapsible">
       <div class="grid154045">
           <ion-icon size="small" src="/assets/icon/shipping.svg"></ion-icon>
           <ion-text class="noticelabel">Leveringsadresse</ion-text>
           <ion-text class="noticevalue"></ion-text>
-          <ion-icon name="chevron-down"></ion-icon>
+          <ion-icon *ngIf="hidden" name="chevron-down"></ion-icon>
+          <ion-icon *ngIf="!hidden" name="chevron-up"></ion-icon>
       </div>
       <div id="leveringscontent">
         <hr>
@@ -57,12 +58,13 @@
           </div>
       </div>
     </div>
-    <div class="collapsible">
+    <div button (click)="showContentKasse()" class="collapsible">
       <div class="grid154045">
           <ion-icon size="small" name="cube"></ion-icon>
           <ion-text class="noticelabel">Måltidskassen</ion-text>
           <ion-text class="noticevalue">  {{details.line_items.length}} varer </ion-text>
-          <ion-icon name="chevron-down"></ion-icon>
+          <ion-icon *ngIf="hiddenkasse" name="chevron-down"></ion-icon>
+          <ion-icon *ngIf="!hiddenkasse" name="chevron-up"></ion-icon>
       </div>
       <div id="kassecontent">
         <ion-grid class="kort" >
@@ -80,12 +82,13 @@
         </ion-grid>
       </div>
     </div>
-    <div class="collapsible">
+    <div button (click)="showContentBetaling()" class="collapsible">
       <div class="grid154045">
           <ion-icon size="small" name="card"></ion-icon>
           <ion-text class="noticelabel">Betaling</ion-text>
           <ion-text class="noticevalue">  {{details.total}} </ion-text>
-          <ion-icon name="chevron-down"></ion-icon>
+          <ion-icon *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
+          <ion-icon *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
       </div>
       <div id="betalingcontent">
         <hr>
