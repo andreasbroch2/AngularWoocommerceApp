@@ -158,6 +158,13 @@ export class AuthenticationService {
       name: name,
     });
   }
+  removeProduct(id, subid, name) {
+    return this.http.post(`${this.url}myplugin/v1/remove-product`, {
+      productid: id,
+      subscription: subid,
+      name: name,
+    });
+  }
   products() {
     return this.http.get(
       `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`
@@ -236,19 +243,6 @@ export class AuthenticationService {
     return this.http.put(
       `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
       { shipping: adresse }
-    );
-  }
-  removeproduct(id, prodid, quant) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      {
-        line_items: [
-          {
-            id: prodid,
-            quantity: quant,
-          },
-        ],
-      }
     );
   }
   orderdetails(id) {

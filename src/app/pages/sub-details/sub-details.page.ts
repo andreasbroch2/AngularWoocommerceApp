@@ -121,33 +121,17 @@ export class SubDetailsPage implements OnInit {
     }, 200);
   }
   removeProduct() {
+    this.load = "Fjerner produkt...";
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     let prodid = document
       .getElementById("editmodal")
       .getAttribute("data-prodid");
     let prodname = document.getElementById("productname").innerHTML;
-    this.load = "Fjerner produkt...";
-    this.authService.removeproduct(id, prodid, 0).subscribe((result) => {
+    console.log(prodid, id, prodname);
+    this.authService.removeProduct(prodid, id, prodname ).subscribe((result) => {
       document.getElementById("editmodal").style.display = "none";
       document.getElementById("overlay").style.display = "none";
-      this.details = result;
-      this.authService
-        .orderNote(id, "Produkt fjernet - Fra app - " + prodname)
-        .subscribe((result) => {});
-      let subtotal =
-        this.details.total -
-        this.details.shipping_total -
-        this.details.shipping_tax;
-      if (subtotal <= 599 && this.details.shipping_total == 0) {
-        this.authService
-          .setShipping(id, this.details.shipping_lines[0].id, "55.20")
-          .subscribe((result) => {
-            this.details = result;
-            this.authService
-              .orderNote(id, "Tilføj Fragt - Auto - App")
-              .subscribe((result) => {});
-          });
-      }
+      console.log(result);
       this.load = "";
     });
   }
