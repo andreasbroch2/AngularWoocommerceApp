@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,49 +24,92 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
-.text-center{
+
+h1 {
+  font-family: Quicksand;
+  font-weight: 500;
+  font-size: 96px;
+  letter-spacing: -1.5px;
+}
+h2 {
+  font-family: Quicksand;
+  font-weight: 400;
+  font-size: 60px;
+  letter-spacing: -0.5px;
+  color: #006633;
+}
+h3 {
+  font-family: Quicksand;
+  font-weight: 500;
+  font-size: 48px;
+}
+h4 {
+  font-family: Quicksand;
+  font-weight: 500;
+  font-size: 34px;
+  color: #006633;
+}
+h5 {
+  font-family: Quicksand;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.18px;
+  margin: 15px 0;
+}
+h6 {
+  font-family: Quicksand;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0.15px;
+}
+.text-center {
   text-align: center;
 }
 .product-modal {
-    --height: 70%;
+  --height: 70%;
 }
 .my-custom-class .alert-wrapper {
-    background: #fff;
-    font-family: Quicksand;
-  }
-  .my-custom-class .alert-title {
-    font-family: Quicksand;
-  }
-  .picker-wrapper{
-    --background:#fff;
-  }
-ion-content{
-  --padding-top: 10px;
-  --padding-start: 5px;
-  --padding-end: 5px;
+  background: #fff;
+  font-family: Quicksand;
 }
-.contentheading ion-icon{
+.my-custom-class .alert-title {
+  font-family: Quicksand;
+}
+.picker-wrapper {
+  --background: #fff;
+}
+ion-content {
+  --padding-top: 10px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+ion-toolbar {
+  height: 60px;
+  display: flex;
+  background-color: transparent;
+}
+.contentheading ion-icon {
   --ionicon-stroke-width: 64px;
 }
-.notealert .alert-input-wrapper textarea{
-  min-height:200px;
+.notealert .alert-input-wrapper textarea {
+  min-height: 200px;
 }
-.adresselabel{
+.adresselabel {
   font-weight: bold;
   margin: 10px 0px;
 }
-.adressevalue{
+.adressevalue {
   float: right;
   margin: 10px 0px;
 }
-hr{
+hr {
   background-color: rgb(161, 160, 160);
-  width:100%;
+  width: 100%;
 }
-.contentheading{
-  font-weight: 600!important;
-  margin: 10px 0px!important;
+.contentheading {
+  font-weight: 600 !important;
+  margin: 10px 0px !important;
 }
-.edit{
+.edit {
   float: right;
 }
