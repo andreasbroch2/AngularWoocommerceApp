@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="light">
     <ion-title color="primary">
-      <img alt="logo" height="40"   src="/assets/images/logo.png" > 
+      <img alt="logo" height="40"   src="/assets/images/logo-test.png" > 
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="auth()">
@@ -15,34 +15,6 @@
 <app-count-down></app-count-down>
 <div class="spin" *ngIf="!information">
   <ion-spinner color="primary" name="crescent"></ion-spinner>
-</div>
-<div *ngIf="(orders| keyvalue)?.length" class="undervejs">
-  <h2>På vej til dig<span style="font-size:1rem;font-weight:400;"> Mere info under "Historik"</span></h2>
-      <div class="onthewaygrid text-center">
-          <div>
-              <h3>Din kasse</h3>
-              <fa-icon [icon]="['fas', 'box-open']" size="3x"></fa-icon>
-              <br>
-              <div *ngFor="let item of orders[0].line_items">
-              <strong>{{item.quantity}}x {{ item.name}}</strong>
-            </div>
-          </div>
-          <div>
-              <h3>Levering</h3>
-              <strong>{{orders[0].shipping_lines[0]?.method_title}}</strong>
-              <br>
-              <div *ngIf="orders[0].shipping_lines[0]?.method_id == 'local_pickup'; else levering">
-                    Lørdag
-              </div>
-              <ng-template #levering>Søndag</ng-template>
-          </div>
-          <div>
-              <h3>Adresse</h3>
-              {{ orders[0].shipping.first_name }} {{ orders[0].shipping.last_name }}<br>
-              {{ orders[0].shipping.address_1 }} {{ orders[0].shipping.address_2 }}<br>
-              {{ orders[0].shipping.postcode }} {{ orders[0].shipping.city }}    
-          </div>
-      </div>
 </div>
 <h4>Din måltidskasse</h4>
 <div *ngIf="information">

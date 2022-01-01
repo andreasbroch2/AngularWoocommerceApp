@@ -1,141 +1,142 @@
 .spin {
-    text-align: center;
-    margin-top:100px;
+  text-align: center;
+  margin-top: 100px;
 }
-  ion-spinner {
-    transform: scale(3);
-    stroke: #fff;
-    fill: #fff;
-  }
-#header_logo{
-text-align: center;
-margin-top: 10px;
-  }
-  ion-text{
-    text-align: center;
+ion-spinner {
+  transform: scale(3);
+  stroke: #fff;
+  fill: #fff;
 }
-ion-icon{
-  font-size:35px;
+#header_logo {
+  text-align: center;
+  margin-top: 10px;
 }
-ion-card{
+ion-text {
+  text-align: center;
+}
+ion-icon {
+  font-size: 35px;
+}
+ion-card {
   border-radius: 20px;
   border-width: 1px;
   border-color: rgb(116, 116, 116);
   background-color: rgb(250, 250, 250);
-  margin: 10px 0; 
+  margin: 10px 0;
 }
-ion-text{
+ion-text {
   font-size: 17px;
   font-weight: 500;
 }
-h1, h2{
+h1,
+h2 {
   margin-top: 10px;
   font-family: Quicksand;
   font-weight: 600;
 }
-.status{
+.status {
   font-weight: 600;
   font-size: 18px;
 }
-.pris{
+.pris {
   font-weight: 600;
   font-size: 20px;
-  color:#006633
+  color: #006633;
 }
-.aktiv{
+.aktiv {
   text-align: center;
   display: inline-block;
   font-weight: 500;
   font-size: 16px;
   justify-self: start;
-  align-self:center; 
+  align-self: center;
 }
-.pause{
+.pause {
   text-align: center;
   display: inline-block;
   font-weight: 500;
   font-size: 16px;
   justify-self: start;
-  align-self:center; 
+  align-self: center;
 }
-.annulleret{
+.annulleret {
   text-align: center;
   display: inline-block;
   font-weight: 500;
   font-size: 16px;
   justify-self: start;
-  align-self:center; 
+  align-self: center;
 }
-ion-card-content{
-  padding: 5px
+ion-card-content {
+  padding: 5px;
 }
-.fifty{
+.fifty {
   width: 100%;
-  height: 45px; 
+  height: 45px;
   display: block;
   justify-self: center;
   align-self: center;
   font-size: 12px;
 }
-.notice{
+.notice {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width:100%;
-  margin: 5px 0; 
-  padding: 10px; 
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
   background-color: lightgrey;
-  border-radius: 10px; 
+  border-radius: 10px;
 }
-.dot ion-icon{
+.dot ion-icon {
   font-size: 24px;
   align-self: center;
   justify-self: end;
   padding-right: 5px;
 }
-.dot{
-  display: grid; 
-  grid-template-columns: 1fr 1fr
+.dot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.active{
-  color:rgb(56, 233, 56)
+.active {
+  color: rgb(56, 233, 56);
 }
-.hold{
-  color:rgb(126, 134, 14)
+.hold {
+  color: rgb(126, 134, 14);
 }
-.oversigt{
-  display: grid; 
+.oversigt {
+  display: grid;
   grid-template-columns: 20% 70% 10%;
 }
-.oversigt div{
-  align-self:center;
+.oversigt div {
+  align-self: center;
 }
-.oversigt #cube{
-  font-size:48px;
-  position: relative; 
+.oversigt #cube {
+  font-size: 48px;
+  position: relative;
 }
-#antal{
+#antal {
   border-radius: 100px;
   background-color: lightgrey;
   color: white;
   position: absolute;
   left: 10px;
-  top:0;
-  padding: 1px 4px; 
+  top: 0;
+  padding: 1px 4px;
 }
-.nlevering{
+.nlevering {
   font-size: 12px;
-  justify-self:start;
-  align-self:center;
+  justify-self: start;
+  align-self: center;
 }
-.ldato{
-  font-size:16px;
+.ldato {
+  font-size: 16px;
   font-weight: bold;
 }
-.grid2{
-  display: grid; 
+.grid2 {
+  display: grid;
   grid-template-columns: 38% 62%;
 }
-.grid2 ion-icon{
+.grid2 ion-icon {
   align-self: center;
   justify-self: end;
   padding-right: 5px;
