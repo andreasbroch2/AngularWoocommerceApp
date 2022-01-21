@@ -1,61 +1,84 @@
-<ion-header>
-  <ion-toolbar color="light">
-    <ion-title color="primary">
-      <img alt="logo" height="40"   src="/assets/images/Artboard1.png" > 
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="auth()">
-        <ion-icon slot="icon-only" name="reload"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="background">
-<app-count-down></app-count-down>
-<div class="spin" *ngIf="!information">
-  <ion-spinner color="primary" name="crescent"></ion-spinner>
-</div>
-<div *ngIf="information">
-  <h4 *ngIf="information.length == 1">Din måltidskasse</h4>
-  <h4 *ngIf="information.length > 1">Dine måltidskasser</h4>
-  <div *ngFor="let user of information">
-  <ion-card button *ngIf="user?.status=='active' || user?.status=='on-hold'" [routerLink]="['/', 'tabs','tab1', user.id]" color="light">
-    <ion-card-content>
-    <ion-grid style="text-align: center;">
-      <ion-row>
-        <ion-col class="oversigt">
-          <div class="dot">
-            <ion-icon src="/assets/icon/box.svg"></ion-icon>
-            <ion-text class="aktiv" *ngIf="user?.status==='active'">Aktiv</ion-text>
-            <ion-icon class="hold" name="chevron-down-circle" *ngIf="user?.status==='on-hold'"></ion-icon>
-            <ion-text class="pause" *ngIf="user?.status==='on-hold'">På Pause</ion-text>
-          </div>
-          <div>
-            <div class="grid2">
-              <ion-text class="nlevering">Næste levering</ion-text>
-            </div>
-            <ion-text class="ldato" *ngIf="user?.status==='active'">
-            <span *ngIf="user?.shipping.postcode > 3699 && user?.shipping.postcode < 3800">
-              {{ addDays(user.schedule_next_payment.date, 6) | date:'EEEE \'d\' d MMMM'}} 
-            </span>
-            <span *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699">
-              {{ addDays(user.schedule_next_payment.date, 4) | date:'EEEE \'d\' d MMMM'}} 
-            </span>
-            <span *ngIf="user?.shipping_lines[0]?.method_title!='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699">
-              {{ addDays(user.schedule_next_payment.date, 3) | date:'EEEE \'d\' d MMMM'}} 
-            </span>
-            </ion-text>
-            <ion-text class="ldato" *ngIf="user?.status==='on-hold'">På pause</ion-text>
-          </div>
-         <div>
-          <ion-icon size="small" name="chevron-forward"></ion-icon>
-         </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    </ion-card-content>
-  </ion-card>
-</div>
-</div>
+  <div class="headergrid">
+    <div></div>
+    <img alt="logo" height="40" src="/assets/icon/logo.svg" />
+    <ion-icon style="font-size:24px;" slot="icon-only" name="reload" (click)="auth()"></ion-icon>
+  </div>
+  <app-count-down></app-count-down>
+  <div class="spin" *ngIf="!information">
+    <ion-spinner color="primary" name="crescent"></ion-spinner>
+  </div>
+  <div *ngIf="information">
+    <h4 *ngIf="information.length == 1">Din måltidskasse</h4>
+    <h4 *ngIf="information.length > 1">Dine måltidskasser</h4>
+    <div *ngFor="let user of information">
+      <ion-card
+        button
+        *ngIf="user?.status=='active' || user?.status=='on-hold'"
+        [routerLink]="['/', 'tabs','tab1', user.id]"
+        color="light"
+      >
+        <ion-card-content>
+          <ion-grid style="text-align: center">
+            <ion-row>
+              <ion-col class="oversigt">
+                <div class="dot">
+                  <ion-icon
+                    color="primary"
+                    src="/assets/icon/box.svg"
+                  ></ion-icon>
+                  <br />
+                  <ion-text class="aktiv" *ngIf="user?.status==='active'"
+                    >Aktiv</ion-text
+                  >
+                  <ion-text class="pause" *ngIf="user?.status==='on-hold'"
+                    >Pause</ion-text
+                  >
+                </div>
+                <div style="text-align: left">
+                  <ion-text class="nlevering">Næste levering</ion-text>
+                  <br />
+                  <ion-text
+                    color="primary"
+                    class="ldato"
+                    *ngIf="user?.status==='active'"
+                  >
+                    <span
+                      *ngIf="user?.shipping.postcode > 3699 && user?.shipping.postcode < 3800"
+                    >
+                      {{ addDays(user.schedule_next_payment.date, 6) |
+                      date:'EEEE \'d.\' d MMM'}}
+                    </span>
+                    <span
+                      *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699"
+                    >
+                      {{ addDays(user.schedule_next_payment.date, 4) |
+                      date:'EEEE \'d.\' d MMM'}}
+                    </span>
+                    <span
+                      *ngIf="user?.shipping_lines[0]?.method_title!='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699"
+                    >
+                      {{ addDays(user.schedule_next_payment.date, 3) |
+                      date:'EEEE \'d.\' d MMM'}}
+                    </span>
+                  </ion-text>
+                  <ion-text class="ldato" *ngIf="user?.status==='on-hold'"
+                    >På pause</ion-text
+                  >
+                </div>
+                <div>
+                  <ion-icon
+                    color="secondary"
+                    style="justify-self: end"
+                    size="small"
+                    name="chevron-forward"
+                  ></ion-icon>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

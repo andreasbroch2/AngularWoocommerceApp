@@ -1,6 +1,6 @@
 {
-  "appId": "gaia.madservice",
-  "appName": "Gaia",
+  "appId": "hololi.foods",
+  "appName": "Hololi",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

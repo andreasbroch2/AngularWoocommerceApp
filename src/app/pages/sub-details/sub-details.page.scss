@@ -79,7 +79,7 @@ ion-img::part(image) {
 }
 .abonnement {
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: auto auto;
   padding: 10px;
   line-height: normal;
   row-gap: 20px;
@@ -140,10 +140,6 @@ p{
   font-size: 15px;
   font-weight: 600;
   text-align: right;
-}
-.grid154045 ion-icon{
-  color: #000;
-  font-size:16px;
 }
 .subicon{
   font-size: 24px;

@@ -1,16 +1,16 @@
-<ion-header>
-  <ion-toolbar color="light">
+<ion-content >
+  <div class="headergrid">
+    <img alt="logo" height="40"   src="/assets/icon/logo.svg">
     <ion-title color="primary">Historik</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content padding>
+    <div></div>
+  </div>
   <div class="spin" *ngIf="!orders">
     <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
   <ion-item *ngFor="let order of orders" button [routerLink]="['/', 'tabs','tab2', order.id]">
-    <ion-icon slot="start" name="cube"></ion-icon>
+    <ion-icon slot="start" src="/assets/icon/box.svg"></ion-icon>
       <ion-label>
-        {{ order.date_created.date | date:'EEEE \'d\' d MMMM'}} - 
+        {{ order.date_created.date | date: 'd MMM yyyy'}} - 
         <span *ngIf="order.status==='completed'">Afsendt</span>
         <span *ngIf="order.status==='processing'">Betalt</span>
         <span *ngIf="order.status==='refunded'">Refunderet</span>

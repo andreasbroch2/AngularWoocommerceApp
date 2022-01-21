@@ -1,12 +1,9 @@
-<ion-header>
-  <ion-toolbar color="light">
+<ion-content>
+  <div class="headergrid">
+    <ion-back-button text="" defaultHref="/tabs/tab2"></ion-back-button>
     <ion-title color="primary">Ordredetaljer</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button text="Tilbage" defaultHref="/"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content padding>
+    <img alt="logo" height="40" src="/assets/icon/logo.svg" />
+  </div>
   <div class="spin" *ngIf="!details">
     <ion-spinner color="light" name="circles"></ion-spinner>
   </div>
@@ -29,43 +26,43 @@
         <div *ngIf="details.status==='pending'">Behandler</div>
       </div>
     </div>
-    <div button (click)="showContent()" class="collapsible">
+    <div class="collapsible">
       <div class="gridhistory">
-        <ion-icon size="small" src="/assets/icon/truck.svg"></ion-icon>
-        <h6>Leveringsadresse</h6>
+        <ion-icon
+          color="secondary"
+          size="small"
+          src="/assets/icon/truck.svg"
+        ></ion-icon>
+        <h6>Levering</h6>
         <ion-text class="noticevalue"></ion-text>
       </div>
       <div id="leveringscontent">
-        <p class="contentheading">Leveringsadresse</p>
-        <div class="adresselabel">Navn</div>
-        <div class="adressevalue">
+        <ion-text color="medium-tint">
           {{details.shipping.first_name}} {{details.shipping.last_name}}
-        </div>
-        <hr />
-        <div class="adresselabel">Adresse</div>
-        <div class="adressevalue">
+          <br />
           {{details.shipping.address_1}} {{details.shipping.address_2}}
-        </div>
-        <hr />
-        <div class="adresselabel">Postnr. og by</div>
-        <div class="adressevalue">
+          <br />
           {{details.shipping.postcode}} {{details.shipping.city}}
-        </div>
+        </ion-text>
       </div>
     </div>
-    <div button (click)="showContentKasse()" class="collapsible">
-      <div class="gridhistory">
-        <ion-icon size="small" src="/assets/icon/box.svg"></ion-icon>
+    <div class="collapsible">
+      <div class="gridhistory"> 
+        <ion-icon 
+        color="secondary" size="small" src="/assets/icon/box.svg"></ion-icon>
         <h6>Måltidskassen</h6>
-        <ion-text class="noticevalue">
+        <ion-text color="tertiary" class="noticevalue">
           {{details.line_items.length}} varer
         </ion-text>
       </div>
       <div id="kassecontent">
         <ion-grid class="kort">
-          <ion-row style="align-items:center" *ngFor="let item of details.line_items">
+          <ion-row
+            style="align-items: center"
+            *ngFor="let item of details.line_items"
+          >
             <ion-col size="9"> {{ item.name }} </ion-col>
-            <ion-col style="text-align:right" size="3">
+            <ion-col style="text-align: right" size="3">
               {{ item.quantity }} stk.
               <br />
               <ion-text class="total">
@@ -76,11 +73,12 @@
         </ion-grid>
       </div>
     </div>
-    <div button (click)="showContentBetaling()" class="collapsible">
+    <div class="collapsible">
       <div class="gridhistory">
-        <ion-icon size="small" name="card"></ion-icon>
+        <ion-icon 
+        color="secondary" size="small" name="card"></ion-icon>
         <h6>Betaling</h6>
-        <ion-text class="noticevalue">
+        <ion-text color="tertiary" class="noticevalue">
           {{details.total | number}} kr.
         </ion-text>
       </div>
@@ -98,8 +96,8 @@
           kr.
         </div>
         <hr />
-        <div class="adresselabel">Total</div>
-        <div class="adressevalue">{{details.total | number}} kr.</div>
+        <ion-text color="secondary" class="adresselabel">Total</ion-text>
+        <ion-text color="secondary" class="adressevalue">{{details.total | number}} kr.</ion-text>
       </div>
     </div>
   </div>

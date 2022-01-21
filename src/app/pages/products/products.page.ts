@@ -2,9 +2,6 @@ import { Component, Input, OnInit } from "@angular/core";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ModalController, PickerController } from "@ionic/angular";
-import { catchError, map, switchMap } from "rxjs/operators";
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
-import { identifierModuleUrl } from "@angular/compiler";
 
 @Component({
   selector: "app-products",

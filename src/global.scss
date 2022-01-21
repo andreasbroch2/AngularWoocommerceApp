@@ -58,9 +58,19 @@ h5 {
 }
 h6 {
   font-family: Quicksand;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 16px;
   letter-spacing: 0.15px;
+}
+.headergrid{
+  display: grid; 
+  grid-template-columns: 1fr 4fr 1fr;
+  align-items: center;
+  justify-items: center;
+  margin-bottom:20px;
+}
+svg{
+  color: #304f23;
 }
 .subtitle1{
   font-size: 14px;
@@ -85,7 +95,7 @@ h6 {
   border: 1px solid rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   border-radius: 12px;
-  padding: 16px;
+  padding: 8px;
   max-width: 710px;
   margin: 25px auto;
   color: #304f23;
@@ -117,8 +127,8 @@ h6 {
 }
 ion-content {
   --padding-top: 10px;
-  --padding-start: 16px;
-  --padding-end: 16px;
+  --padding-start: 8px;
+  --padding-end: 8px;
 }
 ion-toolbar {
   height: 60px;

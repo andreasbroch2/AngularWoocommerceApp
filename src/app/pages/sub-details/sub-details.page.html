@@ -1,18 +1,9 @@
-<ion-header>
-  <ion-toolbar color="light">
-    <ion-title color="primary">Måltidskasse</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button text="Tilbage" defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="info()">
-        <ion-icon slot="icon-only" name="help"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content padding>
+<ion-content>
+  <div class="headergrid">
+    <ion-back-button text="" defaultHref="/"></ion-back-button>
+    <img alt="logo" height="40"   src="/assets/icon/logo.svg">
+    <ion-icon style="font-size:24px" slot="icon-only" name="help" (click)="info()"></ion-icon>
+  </div>
   <div id="overlay"></div>
   <h4 style="text-align: center" *ngIf="details">
     Go'dag {{details?.billing.first_name}}
@@ -42,7 +33,6 @@
     <div class="collapsible">
       <div button (click)="showContent()" class="grid154045">
         <ion-icon
-          class="subicon"
           size="small"
           src="/assets/icon/truck.svg"
         ></ion-icon>
@@ -68,8 +58,8 @@
           {{ addDays(details.schedule_next_payment.date, 3) | date:'EEEE \'d\' d
           MMMM'}}
         </ion-text>
-        <ion-icon *ngIf="hidden" name="chevron-down"></ion-icon>
-        <ion-icon *ngIf="!hidden" name="chevron-up"></ion-icon>
+        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="hidden" name="chevron-down"></ion-icon>
+        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="!hidden" name="chevron-up"></ion-icon>
       </div>
       <div id="leveringscontent">
         <p class="subtitle1">
@@ -111,13 +101,14 @@
     </div>
     <div class="collapsible">
       <div button (click)="showContentKasse()" class="grid154045">
-        <ion-icon src="/assets/icon/box.svg"></ion-icon>
+        <ion-icon 
+        size="small" src="/assets/icon/box.svg"></ion-icon>
         <h6>Måltidskassen</h6>
         <ion-text style="font-size: 12px; color: grey">
           {{details.line_items.length}} produkter
         </ion-text>
-        <ion-icon *ngIf="hiddenkasse" name="chevron-down"></ion-icon>
-        <ion-icon *ngIf="!hiddenkasse" name="chevron-up"></ion-icon>
+        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="hiddenkasse" name="chevron-down"></ion-icon>
+        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="!hiddenkasse" name="chevron-up"></ion-icon>
       </div>
       <div id="kassecontent">
         <ion-grid class="kort">
@@ -151,13 +142,14 @@
     </div>
     <div button (click)="showContentBetaling()" class="collapsible">
       <div class="grid154045">
-        <ion-icon src="/assets/icon/card.svg"></ion-icon>
+        <ion-icon 
+        size="small" src="/assets/icon/card.svg"></ion-icon>
         <h6>Betaling</h6>
         <ion-text style="font-size: 12px; color: grey">
           {{details.total | number}} kr.
         </ion-text>
-        <ion-icon *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
-        <ion-icon *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
+        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
+        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
       </div>
       <div id="betalingcontent">
         <span class="adresselabel">Subtotal</span>
@@ -260,7 +252,7 @@
     </div>
     <div class="modalbuttons" style="margin-top: 10px">
       <div style="color: red" (click)="removeProduct()">Fjern vare(r)</div>
-      <div style="color: #006633" (click)="changeQuantity()">Gem ændringer</div>
+      <div style="color: #304f23" (click)="changeQuantity()">Gem ændringer</div>
     </div>
   </div>
   <div id="datomodal">
@@ -277,7 +269,7 @@
       </div>
     </ion-radio-group>
     <div class="modalbuttons" style="margin-top: 10px">
-      <div style="color: #006633" (click)="changeDate()">Gem ændringer</div>
+      <div style="color: #304f23" (click)="changeDate()">Gem ændringer</div>
     </div>
   </div>
 </ion-content>

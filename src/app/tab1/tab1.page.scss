@@ -19,7 +19,7 @@ ion-icon {
 }
 ion-card {
   background-color: #fff;
-  box-shadow: 0px 4px 15px 0px #00000024;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   padding: 10px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -42,23 +42,19 @@ h2 {
 .pris {
   font-weight: 600;
   font-size: 20px;
-  color: #006633;
+  color: #304f23;
 }
 .aktiv {
   text-align: center;
-  display: inline-block;
   font-weight: 500;
   font-size: 16px;
-  justify-self: start;
-  align-self: center;
+  color: green;
 }
 .pause {
   text-align: center;
-  display: inline-block;
   font-weight: 500;
   font-size: 16px;
-  justify-self: start;
-  align-self: center;
+  color:darkorange;
 }
 .annulleret {
   text-align: center;
@@ -90,13 +86,6 @@ ion-card-content {
 }
 .dot ion-icon {
   font-size: 24px;
-  align-self: center;
-  justify-self: end;
-  padding-right: 5px;
-}
-.dot {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
 }
 .active {
   color: rgb(56, 233, 56);
@@ -106,7 +95,8 @@ ion-card-content {
 }
 .oversigt {
   display: grid;
-  grid-template-columns: 20% 70% 10%;
+  grid-template-columns: 30% 65% 5%;
+  justify-items: start;
 }
 .oversigt div {
   align-self: center;
@@ -132,13 +122,4 @@ ion-card-content {
 .ldato {
   font-size: 16px;
   font-weight: bold;
-}
-.grid2 {
-  display: grid;
-  grid-template-columns: 38% 62%;
-}
-.grid2 ion-icon {
-  align-self: center;
-  justify-self: end;
-  padding-right: 5px;
 }

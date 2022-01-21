@@ -12,7 +12,7 @@ const JWT_KEY = 'myjwtstoragekey';
 })
 export class ApiService {
   
-  apiUrl: 'https://gaiamadservice.dk/wp-json';
+  apiUrl: 'https://hololifoods.dk/wp-json';
 
   private user = new BehaviorSubject(null);
  

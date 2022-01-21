@@ -4,7 +4,7 @@ ion-card{
 }
 ion-icon{
   font-size:40px;
-  color: #006633;
+  color: #304f23;
 }
 ion-card ion-text{
   text-transform: capitalize;
@@ -22,10 +22,10 @@ h1{
 .pris{
   font-weight: 600;
   font-size: 20px;
-  color:#006633
+  color:#304f23
 }
 .aktiv{
-  background-color: #006633; /* Green */
+  background-color: #304f23; /* Green */
   border: solid;
   color: white;
   padding: 7px 15px;
@@ -105,6 +105,11 @@ z-index: 100;
 display: grid; 
 grid-template-columns: 16% 54% 30%;
 margin-bottom:20px;
+justify-items: center;
+align-items: center;
+ion-icon{
+  font-size:24px;
+}
 }
 .abonnement div{
 align-self: center;
@@ -121,15 +126,13 @@ font-size: 16px;
 font-weight: bold;
 text-align: left;
 }
-.collapsible ion-icon, ion-text{
-align-self:center;
-}
-.collapsible ion-icon{
-justify-self: center;
+.collapsible {
+  padding: 16px;
 }
 #leveringscontent{
 margin:10px;
 overflow: auto; 
+text-align: center;
 }
 .gridhistory{
   display:grid;

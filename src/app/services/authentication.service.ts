@@ -2,8 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map, tap, switchMap, catchError } from "rxjs/operators";
 import { BehaviorSubject, from, Observable, throwError } from "rxjs";
-import { Plugins } from "@capacitor/core";
-const { Storage } = Plugins;
+import { Storage } from '@capacitor/storage';
 
 const TOKEN_KEY = "my-token";
 
