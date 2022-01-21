@@ -10,7 +10,14 @@
   <ion-item *ngFor="let order of orders" button [routerLink]="['/', 'tabs','tab2', order.id]">
     <ion-icon slot="start" name="cube"></ion-icon>
       <ion-label>
-        {{ order.date_created | date:'EEEE \'d\' d MMMM'}}
+        {{ order.date_created.date | date:'EEEE \'d\' d MMMM'}} - 
+        <span *ngIf="order.status==='completed'">Afsendt</span>
+        <span *ngIf="order.status==='processing'">Betalt</span>
+        <span *ngIf="order.status==='refunded'">Refunderet</span>
+        <span *ngIf="order.status==='order-underway'">I gang</span>
+        <span *ngIf="order.status==='failed'">Mislykket</span>
+        <span *ngIf="order.status==='cancelled'">Annulleret</span>
+        <span *ngIf="order.status==='pending'">Behandler</span>
       </ion-label>
   </ion-item>
 </ion-content>

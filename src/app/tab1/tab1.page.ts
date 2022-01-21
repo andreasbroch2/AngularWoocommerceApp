@@ -5,6 +5,7 @@ import { OversigtinfoPage } from '../pages/oversigtinfo/oversigtinfo.page';
 import { Router } from '@angular/router'
 
 
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -23,6 +24,7 @@ export class Tab1Page implements OnInit{
   }
   auth(){
     this.authService.subscription().subscribe(result => {
+      localStorage.setItem('subscriptions', JSON.stringify(result));
       this.information = result;
       console.log(this.information);
     });

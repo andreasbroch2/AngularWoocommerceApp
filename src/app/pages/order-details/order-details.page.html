@@ -2,7 +2,7 @@
   <ion-toolbar color="light">
     <ion-title color="primary">Ordredetaljer</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button text="Tilbage" defaultHref="/"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,107 +13,94 @@
   <div *ngIf="details" color="light">
     <div class="abonnement">
       <div>
-        <ion-icon name="cube"></ion-icon>
+        <ion-icon src="assets/icon/box.svg"></ion-icon>
       </div>
       <div>
         <p id="id">#{{ details.id }}</p>
-        <p id="overskrift">Din Måltidskasse</p>
+        <p id="overskrift"></p>
       </div>
       <div>
-        <div *ngIf="details.status==='completed'" class="statusboksaktiv">Leveret</div>
-        <div *ngIf="details.status==='processing'" class="statusbokspause">På vej</div>
-        <div *ngIf="details.status==='refunded'" class="statusboksafmeldt">Refunderet</div>
-      </div> 
+        <div *ngIf="details.status==='completed'">Afsendt</div>
+        <div *ngIf="details.status==='processing'">Betalt</div>
+        <div *ngIf="details.status==='refunded'">Refunderet</div>
+        <div *ngIf="details.status==='order-underway'">I gang</div>
+        <div *ngIf="details.status==='failed'">Mislykket</div>
+        <div *ngIf="details.status==='cancelled'">Annulleret</div>
+        <div *ngIf="details.status==='pending'">Behandler</div>
+      </div>
     </div>
     <div button (click)="showContent()" class="collapsible">
-      <div class="grid154045">
-          <ion-icon size="small" src="/assets/icon/shipping.svg"></ion-icon>
-          <ion-text class="noticelabel">Leveringsadresse</ion-text>
-          <ion-text class="noticevalue"></ion-text>
-          <ion-icon *ngIf="hidden" name="chevron-down"></ion-icon>
-          <ion-icon *ngIf="!hidden" name="chevron-up"></ion-icon>
+      <div class="gridhistory">
+        <ion-icon size="small" src="/assets/icon/truck.svg"></ion-icon>
+        <h6>Leveringsadresse</h6>
+        <ion-text class="noticevalue"></ion-text>
       </div>
       <div id="leveringscontent">
-        <hr>
         <p class="contentheading">Leveringsadresse</p>
-          <div class="adresselabel">
-            Navn
-          </div>
-          <div class="adressevalue">
-            {{details.shipping.first_name}} {{details.shipping.last_name}}
-          </div>
-          <hr>
-          <div class="adresselabel">
-            Adresse
-          </div>
-          <div class="adressevalue">
-            {{details.shipping.address_1}} {{details.shipping.address_2}}
-          </div>
-          <hr>
-          <div class="adresselabel">
-            Postnr. og by
-          </div>
-          <div class="adressevalue">
-            {{details.shipping.postcode}} {{details.shipping.city}}
-          </div>
+        <div class="adresselabel">Navn</div>
+        <div class="adressevalue">
+          {{details.shipping.first_name}} {{details.shipping.last_name}}
+        </div>
+        <hr />
+        <div class="adresselabel">Adresse</div>
+        <div class="adressevalue">
+          {{details.shipping.address_1}} {{details.shipping.address_2}}
+        </div>
+        <hr />
+        <div class="adresselabel">Postnr. og by</div>
+        <div class="adressevalue">
+          {{details.shipping.postcode}} {{details.shipping.city}}
+        </div>
       </div>
     </div>
     <div button (click)="showContentKasse()" class="collapsible">
-      <div class="grid154045">
-          <ion-icon size="small" name="cube"></ion-icon>
-          <ion-text class="noticelabel">Måltidskassen</ion-text>
-          <ion-text class="noticevalue">  {{details.line_items.length}} varer </ion-text>
-          <ion-icon *ngIf="hiddenkasse" name="chevron-down"></ion-icon>
-          <ion-icon *ngIf="!hiddenkasse" name="chevron-up"></ion-icon>
+      <div class="gridhistory">
+        <ion-icon size="small" src="/assets/icon/box.svg"></ion-icon>
+        <h6>Måltidskassen</h6>
+        <ion-text class="noticevalue">
+          {{details.line_items.length}} varer
+        </ion-text>
       </div>
       <div id="kassecontent">
-        <ion-grid class="kort" >
-          <ion-row *ngFor="let item of details.line_items">
-            <ion-col size="8">
-              {{ item.name }}
-            </ion-col>
-            <ion-col size="2">
-              {{ item.quantity }}
-            </ion-col>
-            <ion-col size="2">
-              <ion-text class="total">  {{ addNumbers(item.total, item.total_tax) | number}},- </ion-text>
+        <ion-grid class="kort">
+          <ion-row style="align-items:center" *ngFor="let item of details.line_items">
+            <ion-col size="9"> {{ item.name }} </ion-col>
+            <ion-col style="text-align:right" size="3">
+              {{ item.quantity }} stk.
+              <br />
+              <ion-text class="total">
+                {{ addNumbers(item.total, item.total_tax) | number}} kr.
+              </ion-text>
             </ion-col>
           </ion-row>
         </ion-grid>
       </div>
     </div>
     <div button (click)="showContentBetaling()" class="collapsible">
-      <div class="grid154045">
-          <ion-icon size="small" name="card"></ion-icon>
-          <ion-text class="noticelabel">Betaling</ion-text>
-          <ion-text class="noticevalue">  {{details.total}} </ion-text>
-          <ion-icon *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
-          <ion-icon *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
+      <div class="gridhistory">
+        <ion-icon size="small" name="card"></ion-icon>
+        <h6>Betaling</h6>
+        <ion-text class="noticevalue">
+          {{details.total | number}} kr.
+        </ion-text>
       </div>
       <div id="betalingcontent">
-        <hr>
-        <p class="contentheading">Detaljer </p>
-        <div class="adresselabel">
-          Subtotal
-        </div>
+        <hr />
+        <p class="contentheading">Detaljer</p>
+        <div class="adresselabel">Subtotal</div>
         <div class="adressevalue">
-          {{details.total - details.shipping_total - details.shipping_tax}},-
+          {{details.total - details.shipping_total - details.shipping_tax}} kr.
         </div>
-        <hr>
-        <div class="adresselabel">
-          Forsendelse
-        </div>
+        <hr />
+        <div class="adresselabel">Forsendelse</div>
         <div class="adressevalue">
-          {{ addNumbers(details.shipping_total, details.shipping_tax) | number}},-
+          {{ addNumbers(details.shipping_total, details.shipping_tax) | number}}
+          kr.
         </div>
-        <hr>
-        <div class="adresselabel">
-          Total
-        </div>
-        <div class="adressevalue">
-          {{details.total}},-
-        </div>
+        <hr />
+        <div class="adresselabel">Total</div>
+        <div class="adressevalue">{{details.total | number}} kr.</div>
       </div>
     </div>
-</div>
+  </div>
 </ion-content>

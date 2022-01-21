@@ -60,6 +60,6 @@ export class LoginPage implements OnInit {
     return this.credentials.get('password');
   }
   adgangskode(){
-    const browser = this.iab.create('https://gaiamadservice.dk/kundeportal/nulstil-adgangskode/');
+    const browser = this.iab.create('https://hololifoods.dk/password/');
   }
 }

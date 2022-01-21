@@ -28,26 +28,26 @@
 h1 {
   font-family: Quicksand;
   font-weight: 500;
-  font-size: 96px;
+  font-size: 40px;
   letter-spacing: -1.5px;
 }
 h2 {
   font-family: Quicksand;
   font-weight: 400;
-  font-size: 60px;
+  font-size: 34px;
   letter-spacing: -0.5px;
-  color: #006633;
+  color: #304f23;
 }
 h3 {
   font-family: Quicksand;
   font-weight: 500;
-  font-size: 48px;
+  font-size: 30px;
 }
 h4 {
   font-family: Quicksand;
   font-weight: 500;
-  font-size: 34px;
-  color: #006633;
+  font-size: 28px;
+  color: #304f23;
 }
 h5 {
   font-family: Quicksand;
@@ -62,11 +62,48 @@ h6 {
   font-size: 20px;
   letter-spacing: 0.15px;
 }
+.subtitle1{
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+}
 .text-center {
   text-align: center;
 }
 .product-modal {
   --height: 70%;
+}
+.grid154045{
+  display: grid;
+  height: 50px;
+  grid-template-columns: 10% 50% 35% 5%;
+  align-items: center;
+}
+.collapsible{
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 710px;
+  margin: 25px auto;
+  color: #304f23;
+  h6 {
+    margin: 0;
+  }
+  &-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    width: 100%;
+    img,
+    svg {
+      max-height: 20px;
+      width: auto;
+    }
+  }
 }
 .my-custom-class .alert-wrapper {
   background: #fff;
@@ -112,4 +149,8 @@ hr {
 }
 .edit {
   float: right;
+  color: #ff9920;
+}
+ion-text{
+  font-family: Quicksand;
 }

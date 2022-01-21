@@ -1,6 +1,6 @@
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Component, OnInit, NgModule } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AlertController, ModalController } from "@ionic/angular";
 import { ProductsPage } from "../products/products.page";
 import { OversigtinfoPage } from "../oversigtinfo/oversigtinfo.page";
@@ -24,7 +24,8 @@ export class SubDetailsPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService,
     public alertController: AlertController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private router: Router
   ) {}
   saveDate(date) {
     this.saveddate = date;
@@ -56,8 +57,9 @@ export class SubDetailsPage implements OnInit {
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     this.authService.subdetails(id).subscribe((result) => {
+      console.log(result);
       this.details = result;
-      this.date = this.details.next_payment_date;
+      this.date = this.details.schedule_next_payment.date;
       this.date = this.addDays(this.date, 4);
     });
     var sunday = new Date();
@@ -84,17 +86,18 @@ export class SubDetailsPage implements OnInit {
     const eventDetails = await modal.onDidDismiss();
 
     if (eventDetails) {
+      console.log(eventDetails.data);
       if (eventDetails.data) this.details = eventDetails.data;
     }
   }
   openEditModal(prodid, name, quant) {
     document.getElementById("editmodal").style.display = "block";
     document.getElementById("overlay").style.display = "block";
-    document.getElementById("prodquant").setAttribute('value', quant);
+    document.getElementById("prodquant").setAttribute("value", quant);
     document.getElementById("editmodal").setAttribute("data-prodid", prodid);
     document.getElementById("productname").innerHTML = name;
     setTimeout(function () {
-      document.getElementById("overlay").addEventListener("click", function(){
+      document.getElementById("overlay").addEventListener("click", function () {
         document.getElementById("editmodal").style.display = "none";
         document.getElementById("overlay").style.display = "none";
       });
@@ -104,18 +107,8 @@ export class SubDetailsPage implements OnInit {
     document.getElementById("datomodal").style.display = "block";
     document.getElementById("overlay").style.display = "block";
     setTimeout(function () {
-      document.getElementById("overlay").addEventListener("click", function(){
+      document.getElementById("overlay").addEventListener("click", function () {
         document.getElementById("datomodal").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-      });
-    }, 200);
-  }
-  openCouponModal() {
-    document.getElementById("couponmodal").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    setTimeout(function () {
-      document.getElementById("overlay").addEventListener("click", function(){
-        document.getElementById("couponmodal").style.display = "none";
         document.getElementById("overlay").style.display = "none";
       });
     }, 200);
@@ -128,10 +121,10 @@ export class SubDetailsPage implements OnInit {
       .getAttribute("data-prodid");
     let prodname = document.getElementById("productname").innerHTML;
     console.log(prodid, id, prodname);
-    this.authService.removeProduct(prodid, id, prodname ).subscribe((result) => {
+    this.authService.removeProduct(prodid, id, prodname).subscribe((result) => {
       document.getElementById("editmodal").style.display = "none";
       document.getElementById("overlay").style.display = "none";
-      console.log(result);
+      this.details = result;
       this.load = "";
     });
   }
@@ -140,10 +133,8 @@ export class SubDetailsPage implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     let date = new Date(this.saveddate);
     let datestring = date.toISOString();
-    this.authService.changeDate(datestring, id).subscribe(() => {
-      this.authService.subdetails(id).subscribe((result) => {
+    this.authService.changeDate(datestring, id).subscribe((result) => {
         this.details = result;
-      });
       this.load = "";
       document.getElementById("datomodal").style.display = "none";
       document.getElementById("overlay").style.display = "none";
@@ -170,9 +161,11 @@ export class SubDetailsPage implements OnInit {
     var antal = (<HTMLInputElement>document.getElementById("prodquant")).value;
     this.authService
       .changeQuantity(prodid, id, antal, prodname)
-      .subscribe(() => {
+      .subscribe((result) => {
+        this.details = result;
         this.load = "";
-        location.reload();
+        document.getElementById("editmodal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
       });
   }
   async frek() {
@@ -306,8 +299,7 @@ export class SubDetailsPage implements OnInit {
           text: "Fortryd",
           role: "cancel",
           cssClass: "secondary",
-          handler: () => {
-          },
+          handler: () => {},
         },
         {
           text: "Yes!",
@@ -316,21 +308,15 @@ export class SubDetailsPage implements OnInit {
             if (this.details.status === "active") {
               this.load = "Sætter på pause...";
               this.authService.status(id, "on-hold").subscribe((result) => {
-                this.authService.subdetails(id).subscribe((result) => {
-                  this.details = result;
-                  this.date = this.details.next_payment_date;
-                  this.date = this.addDays(this.date, 4);
-                });
+                this.details = result;
                 this.load = "";
               });
             } else if (this.details.status === "on-hold") {
               this.load = "Aktiverer...";
               this.authService.status(id, "active").subscribe((result) => {
-                this.authService.subdetails(id).subscribe((result) => {
-                  this.details = result;
-                  this.date = this.details.next_payment_date;
-                  this.date = this.addDays(this.date, 4);
-                });
+                this.details = result;
+                this.date = this.details.schedule_next_payment.date;
+                this.date = this.addDays(this.date, 4);
                 this.load = "";
               });
             }
@@ -362,19 +348,13 @@ export class SubDetailsPage implements OnInit {
           text: "Bekræft",
           handler: (data) => {
             let id = this.activatedRoute.snapshot.paramMap.get("id");
-              this.load = "Tilføjer rabatkode...";
-              this.authService.coupon(id, data.coupon).subscribe((result) => {
-                this.authService.subdetails(id).subscribe((result) => {
-                  this.details = result;
-                });
-                this.authService
-                  .orderNote(id, "Rabatkode tilføjet - Fra app: " + data.coupon)
-                  .subscribe((result) => {
-                  });
-                this.load = "";
-              });
-            } 
+            this.load = "Tilføjer rabatkode...";
+            this.authService.coupon(id, data.coupon).subscribe((result) => {
+              this.details = result;
+              this.load = "";
+            });
           },
+        },
       ],
     });
 
@@ -409,15 +389,14 @@ export class SubDetailsPage implements OnInit {
                 this.details = result;
                 this.authService
                   .orderNote(id, "Afmeldt- Fra app: " + data.reason)
-                  .subscribe((result) => {
-                  });
+                  .subscribe((result) => {});
                 this.authService
                   .cancelReason(this.details.customer_id, data.reason)
-                  .subscribe((result) => {
-                  });
-                this.load = "";
+                  .subscribe((result) => {});
+                this.load = "Afmeldt!";
+                this.router.navigate(['/']);
               });
-            } 
+            }
           },
         },
       ],
@@ -483,8 +462,7 @@ export class SubDetailsPage implements OnInit {
           text: "Fortryd",
           role: "cancel",
           cssClass: "secondary",
-          handler: () => {
-          },
+          handler: () => {},
         },
         {
           text: "Bekræft",
@@ -495,8 +473,7 @@ export class SubDetailsPage implements OnInit {
               this.details = result;
               this.authService
                 .orderNote(id, "Note ændret - Fra app: " + value.note)
-                .subscribe((result) => {
-                });
+                .subscribe((result) => {});
               this.load = "";
             });
           },
@@ -546,8 +523,7 @@ export class SubDetailsPage implements OnInit {
           text: "Fortryd",
           role: "cancel",
           cssClass: "secondary",
-          handler: () => {
-          },
+          handler: () => {},
         },
         {
           text: "Bekræft",
@@ -556,10 +532,6 @@ export class SubDetailsPage implements OnInit {
             let id = this.activatedRoute.snapshot.paramMap.get("id");
             this.authService.addAdresse(id, value).subscribe((result) => {
               this.details = result;
-              this.authService
-                .orderNote(id, "Adresse ændret - Fra app.")
-                .subscribe((result) => {
-                });
               this.load = "";
             });
           },

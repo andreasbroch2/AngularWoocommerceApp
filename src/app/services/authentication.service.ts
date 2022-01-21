@@ -11,7 +11,7 @@ const TOKEN_KEY = "my-token";
   providedIn: "root",
 })
 export class AuthenticationService {
-  url = "https://gaiamadservice.dk/wp-json/";
+  url = "https://hololifoods.dk/wp-json/";
   secret = "cs_87bc1989827871fc19c2ae6d15af63e894ec212d";
   key = "ck_faf50963dee1b3e3cca1ab77630b6f09c6a4129e";
 
@@ -40,7 +40,7 @@ export class AuthenticationService {
   login(credentials: { email; password }): Observable<any> {
     console.log("1");
     return this.http
-      .post(`https://gaiamadservice.dk/wp-json/jwt-auth/v1/token`, {
+      .post(`https://hololifoods.dk/wp-json/jwt-auth/v1/token`, {
         username: credentials.email,
         password: credentials.password,
       })
@@ -51,7 +51,7 @@ export class AuthenticationService {
         }),
         map((data: any) => data),
         switchMap((data) => {
-          console.log("2");
+          console.log(data);
           localStorage.setItem("email", data.user_email);
           from(
             Storage.set({
@@ -68,57 +68,27 @@ export class AuthenticationService {
       );
   }
   subscription() {
-    const email = localStorage.getItem("email");
-    return this.http.get(
-      `${this.url}wc/v1/subscriptions?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`
-    );
+    let email = localStorage.getItem("email");
+    return this.http.post(`${this.url}myplugin/v1/subscriptions`, {
+      email: email,
+    });
   }
-
   subdetails(id) {
-    return this.http.get(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`
-    );
+    return this.http.post(`${this.url}myplugin/v1/subscription`, {
+      id: id,
+    });
   }
   orderNote(id, note) {
-    return this.http.post(
-      `${this.url}wc/v1/subscriptions/${id}/notes?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      { note: note }
-    );
-  }
-  shippingMethods() {
-    return this.http.get(
-      `${this.url}wc/v3/shipping_methods?&consumer_key=${this.key}&consumer_secret=${this.secret}`
-    );
-  }
-  setShipping(id, shipping_id, pris) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      {
-        shipping_lines: [
-          {
-            id: shipping_id,
-            total: pris,
-          },
-        ],
-      }
-    );
-  }
-  skiplevering(id, date, interval) {
-    let numWeeks = interval;
-    let now = new Date(date);
-    now.setDate(now.getDate() + numWeeks * 7);
-    now.setHours(now.getHours() + 2);
-    let nydate = now.toISOString().replace(".000Z", "").replace("T", " ");
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      { next_payment_date: nydate }
-    );
+    return this.http.post(`${this.url}myplugin/v1/order_note`, {
+      id: id,
+      note: note
+    });
   }
   frekvens(id, interval) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      { billing_interval: interval }
-    );
+    return this.http.post(`${this.url}myplugin/v1/frekvens`, {
+      id: id,
+      interval: interval
+    });
   }
   status(id, status) {
     return this.http.post(`${this.url}myplugin/v1/status`, {
@@ -221,29 +191,23 @@ export class AuthenticationService {
     );
   }
   addproduct(id, prodid, quant) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      {
-        line_items: [
-          {
-            product_id: prodid,
-            quantity: quant,
-          },
-        ],
-      }
-    );
+    return this.http.post(`${this.url}myplugin/v1/addproduct`, {
+      id: id,
+      prodid: prodid,
+      quant: quant
+    });
   }
   addNote(id, note) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      { customer_note: note }
-    );
+    return this.http.post(`${this.url}myplugin/v1/note`, {
+      id: id,
+      note: note
+    });
   }
   addAdresse(id, adresse) {
-    return this.http.put(
-      `${this.url}wc/v1/subscriptions/${id}?&consumer_key=${this.key}&consumer_secret=${this.secret}`,
-      { shipping: adresse }
-    );
+    return this.http.post(`${this.url}myplugin/v1/address`, {
+      id: id,
+      adresse: adresse
+    });
   }
   orderdetails(id) {
     return this.http.get(
@@ -251,10 +215,10 @@ export class AuthenticationService {
     );
   }
   orders() {
-    const email = localStorage.getItem("email");
-    return this.http.get(
-      `${this.url}wc/v3/orders?search=${email}&consumer_key=${this.key}&consumer_secret=${this.secret}`
-    );
+    let email = localStorage.getItem("email");
+    return this.http.post(`${this.url}myplugin/v1/orders`, {
+      email: email,
+    });
   }
   processingOrders() {
     const email = localStorage.getItem("email");
@@ -270,7 +234,7 @@ export class AuthenticationService {
   kunde() {
     const email = localStorage.getItem("email");
     return this.http.get(
-      `https://gaiamadservice.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`
+      `https://hololifoods.dk/wc-api/v3/customers/email/${email}?consumer_key=${this.key}&consumer_secret=${this.secret}`
     );
   }
   customer(id) {

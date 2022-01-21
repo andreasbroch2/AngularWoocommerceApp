@@ -38,27 +38,27 @@ export class ProductsPage implements OnInit {
   @Input() subid: number;
 
   ngOnInit() {
-      this.authService.hovedret().subscribe((result) => {
-        this.hovedretter = result;
-      })
-      this.authService.snacks().subscribe((result) => {
-        this.snacks = result;
-      })
-      this.authService.drikkevarer().subscribe((result) => {
-        this.drikkevarer = result;
-      })
-      this.authService.familieportioner().subscribe((result) => {
-        this.familieportioner = result;
-      })
-      this.authService.morgenmad().subscribe((result) => {
-        this.morgenmad = result;
-      })
-      this.authService.paalaeg().subscribe((result) => {
-        this.paalaeg = result;
-      })
-      this.authService.glutenfri().subscribe((result) => {
-        this.glutenfri = result;
-      })
+    this.authService.hovedret().subscribe((result) => {
+      this.hovedretter = result;
+    });
+    this.authService.snacks().subscribe((result) => {
+      this.snacks = result;
+    });
+    this.authService.drikkevarer().subscribe((result) => {
+      this.drikkevarer = result;
+    });
+    this.authService.familieportioner().subscribe((result) => {
+      this.familieportioner = result;
+    });
+    this.authService.morgenmad().subscribe((result) => {
+      this.morgenmad = result;
+    });
+    this.authService.paalaeg().subscribe((result) => {
+      this.paalaeg = result;
+    });
+    this.authService.glutenfri().subscribe((result) => {
+      this.glutenfri = result;
+    });
   }
   async openPicker(prodid, prodname) {
     const picker = await this.pickerController.create({
@@ -88,51 +88,11 @@ export class ProductsPage implements OnInit {
         {
           text: "Tilføj",
           handler: (value) => {
-            this.load = "Tilføjer vare(r)"
+            this.load = "Tilføjer vare(r)";
             this.authService
               .addproduct(this.subid, prodid, value.Antal.value)
               .subscribe((result) => {
-                this.authService
-                .orderNote(
-                  this.subid,
-                  "Vare(r) tilføjet fra app - " + value.Antal.value + "x " + prodname
-                )
-                .subscribe((result) => {
-                  console.log(result);
-                });
-                this.details = result;
-                let subtotal =
-                  this.details.total -
-                  this.details.shipping_total -
-                  this.details.shipping_tax;
-                if (subtotal <= 599) {
-                  console.log("Ingen gratis levering");
-                  this.authService
-                    .setShipping(
-                      this.subid,
-                      this.details.shipping_lines[0].id,
-                      "55.20"
-                    )
-                    .subscribe((result) => {
-                      this.details = result;
-                      console.log(this.details);
-                      this.modalController.dismiss(this.details);
-                    });
-                } else {
-                  console.log("Gratis Levering");
-                  this.authService
-                    .setShipping(
-                      this.subid,
-                      this.details.shipping_lines[0].id,
-                      "0.00"
-                    )
-                    .subscribe((result) => {
-                      this.details = result;
-                      this.load = "";
-                      console.log(this.details);
-                      this.modalController.dismiss(this.details);
-                    });
-                }
+                this.modalController.dismiss(result);
               });
           },
         },
@@ -154,7 +114,8 @@ export class ProductsPage implements OnInit {
     else this.hideMeDrikkevarer = false;
   }
   hideFamilieportioner() {
-    if (this.hideMeFamilieportioner == false) this.hideMeFamilieportioner = true;
+    if (this.hideMeFamilieportioner == false)
+      this.hideMeFamilieportioner = true;
     else this.hideMeFamilieportioner = false;
   }
   hideMorgenmad() {

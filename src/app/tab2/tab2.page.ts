@@ -13,6 +13,7 @@ export class Tab2Page {
  
   ngOnInit(){
     this.authService.orders().subscribe(result => {
+      console.log(result);
       this.orders = result;
     });
 }
