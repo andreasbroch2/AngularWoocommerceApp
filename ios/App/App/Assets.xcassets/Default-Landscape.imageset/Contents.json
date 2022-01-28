@@ -9,30 +9,6 @@
       "filename" : "Default-Landscape@2x~ipad.png",
       "idiom" : "ipad",
       "scale" : "2x"
-    },
-    {
-      "filename" : "Default-Landscape-736h.png",
-      "idiom" : "universal",
-      "scale" : "1x",
-      "subtype" : "736h"
-    },
-    {
-      "filename" : "Default-Landscape-2436h.png",
-      "idiom" : "universal",
-      "scale" : "1x",
-      "subtype" : "2436h"
-    },
-    {
-      "filename" : "Default-Landscape-2688h~iphone.png",
-      "idiom" : "iphone",
-      "scale" : "1x",
-      "subtype" : "2688h"
-    },
-    {
-      "filename" : "Default-Landscape-1792h~iphone.png",
-      "idiom" : "iphone",
-      "scale" : "1x",
-      "subtype" : "1792h"
     }
   ],
   "info" : {
