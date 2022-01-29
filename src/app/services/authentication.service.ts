@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map, tap, switchMap, catchError } from "rxjs/operators";
+import { Router } from '@angular/router';
 import { BehaviorSubject, from, Observable, throwError } from "rxjs";
 import { Storage } from '@capacitor/storage';
 
@@ -21,13 +22,14 @@ export class AuthenticationService {
   );
   token = "";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loadToken();
   }
 
   async loadToken() {
     const token = await Storage.get({ key: TOKEN_KEY });
-    if (token && token.value) {
+    let email = localStorage.getItem("email");
+    if (token && token.value && email) {
       console.log("set token: ", token.value);
       this.token = token.value;
       this.isAuthenticated.next(true);
@@ -61,16 +63,19 @@ export class AuthenticationService {
           return from(Storage.set({ key: TOKEN_KEY, value: data.token }));
         }),
         tap((_) => {
-          console.log("4");
           this.isAuthenticated.next(true);
         })
       );
   }
   subscription() {
     let email = localStorage.getItem("email");
+    if(email){
     return this.http.post(`${this.url}myplugin/v1/subscriptions`, {
       email: email,
     });
+  }else{
+    this.router.navigateByUrl("/login");
+  }
   }
   subdetails(id) {
     return this.http.post(`${this.url}myplugin/v1/subscription`, {
