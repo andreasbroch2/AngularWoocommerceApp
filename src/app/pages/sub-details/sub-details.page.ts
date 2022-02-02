@@ -65,7 +65,6 @@ export class SubDetailsPage implements OnInit {
     var sunday = new Date();
     sunday.setDate(sunday.getDate() + 4);
     sunday.setDate(sunday.getDate() + 7 - sunday.getDay());
-
     for (var i = 0; i < 12; i++) {
       this.sundays.push(new Date(sunday.getTime()));
       sunday.setDate(sunday.getDate() + 7);

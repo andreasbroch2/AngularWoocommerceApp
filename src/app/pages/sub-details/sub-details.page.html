@@ -1,7 +1,7 @@
 <ion-content>
   <div class="headergrid">
     <ion-back-button text="" defaultHref="/"></ion-back-button>
-    <img alt="logo" height="40"   src="/assets/icon/logo.svg">
+    <img alt="logo" height="40" src="/assets/icon/logo.svg">
     <ion-icon style="font-size:24px" slot="icon-only" name="help" (click)="info()"></ion-icon>
   </div>
   <div id="overlay"></div>
@@ -21,7 +21,7 @@
       <div>
         <p id="overskrift">Din Måltidskasse</p>
       </div>
-      <div>
+      <div style="text-align:right">
         <p *ngIf="details.status==='active'" id="id">
           <span style="color: #00ba65">&#8226; Aktiv</span> | #{{ details.id }}
         </p>
@@ -32,42 +32,31 @@
     </div>
     <div class="collapsible">
       <div button (click)="showContent()" class="grid154045">
-        <ion-icon
-          size="small"
-          src="/assets/icon/truck.svg"
-        ></ion-icon>
+        <ion-icon size="small" src="/assets/icon/truck.svg"></ion-icon>
         <h6>Næste levering</h6>
-        <ion-text
-          style="font-size: 12px; color: grey"
-          *ngIf="details.shipping.postcode > 3699 && details.shipping.postcode < 3800"
-        >
+      <span *ngIf="details.status==='active'">
+        <ion-text style="font-size: 12px; color: grey"
+          *ngIf="details.shipping.postcode > 3699 && details.shipping.postcode < 3800">
           {{ addDays(details.schedule_next_payment.date, 6) | date:'EEEE \'d\' d
           MMMM'}}
         </ion-text>
-        <ion-text
-          style="font-size: 12px; color: grey"
-          *ngIf="details.shipping_lines[0]?.method_title=='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699"
-        >
+        <ion-text style="font-size: 12px; color: grey"
+          *ngIf="details.shipping_lines[0]?.method_title=='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
           {{ addDays(details.schedule_next_payment.date, 4) | date:'EEEE \'d\' d
           MMMM'}}
         </ion-text>
-        <ion-text
-          style="font-size: 12px; color: grey"
-          *ngIf="details.shipping_lines[0]?.method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699"
-        >
+        <ion-text style="font-size: 12px; color: grey"
+          *ngIf="details.shipping_lines[0]?.method_title!='Levering til døren' && details.shipping.postcode > 3800 || details.shipping.postcode < 3699">
           {{ addDays(details.schedule_next_payment.date, 3) | date:'EEEE \'d\' d
           MMMM'}}
         </ion-text>
+      </span>
         <ion-icon style="font-size:16px;color:#ff9920" *ngIf="hidden" name="chevron-down"></ion-icon>
         <ion-icon style="font-size:16px;color:#ff9920" *ngIf="!hidden" name="chevron-up"></ion-icon>
       </div>
       <div id="leveringscontent">
         <p class="subtitle1">
-          Leveres<fa-icon
-            [icon]="['fas', 'pencil-alt']"
-            class="edit"
-            (click)="frek()"
-          >
+          Leveres<fa-icon [icon]="['fas', 'pencil-alt']" class="edit" (click)="frek()">
           </fa-icon>
         </p>
         <p *ngIf="details.billing_interval==='1'">Hver uge</p>
@@ -75,11 +64,7 @@
         <p *ngIf="details.billing_interval==='2'">Hver 2. uge</p>
         <p *ngIf="details.billing_interval==='4'">Hver 4. uge</p>
         <p class="subtitle1">
-          Leveringsadresse<fa-icon
-            [icon]="['fas', 'pencil-alt']"
-            class="edit"
-            (click)="adresse()"
-          ></fa-icon>
+          Leveringsadresse<fa-icon [icon]="['fas', 'pencil-alt']" class="edit" (click)="adresse()"></fa-icon>
         </p>
         <p>
           {{details.shipping.first_name}} {{details.shipping.last_name}}
@@ -89,11 +74,7 @@
           {{details.shipping.postcode}} {{details.shipping.city}}
         </p>
         <p class="subtitle1">
-          Note<fa-icon
-            [icon]="['fas', 'pencil-alt']"
-            class="edit"
-            (click)="note()"
-          ></fa-icon>
+          Note<fa-icon [icon]="['fas', 'pencil-alt']" class="edit" (click)="note()"></fa-icon>
         </p>
         <p>{{ details.customer_note}}</p>
         <p *ngIf="!details.customer_note">Ingen note</p>
@@ -101,8 +82,7 @@
     </div>
     <div class="collapsible">
       <div button (click)="showContentKasse()" class="grid154045">
-        <ion-icon 
-        size="small" src="/assets/icon/box.svg"></ion-icon>
+        <ion-icon size="small" src="/assets/icon/box.svg"></ion-icon>
         <h6>Måltidskassen</h6>
         <ion-text style="font-size: 12px; color: grey">
           {{details.line_items.length}} produkter
@@ -112,15 +92,9 @@
       </div>
       <div id="kassecontent">
         <ion-grid class="kort">
-          <ion-row
-            style="align-items: center"
-            *ngFor="let item of details.line_items"
-          >
-            <ion-col size="3">
-              <ion-img [src]="item.imageurl"></ion-img>
-            </ion-col>
-            <ion-col class="produkt" size="6"> {{ item.name }} </ion-col>
-            <ion-col style="font-size: 14px" size="2">
+          <ion-row style="align-items: center" *ngFor="let item of details.line_items">
+            <ion-col class="produkt" size="8"> {{ item.name }} </ion-col>
+            <ion-col style="font-size: 14px" size="3">
               <ion-text>
                 {{ addNumbers(item.total, item.total_tax) | number}} kr.
               </ion-text>
@@ -128,33 +102,29 @@
               <ion-text> {{ item.quantity }} stk. </ion-text>
             </ion-col>
             <ion-col size="1">
-              <fa-icon
-                [icon]="['fas', 'pencil-alt']"
-                (click)="openEditModal(item.id, item.name, item.quantity)"
-              ></fa-icon>
+              <fa-icon [icon]="['fas', 'pencil-alt']" (click)="openEditModal(item.id, item.name, item.quantity)">
+              </fa-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <ion-button expand="block" color="primary" (click)="presentModal()"
-          >Tilføj andet</ion-button
-        >
+        <ion-button expand="block" color="primary" (click)="presentModal()">Tilføj andet</ion-button>
       </div>
     </div>
     <div button (click)="showContentBetaling()" class="collapsible">
       <div class="grid154045">
-        <ion-icon 
-        size="small" src="/assets/icon/card.svg"></ion-icon>
+        <ion-icon size="small" src="/assets/icon/card.svg"></ion-icon>
         <h6>Betaling</h6>
         <ion-text style="font-size: 12px; color: grey">
           {{details.total | number}} kr.
         </ion-text>
         <ion-icon style="font-size:16px;color:#ff9920" *ngIf="hiddenbetaling" name="chevron-down"></ion-icon>
-        <ion-icon style="font-size:16px;color:#ff9920" *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
+        <ion-icon style="font-size:16px;color:#1a1715" *ngIf="!hiddenbetaling" name="chevron-up"></ion-icon>
       </div>
       <div id="betalingcontent">
         <span class="adresselabel">Subtotal</span>
         <span class="adressevalue">
-          {{addNumbers(details.total - details.shipping_total - details.shipping_tax, addNumbers(details.discount_total, details.discount_tax)) }} kr.
+          {{addNumbers(details.total - details.shipping_total - details.shipping_tax, addNumbers(details.discount_total,
+          details.discount_tax)) }} kr.
         </span>
         <hr />
         <span class="adresselabel">Levering</span>
@@ -171,19 +141,13 @@
           </span>
           <p style="margin: 10px 0" *ngFor="let coupon of details.coupon_lines">
             Rabatkode: {{ coupon.code }}
-            <fa-icon
-              [icon]="['fas', 'times']"
-              (click)="removeCoupon(coupon.code)"
-              style="color: red"
-            >
+            <fa-icon [icon]="['fas', 'times']" (click)="removeCoupon(coupon.code)" style="color: red">
             </fa-icon>
           </p>
           <hr />
         </div>
         <span class="price" style="float: left">Total</span>
-        <span class="price" style="float: right"
-          >{{details.total | number}} kr.</span
-        >
+        <span class="price" style="float: right">{{details.total | number}} kr.</span>
         <hr />
         <div style="width: 100%">
           <p class="adresselabel">Betalingsmetode</p>
@@ -206,16 +170,8 @@
       <ion-icon class="subicon" slot="start" name="play-circle"></ion-icon>
       <ion-label> Aktivér </ion-label>
     </ion-item>
-    <ion-item
-      *ngIf="details.status==='active'"
-      button
-      (click)="openDateModal()"
-    >
-      <ion-icon
-        class="subicon"
-        slot="start"
-        name="play-forward-circle"
-      ></ion-icon>
+    <ion-item *ngIf="details.status==='active'" button (click)="openDateModal()">
+      <ion-icon class="subicon" slot="start" name="play-forward-circle"></ion-icon>
       <ion-label> Ryk næste levering </ion-label>
     </ion-item>
     <ion-item *ngIf="details.status!='cancelled'" button (click)="afmeld()">
@@ -228,27 +184,10 @@
       <p id="productname" class="text-center"></p>
     </strong>
     <div class="text-center" style="margin: 10px 0">
-      <fa-icon
-        class="editicon"
-        [icon]="['fas', 'minus']"
-        (click)="decrement()"
-      ></fa-icon>
-      <input
-        label="Antal"
-        value="1"
-        type="number"
-        min="1"
-        step="1"
-        max=""
-        id="prodquant"
-        name="prodquant"
-        style="width: 50px; vertical-align: super"
-      />
-      <fa-icon
-        class="editicon"
-        [icon]="['fas', 'plus']"
-        (click)="increment()"
-      ></fa-icon>
+      <fa-icon class="editicon" [icon]="['fas', 'minus']" (click)="decrement()"></fa-icon>
+      <input label="Antal" value="1" type="number" min="1" step="1" max="" id="prodquant" name="prodquant"
+        style="width: 50px; vertical-align: super" />
+      <fa-icon class="editicon" [icon]="['fas', 'plus']" (click)="increment()"></fa-icon>
     </div>
     <div class="modalbuttons" style="margin-top: 10px">
       <div style="color: red" (click)="removeProduct()">Fjern vare(r)</div>
@@ -260,10 +199,8 @@
       <ion-text class="pris">Hvornår vil du have din næste kasse?</ion-text>
       <div class="sundays">
         <ion-item *ngFor="let sunday of sundays">
-          <ion-label
-            >{{ sunday | date:'EEEE' | titlecase }} d. {{ sunday | date:'d MMMM'
-            | titlecase }}</ion-label
-          >
+          <ion-label>{{ sunday | date:'EEEE' | titlecase }} d. {{ sunday | date:'d MMMM'
+            | titlecase }}</ion-label>
           <ion-radio slot="end" color="primary" value="{{sunday}}"></ion-radio>
         </ion-item>
       </div>
