@@ -1,0 +1,42 @@
+<ion-content>
+  <h6 class="text-center">{{ productName }}</h6>
+  <div class="text-center" style="margin: 24px 0">
+    <fa-icon
+      class="editicon"
+      [icon]="['fas', 'minus']"
+      (click)="decrement()"
+      style="color: #eb445a"
+    ></fa-icon>
+    <input
+      label="Antal"
+      value="1"
+      type="number"
+      min="1"
+      step="1"
+      max=""
+      id="prodquant"
+      name="prodquant"
+      style="width: 50px; vertical-align: super"
+    />
+    <fa-icon
+      class="editicon"
+      [icon]="['fas', 'plus']"
+      (click)="increment()"
+      style="color: #2dd36f"
+    ></fa-icon>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="removeProduct()" color="danger"
+          >Fjern vare(r)</ion-button
+        >
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="changeQuantity()" color="primary"
+          >Ret antal</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

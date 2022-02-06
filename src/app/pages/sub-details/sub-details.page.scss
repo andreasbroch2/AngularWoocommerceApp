@@ -47,7 +47,7 @@ ion-card-header{
 }
 .kort{
   padding:0;
-  margin: 20px 0;
+  margin: 0 0 20px;
 }
 ion-img::part(image) {
   border-radius: 12px;
@@ -115,7 +115,7 @@ p{
 }
 #leveringscontent{
   display: none; 
-  margin:10px;
+  margin: 0 10px;
   overflow: auto; 
 }
 #kassecontent{
@@ -143,9 +143,6 @@ p{
 .subicon{
   font-size: 24px;
 }
-fa-icon{
-  color: #ff9920;
-}
 .notice{
   width:100%;
   text-align: center;
@@ -169,56 +166,6 @@ fa-icon{
 }
 .alert-input-wrapper{
   min-height: 400px;
-}
-#editmodal, #datomodal {
-  width: fit-content;
-  background-color: #fff;
-  position: fixed;
-  z-index: 10;
-  padding: 10px;
-  top: 100px;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-          transform: translate(-50%, 0);
-  display: none;
-  border-radius: 10px;
-  box-shadow: 0 0 38px rgba(0,0,0,0.30), 10px 15px 12px rgba(0,0,0,0.22);
-}
-#productname{
-  font-size:20px;
-  padding: 5px 0;
-}
-.editicon{
-  vertical-align: super;
-  font-size: 20px;
-  padding: 0 10px;
-}
-#editmodal input[type="number"] {
-  width: 40px;
-  vertical-align: top;
-  text-align: center;
-  border-style: hidden;
-  font-size: 2rem;
-}
-#editmodal .modalbuttons {
-  width: 100%;
-  font-weight: bold;
-  padding:10px;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
-}
-#datomodal .modalbuttons{
-  width: 100%;
-  font-weight: bold;
-  padding:10px;
-  text-align: center;
-}
-#editmodal .modalbuttons div {
-  -ms-grid-column-align: center;
-      justify-self: center;
 }
 .sundays{
   max-height: 400px;

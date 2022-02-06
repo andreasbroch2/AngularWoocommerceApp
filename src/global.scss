@@ -25,6 +25,7 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+
 h1 {
   font-family: Quicksand;
   font-weight: 500;
@@ -67,22 +68,17 @@ h6 {
   grid-template-columns: 1fr 4fr 1fr;
   align-items: center;
   justify-items: center;
-  margin-bottom:20px;
-}
-svg{
-  color: #304f23;
+  margin:15px 0;
 }
 .subtitle1{
   font-size: 14px;
   line-height: 19px;
   font-weight: 600;
   letter-spacing: 0.15px;
+  color: #ff9920;
 }
 .text-center {
   text-align: center;
-}
-.product-modal {
-  --height: 70%;
 }
 .grid154045{
   display: grid;
@@ -97,7 +93,7 @@ svg{
   border-radius: 12px;
   padding: 8px;
   max-width: 710px;
-  margin: 25px auto;
+  margin: 0 auto 25px;
   color: #304f23;
   h6 {
     margin: 0;
@@ -129,10 +125,15 @@ ion-content {
   --padding-top: 16px;
   --padding-start: 16px;
   --padding-end: 16px;
+  --background: url('assets/icon/background.svg');
 }
 ion-toolbar {
   height: 60px;
   display: flex;
+  background-color: transparent;
+  padding: 0 16px;
+}
+ion-accordion{
   background-color: transparent;
 }
 .contentheading ion-icon {
@@ -146,12 +147,16 @@ ion-toolbar {
   margin: 10px 0px;
 }
 .adressevalue {
-  float: right;
   margin: 10px 0px;
 }
 hr {
   background-color: rgb(161, 160, 160);
   width: 100%;
+}
+.price{
+  font-weight: bold;
+  letter-spacing: 0.15px;
+  color: #ff9920;
 }
 .contentheading {
   font-weight: 600 !important;
@@ -159,7 +164,7 @@ hr {
 }
 .edit {
   float: right;
-  color: #ff9920;
+  color: #2D9CDB!important;
 }
 ion-text{
   font-family: Quicksand;

@@ -1,211 +1,44 @@
 <ion-header>
   <ion-toolbar color="light">
-    <ion-title color="primary">Produkter</ion-title>
+    <ion-title color="primary">Tilføj produkter</ion-title>
   </ion-toolbar>
 </ion-header>
-<div class="spin" *ngIf="!hovedretter">
+<div class="spin" *ngIf="!products">
   <ion-spinner color="primary" name="crescent"></ion-spinner>
 </div>
-<div class="loadbar" *ngIf="load">
-  <ion-text color="light">  {{ load }}</ion-text> 
-</div>
-<ion-content>
-  <div *ngIf="hovedretter">
-    <ion-item button (click)="hideHoved()">
-      <ion-label color="primary">Hoved/Frokostretter</ion-label>
-    </ion-item>
-    <div *ngIf="hideMeHoved">
-      <ion-grid *ngFor="let prod of hovedretter">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+<ion-content *ngIf="products">
+  <ion-accordion-group>
+    <div *ngFor="let cat of displayCategories">
+      <ion-accordion>
+        <ion-item slot="header">
+          <ion-label color="primary">{{ cat.name }}</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-grid *ngFor="let prod of products">
+            <ion-row>
+              <ion-col
+                button
+                (click)="openPicker(prod.id, prod.name)"
+                class="side"
+                *ngIf="(prod.catalog_visibility == 'visible') && checkCategories(prod.categories, cat.id)"
+              >
+                <ion-grid>
+                  <ion-row class="productrow ion-align-items-center">
+                    <ion-col style="text-align: left" size="4">
+                      <img class="prodimg" src="{{prod.images[0].src}}" />
+                    </ion-col>
+                    <ion-col size="8">
+                      <ion-text class="produkt"> {{prod.name}} </ion-text>
+                      <br />
+                      <ion-text class="price"> {{ prod.price }},- </ion-text>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-accordion>
     </div>
-    <ion-item button (click)="hideFamilieportioner()">
-      <ion-label color="primary">Familieportioner</ion-label>
-    </ion-item>
-    <div *ngIf="hideMeFamilieportioner">
-      <ion-grid *ngFor="let prod of familieportioner">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <ion-item button (click)="hideMorgenmad()">
-      <ion-label color="primary">Morgenmad</ion-label>
-    </ion-item>
-    <div *ngIf="hideMeMorgenmad">
-      <ion-grid *ngFor="let prod of morgenmad">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <ion-item button (click)="hidePaalaeg()">
-      <ion-label color="primary">Pålæg</ion-label>
-    </ion-item>
-    <div *ngIf="hideMePaalaeg">
-      <ion-grid *ngFor="let prod of paalaeg">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <ion-item button (click)="hideSnacks()">
-      <ion-label color="primary">Tilbehør og Snacks</ion-label>
-    </ion-item>
-    <div *ngIf="hideMeSnacks">
-      <ion-grid *ngFor="let prod of snacks">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <ion-item button (click)="hideDrikkevarer()">
-      <ion-label color="primary">Drikkevarer</ion-label>
-    </ion-item>
-    <div *ngIf="hideMeDrikkevarer">
-      <ion-grid *ngFor="let prod of drikkevarer">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <ion-item button (click)="hideGlutenfri()">
-      <ion-label color="primary">Glutenfri</ion-label>
-    </ion-item>
-    <div *ngIf="hideMeGlutenfri">
-      <ion-grid *ngFor="let prod of glutenfri">
-        <ion-row>
-          <ion-col
-            button
-            (click)="openPicker(prod.id, prod.name)"
-            class="side"
-            *ngIf="(prod.catalog_visibility == 'visible')"
-          >
-            <ion-grid>
-              <ion-row class="productrow ion-align-items-center">
-                <ion-col style="text-align: left" size="4">
-                  <img class="prodimg" src="{{prod.images[0].src}}" />
-                </ion-col>
-                <ion-col size="8">
-                  <ion-text class="produkt"> {{prod.name}} </ion-text>
-                  <br />
-                  <ion-text class="price"> {{ prod.price }},- </ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </div>
+  </ion-accordion-group>
 </ion-content>

@@ -82,6 +82,12 @@ export class AuthenticationService {
       id: id,
     });
   }
+  shippingMethod(id, method) {
+    return this.http.post(`${this.url}myplugin/v1/shippingmethod`, {
+      id: id,
+      method: method
+    });
+  }
   orderNote(id, note) {
     return this.http.post(`${this.url}myplugin/v1/order_note`, {
       id: id,
@@ -141,52 +147,7 @@ export class AuthenticationService {
   }
   products() {
     return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`
-    );
-  }
-  categories() {
-    return this.http.get(
-      `${this.url}wc/v3/products/categories?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish`
-    );
-  }
-  category(id) {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=${id}`
-    );
-  }
-  hovedret() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=19`
-    );
-  }
-  snacks() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=29`
-    );
-  }
-  drikkevarer() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=23`
-    );
-  }
-  familieportioner() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=4774`
-    );
-  }
-  morgenmad() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=4646`
-    );
-  }
-  paalaeg() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=4756`
-    );
-  }
-  glutenfri() {
-    return this.http.get(
-      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&category=37`
+      `${this.url}wc/v3/products?&consumer_key=${this.key}&consumer_secret=${this.secret}&per_page=100&status=publish&stock_status=instock`
     );
   }
   product(prodid) {
@@ -198,7 +159,7 @@ export class AuthenticationService {
     return this.http.post(`${this.url}myplugin/v1/addproduct`, {
       id: id,
       prodid: prodid,
-      quant: quant
+      quant: quant 
     });
   }
   addNote(id, note) {

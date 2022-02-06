@@ -1,12 +1,6 @@
-ion-text{
-    text-align: center;
-    font-size: 22px;
-    font-family: Quicksand;
-}
 ion-card-header{
     text-align:center;
 }
-
 ion-button{
     --border-radius:100px;
     margin:10px;
@@ -27,6 +21,9 @@ ion-card{
 ion-card-content{
     overflow:auto;
 }
+ion-text{
+    display:block;
+}
 .spin {
     text-align: center;
     margin-top:100px;
@@ -36,16 +33,6 @@ ion-card-content{
     transform: scale(3);
     stroke: #fff;
     fill: #fff;
-  }
-  .statusbokspause{
-    width: 100%;
-    padding: 5px;
-    border-radius:5px;
-    border-style: solid;
-    border-width: 2px;
-    background-color: rgb(237, 238, 190);
-    border-color: #5f6600;
-    text-align: center;
   }
   .loadbar{
     width: 200px;

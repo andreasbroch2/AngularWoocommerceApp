@@ -1,9 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start" text="" defaultHref="/tabs/tab2"></ion-back-button>
+    <ion-title>Ordredetaljer</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <div class="headergrid">
-    <ion-back-button text="" defaultHref="/tabs/tab2"></ion-back-button>
-    <ion-title color="primary">Ordredetaljer</ion-title>
-    <img alt="logo" height="40" src="/assets/icon/logo.svg" />
-  </div>
   <div class="spin" *ngIf="!details">
     <ion-spinner color="light" name="circles"></ion-spinner>
   </div>

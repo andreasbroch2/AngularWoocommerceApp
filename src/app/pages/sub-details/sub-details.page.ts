@@ -1,9 +1,18 @@
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Component, OnInit, NgModule } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AlertController, ModalController } from "@ionic/angular";
+import {
+  AlertController,
+  ModalController,
+  LoadingController,
+  ToastController,
+} from "@ionic/angular";
 import { ProductsPage } from "../products/products.page";
+import { ChangedateComponent } from "../../changedate/changedate.component";
 import { OversigtinfoPage } from "../oversigtinfo/oversigtinfo.page";
+import { format, parseISO, add } from "date-fns";
+import { da } from "date-fns/locale";
+import { EdititemComponent } from "src/app/edititem/edititem.component";
 
 @Component({
   selector: "app-sub-details",
@@ -19,36 +28,29 @@ export class SubDetailsPage implements OnInit {
   load = "";
   noticeopen = true;
   sundays = [];
-  saveddate = "";
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService,
     public alertController: AlertController,
     public modalController: ModalController,
-    private router: Router
+    private router: Router,
+    private loadingController: LoadingController,
+    private toastController: ToastController
   ) {}
-  saveDate(date) {
-    this.saveddate = date;
-  }
-  addToInput(element, amount) {
-    var val = parseInt(element.value, 10) || 0;
-    val += amount;
-    if (val < 1) {
-      element.value = 1;
-    } else {
-      element.value = val;
-    }
-  }
-  increment() {
-    this.addToInput(document.getElementById("prodquant"), 1);
-  }
-  decrement() {
-    this.addToInput(document.getElementById("prodquant"), -1);
-  }
+
   addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+  parseDate(isodate, days) {
+    return format(
+      add(parseISO(isodate), {
+        days: days,
+      }),
+      "EEE 'd.' d MMM",
+      { locale: da }
+    );
   }
   addNumbers(number1, number2) {
     const result: number = Number(number1) + Number(number2);
@@ -65,20 +67,54 @@ export class SubDetailsPage implements OnInit {
     var sunday = new Date();
     sunday.setDate(sunday.getDate() + 4);
     sunday.setDate(sunday.getDate() + 7 - sunday.getDay());
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < 6; i++) {
       this.sundays.push(new Date(sunday.getTime()));
       sunday.setDate(sunday.getDate() + 7);
     }
   }
 
-  async presentModal() {
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
+  async presentModal(
+    componentstring,
+    prop1 = null,
+    prop2 = null,
+    prop3 = null
+  ) {
+    var component = null;
+    var initial = 0.5;
+    var breakpoints = [0, 0.5];
+    var componentProps = {};
+    if (componentstring == "date") {
+      component = ChangedateComponent;
+      var initial = 0.7;
+      var breakpoints = [0, 0.7];
+      componentProps = {
+        subid: this.id,
+      };
+    }
+    if (componentstring == "edititem") {
+      component = EdititemComponent;
+      var initial = 0.3;
+      var breakpoints = [0, 0.3];
+      componentProps = {
+        id: this.id,
+        productName: prop1,
+        productId: prop2,
+        quant: prop3,
+      };
+    }
+    if (componentstring == "ProductsPage") {
+      component = ProductsPage;
+      var initial = 0.9;
+      var breakpoints = [0, 0.9];
+      componentProps = {
+        id: this.id,
+      };
+    }
     const modal = await this.modalController.create({
-      component: ProductsPage,
-      cssClass: "product-modal",
-      componentProps: {
-        subid: id,
-      },
+      component: component,
+      componentProps: componentProps,
+      initialBreakpoint: initial,
+      breakpoints: breakpoints,
     });
     await modal.present();
 
@@ -89,83 +125,64 @@ export class SubDetailsPage implements OnInit {
       if (eventDetails.data) this.details = eventDetails.data;
     }
   }
-  openEditModal(prodid, name, quant) {
-    document.getElementById("editmodal").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    document.getElementById("prodquant").setAttribute("value", quant);
-    document.getElementById("editmodal").setAttribute("data-prodid", prodid);
-    document.getElementById("productname").innerHTML = name;
-    setTimeout(function () {
-      document.getElementById("overlay").addEventListener("click", function () {
-        document.getElementById("editmodal").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-      });
-    }, 200);
-  }
-  openDateModal() {
-    document.getElementById("datomodal").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    setTimeout(function () {
-      document.getElementById("overlay").addEventListener("click", function () {
-        document.getElementById("datomodal").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-      });
-    }, 200);
-  }
-  removeProduct() {
-    this.load = "Fjerner produkt...";
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    let prodid = document
-      .getElementById("editmodal")
-      .getAttribute("data-prodid");
-    let prodname = document.getElementById("productname").innerHTML;
-    console.log(prodid, id, prodname);
-    this.authService.removeProduct(prodid, id, prodname).subscribe((result) => {
-      document.getElementById("editmodal").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
-      this.details = result;
-      this.load = "";
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: "Arbejder...",
+      translucent: true,
     });
+    return await loading.present();
   }
-  changeDate() {
-    this.load = "Ændrer dato...";
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    let date = new Date(this.saveddate);
-    let datestring = date.toISOString();
-    this.authService.changeDate(datestring, id).subscribe((result) => {
-        this.details = result;
-      this.load = "";
-      document.getElementById("datomodal").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
     });
+    return toast.present();
+  }
+  async shippingMethod(method) {
+    let text = "";
+    if (method == "local_pickup") {
+      text = "Skift til afhentning";
+    } else {
+      text = "Skift til Levering til døren";
+    }
+    const alert = await this.alertController.create({
+      cssClass: "my-custom-class",
+      header: "Skift leveringsmetode",
+      buttons: [
+        {
+          text: "Fortryd",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: () => {},
+        },
+        {
+          text: text,
+          handler: (data) => {
+            this.presentLoading();
+            this.authService
+              .shippingMethod(this.id, method)
+              .subscribe((result) => {
+                this.details = result;
+                this.loadingController.dismiss();
+                this.presentToast("Leveringsmetode ændret!");
+              });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
   removeCoupon(coupon) {
-    this.load = "Fjerner rabatkode...";
-    console.log(coupon);
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.authService.removeCoupon(id, coupon).subscribe(() => {
-      this.authService.subdetails(id).subscribe((result) => {
+    if (confirm("Er du sikker på at du vil fjerne denne rabatkode?")) {
+      this.presentLoading();
+      this.authService.removeCoupon(this.id, coupon).subscribe((result) => {
         this.details = result;
+        this.loadingController.dismiss();
+        this.presentToast("Rabatkode fjernet!");
       });
-      this.load = "";
-    });
-  }
-  changeQuantity() {
-    this.load = "Ændrer antal...";
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    let prodid = document
-      .getElementById("editmodal")
-      .getAttribute("data-prodid");
-    let prodname = document.getElementById("productname").innerHTML;
-    var antal = (<HTMLInputElement>document.getElementById("prodquant")).value;
-    this.authService
-      .changeQuantity(prodid, id, antal, prodname)
-      .subscribe((result) => {
-        this.details = result;
-        this.load = "";
-        document.getElementById("editmodal").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-      });
+    }
   }
   async frek() {
     if (this.details.billing_interval === "1") {
@@ -279,14 +296,12 @@ export class SubDetailsPage implements OnInit {
     }
   }
   frekvens(value) {
-    let id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.load = "Ændrer frekvens...";
-    this.authService.frekvens(id, value).subscribe((result) => {
+    this.presentLoading();
+    this.authService.frekvens(this.id, value).subscribe((result) => {
       this.details = result;
-      this.authService
-        .orderNote(id, "Interval ændret fra app til: " + value)
-        .subscribe((result) => {});
-      this.load = "";
+      this.loadingController.dismiss();
+
+      this.presentToast("Leveringsfrekvens ændret!");
     });
   }
   async pause() {
@@ -303,20 +318,20 @@ export class SubDetailsPage implements OnInit {
         {
           text: "Yes!",
           handler: () => {
-            let id = this.activatedRoute.snapshot.paramMap.get("id");
+            this.presentLoading();
             if (this.details.status === "active") {
-              this.load = "Sætter på pause...";
-              this.authService.status(id, "on-hold").subscribe((result) => {
-                this.details = result;
-                this.load = "";
-              });
+              this.authService
+                .status(this.id, "on-hold")
+                .subscribe((result) => {
+                  this.details = result;
+                  this.loadingController.dismiss();
+                  this.presentToast("Måltidskasse sat på pause!");
+                });
             } else if (this.details.status === "on-hold") {
-              this.load = "Aktiverer...";
-              this.authService.status(id, "active").subscribe((result) => {
+              this.authService.status(this.id, "active").subscribe((result) => {
                 this.details = result;
-                this.date = this.details.schedule_next_payment.date;
-                this.date = this.addDays(this.date, 4);
-                this.load = "";
+                this.loadingController.dismiss();
+                this.presentToast("Måltidskasse aktiveret!");
               });
             }
           },
@@ -346,12 +361,14 @@ export class SubDetailsPage implements OnInit {
         {
           text: "Bekræft",
           handler: (data) => {
-            let id = this.activatedRoute.snapshot.paramMap.get("id");
-            this.load = "Tilføjer rabatkode...";
-            this.authService.coupon(id, data.coupon).subscribe((result) => {
-              this.details = result;
-              this.load = "";
-            });
+            this.presentLoading();
+            this.authService
+              .coupon(this.id, data.coupon)
+              .subscribe((result) => {
+                this.details = result;
+                this.loadingController.dismiss();
+                this.presentToast("Rabatkode tilføjet!");
+              });
           },
         },
       ],
@@ -381,19 +398,16 @@ export class SubDetailsPage implements OnInit {
         {
           text: "Bekræft",
           handler: (data) => {
-            let id = this.activatedRoute.snapshot.paramMap.get("id");
             if (this.details.status != "cancelled") {
-              this.load = "Afmelder...";
-              this.authService.status(id, "cancelled").subscribe((result) => {
+              this.presentLoading();
+              this.authService.status(this.id, "cancelled").subscribe((result) => {
                 this.details = result;
-                this.authService
-                  .orderNote(id, "Afmeldt- Fra app: " + data.reason)
-                  .subscribe((result) => {});
                 this.authService
                   .cancelReason(this.details.customer_id, data.reason)
                   .subscribe((result) => {});
-                this.load = "Afmeldt!";
-                this.router.navigate(['/']);
+                  this.loadingController.dismiss();
+                this.presentToast("Måltidskasse afmeldt!");
+                this.router.navigate(["/"]);
               });
             }
           },
@@ -403,47 +417,7 @@ export class SubDetailsPage implements OnInit {
 
     await alert.present();
   }
-  hidden = true;
-  showContent() {
-    if (this.hidden) {
-      document.getElementById("leveringscontent").style.display = "block";
-      this.hidden = false;
-    } else {
-      document.getElementById("leveringscontent").style.display = "none";
-      this.hidden = true;
-    }
-  }
-  hiddenkasse = true;
-  showContentKasse() {
-    if (this.hiddenkasse) {
-      document.getElementById("kassecontent").style.display = "block";
-      this.hiddenkasse = false;
-    } else {
-      document.getElementById("kassecontent").style.display = "none";
-      this.hiddenkasse = true;
-    }
-  }
-  hiddenbetaling = true;
-  showContentBetaling() {
-    if (this.hiddenbetaling) {
-      document.getElementById("betalingcontent").style.display = "block";
-      this.hiddenbetaling = false;
-    } else {
-      document.getElementById("betalingcontent").style.display = "none";
-      this.hiddenbetaling = true;
-    }
-  }
-  async info() {
-    const modal = await this.modalController.create({
-      component: OversigtinfoPage,
-      cssClass: "product-modal",
-    });
-    await modal.present();
-  }
 
-  closeNotice() {
-    this.noticeopen = false;
-  }
   async note() {
     const alert = await this.alertController.create({
       cssClass: "notealert",
@@ -466,15 +440,13 @@ export class SubDetailsPage implements OnInit {
         {
           text: "Bekræft",
           handler: (value) => {
-            this.load = "Skifter note";
-            let id = this.activatedRoute.snapshot.paramMap.get("id");
-            this.authService.addNote(id, value.note).subscribe((result) => {
-              this.details = result;
-              this.authService
-                .orderNote(id, "Note ændret - Fra app: " + value.note)
-                .subscribe((result) => {});
-              this.load = "";
-            });
+            this.presentLoading();
+            this.authService
+              .addNote(this.id, value.note)
+              .subscribe((result) => {
+                this.details = result;
+                this.loadingController.dismiss();
+              });
           },
         },
       ],
@@ -527,16 +499,46 @@ export class SubDetailsPage implements OnInit {
         {
           text: "Bekræft",
           handler: (value) => {
-            this.load = "Skifter adresse";
+            this.presentLoading();
             let id = this.activatedRoute.snapshot.paramMap.get("id");
             this.authService.addAdresse(id, value).subscribe((result) => {
               this.details = result;
-              this.load = "";
+              this.loadingController.dismiss();
             });
           },
         },
       ],
     });
     await alert.present();
+  }
+  hidden = true;
+  showContent() {
+    if (this.hidden) {
+      document.getElementById("leveringscontent").style.display = "block";
+      this.hidden = false;
+    } else {
+      document.getElementById("leveringscontent").style.display = "none";
+      this.hidden = true;
+    }
+  }
+  hiddenkasse = true;
+  showContentKasse() {
+    if (this.hiddenkasse) {
+      document.getElementById("kassecontent").style.display = "block";
+      this.hiddenkasse = false;
+    } else {
+      document.getElementById("kassecontent").style.display = "none";
+      this.hiddenkasse = true;
+    }
+  }
+  hiddenbetaling = true;
+  showContentBetaling() {
+    if (this.hiddenbetaling) {
+      document.getElementById("betalingcontent").style.display = "block";
+      this.hiddenbetaling = false;
+    } else {
+      document.getElementById("betalingcontent").style.display = "none";
+      this.hiddenbetaling = true;
+    }
   }
 }

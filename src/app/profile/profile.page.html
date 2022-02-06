@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <img [routerLink]="['/', 'tabs','tab1']" alt="logo" height="40" src="/assets/icon/logo.svg" />
+    <ion-title>Profil</ion-title>
+    <ion-buttons slot="end">
+    <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button (click)="scheduleReminder()" expand="block" fill="clear">Aktiver påmindelse</ion-button>
+</ion-content>

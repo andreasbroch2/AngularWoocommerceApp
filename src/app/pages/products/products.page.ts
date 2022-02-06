@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ModalController, PickerController } from "@ionic/angular";
+import { ModalController, PickerController, LoadingController } from "@ionic/angular";
 
 @Component({
   selector: "app-products",
@@ -14,48 +14,34 @@ export class ProductsPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private pickerController: PickerController,
     private router: Router,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private loadingController: LoadingController
   ) {}
-  details = null;
-  hovedretter = null;
-  snacks = null;
-  drikkevarer = null;
-  familieportioner = null;
-  morgenmad = null;
-  paalaeg = null;
-  glutenfri = null;
-  hideMeHoved = false;
-  hideMeSnacks = false;
-  hideMeDrikkevarer = false;
-  hideMeFamilieportioner = false;
-  hideMeMorgenmad = false;
-  hideMePaalaeg = false;
-  hideMeGlutenfri = false;
-  load = "";
-  @Input() subid: number;
+  products = null;
+  displayCategories = [
+    {id:19, name: 'Hoved/Frokostretter'},
+    {id: 4774, name: 'Familieportioner'},
+    {id: 4646, name: 'Morgenmad'},
+    {id: 4756, name: 'Pålæg'},
+    {id: 29, name: 'Snacks/tilbehør'},
+    {id: 23, name: 'Drikkevarer'},
+  ]
+  @Input() id: number;
 
   ngOnInit() {
-    this.authService.hovedret().subscribe((result) => {
-      this.hovedretter = result;
+    this.authService.products().subscribe((result) => {
+      this.products = result;
+      console.log(result);
     });
-    this.authService.snacks().subscribe((result) => {
-      this.snacks = result;
+  }
+  checkCategories(categories, category){
+    var check = false;
+    categories.forEach(item => {
+      if(item.id == category){
+        check = true;
+      }
     });
-    this.authService.drikkevarer().subscribe((result) => {
-      this.drikkevarer = result;
-    });
-    this.authService.familieportioner().subscribe((result) => {
-      this.familieportioner = result;
-    });
-    this.authService.morgenmad().subscribe((result) => {
-      this.morgenmad = result;
-    });
-    this.authService.paalaeg().subscribe((result) => {
-      this.paalaeg = result;
-    });
-    this.authService.glutenfri().subscribe((result) => {
-      this.glutenfri = result;
-    });
+    return check;
   }
   async openPicker(prodid, prodname) {
     const picker = await this.pickerController.create({
@@ -85,11 +71,12 @@ export class ProductsPage implements OnInit {
         {
           text: "Tilføj",
           handler: (value) => {
-            this.load = "Tilføjer vare(r)";
+            this.presentLoading();
             this.authService
-              .addproduct(this.subid, prodid, value.Antal.value)
+              .addproduct(this.id, prodid, value.Antal.value)
               .subscribe((result) => {
                 this.modalController.dismiss(result);
+                this.loadingController.dismiss(); 
               });
           },
         },
@@ -98,33 +85,11 @@ export class ProductsPage implements OnInit {
 
     await picker.present();
   }
-  hideHoved() {
-    if (this.hideMeHoved == false) this.hideMeHoved = true;
-    else this.hideMeHoved = false;
-  }
-  hideSnacks() {
-    if (this.hideMeSnacks == false) this.hideMeSnacks = true;
-    else this.hideMeSnacks = false;
-  }
-  hideDrikkevarer() {
-    if (this.hideMeDrikkevarer == false) this.hideMeDrikkevarer = true;
-    else this.hideMeDrikkevarer = false;
-  }
-  hideFamilieportioner() {
-    if (this.hideMeFamilieportioner == false)
-      this.hideMeFamilieportioner = true;
-    else this.hideMeFamilieportioner = false;
-  }
-  hideMorgenmad() {
-    if (this.hideMeMorgenmad == false) this.hideMeMorgenmad = true;
-    else this.hideMeMorgenmad = false;
-  }
-  hidePaalaeg() {
-    if (this.hideMePaalaeg == false) this.hideMePaalaeg = true;
-    else this.hideMePaalaeg = false;
-  }
-  hideGlutenfri() {
-    if (this.hideMeGlutenfri == false) this.hideMeGlutenfri = true;
-    else this.hideMeGlutenfri = false;
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: "Arbejder...",
+      translucent: true,
+    });
+    return await loading.present();
   }
 }

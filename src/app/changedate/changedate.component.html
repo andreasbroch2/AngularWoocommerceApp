@@ -1,0 +1,17 @@
+<ion-content>
+  <ion-radio-group (ionChange)="saveDate($event.detail.value)">
+    <ion-text>Hvornår vil du have din næste kasse?</ion-text>
+    <div class="sundays">
+      <ion-item *ngFor="let sunday of sundays">
+        <ion-label
+          >{{ sunday | date: "EEEE" | titlecase }} d.
+          {{ sunday | date: "d MMMM" | titlecase }}</ion-label
+        >
+        <ion-radio slot="end" color="primary" value="{{ sunday }}"></ion-radio>
+      </ion-item>
+    </div>
+  </ion-radio-group>
+  <div style="text-align:center;margin:20px 0">
+    <ion-button *ngIf="saveddate" (click)="changeDate()">Bekræft ny leveringsdag</ion-button>
+  </div>
+</ion-content>

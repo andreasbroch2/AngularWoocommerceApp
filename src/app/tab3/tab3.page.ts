@@ -2,6 +2,8 @@ import { AlertController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationService } from './../services/authentication.service';
 import {Router} from '@angular/router';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-tab3',
@@ -11,10 +13,11 @@ import {Router} from '@angular/router';
 export class Tab3Page {
   kunde=null;
   customer=null; 
-  load = '';
+  toggleStatus: any;
   constructor(private authService: AuthenticationService, private router: Router, private alertController: AlertController) {};
  
-  ngOnInit(){
+  async ngOnInit(){
+    await LocalNotifications.requestPermissions();
     this.authService.kunde().subscribe(result => {
       this.customer = result; 
       console.log(this.customer.customer.id);
@@ -24,8 +27,37 @@ export class Tab3Page {
       console.log(this.kunde);
     });
 }
-console(){
-  console.log(this.kunde);
+async ionViewWillEnter(){
+  const { value } = await Storage.get({ key: 'notifications' });
+  this.toggleStatus = value;
+  console.log(await LocalNotifications.getPending());
+}
+async crazyEvent(event){
+    await Storage.set({
+      key: 'notifications',
+      value: event,
+    });
+    if(event){
+      await LocalNotifications.schedule({
+        notifications:[{
+          title: 'Venlig påmindelse', 
+          body: 'Deadline for bestilling er i aften ved midnat',
+          id: 2,
+          schedule: {
+            at: new Date(2022,2,6,19,1),
+            repeats: true,
+            every: "week"
+          }
+        }]
+      })
+    }else{
+      await LocalNotifications.cancel({ 
+        notifications: [{
+          id: 2
+        }]
+      })
+    }
+  console.log(event); 
 }
 logout(){
   this.authService.logout();
@@ -78,12 +110,10 @@ async kundeAdresse(id){
       }, {
         text: 'Bekræft',
         handler: (value) => {
-          this.load = "Skifter adresse";
           console.log(value);
           this.authService.addKundeAdresse(id, value).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
-            this.load = "";
         })
       }
 }]
@@ -112,12 +142,10 @@ async kundeTelefon(id){
       }, {
         text: 'Bekræft',
         handler: (value) => {
-          this.load = "Skifter nummer";
           console.log(value);
           this.authService.addKundeTelefon(id, value.phone).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
-            this.load = "";
         })
       }
 }]
@@ -146,12 +174,10 @@ async kundeEmail(id){
       }, {
         text: 'Bekræft',
         handler: (value) => {
-          this.load = "Skifter email";
           console.log(value.email);
           this.authService.addKundeEmail(id, value.email).subscribe(result => {
             this.kunde = result;
             console.log(this.kunde);
-            this.load = "";
         })
       }
 }]

@@ -1,9 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <img slot="start"
+      [routerLink]="['/', 'tabs','tab1']"
+      alt="logo"
+      height="40"
+      src="/assets/icon/logo.svg"
+    />
+    <ion-title>Oversigt</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content class="background">
-  <div class="headergrid">
-    <div></div>
-    <img alt="logo" height="40" src="/assets/icon/logo.svg" />
-    <ion-icon style="font-size:24px;" slot="icon-only" name="reload" (click)="auth()"></ion-icon>
-  </div>
   <app-count-down></app-count-down>
   <div class="spin" *ngIf="!information">
     <ion-spinner color="primary" name="crescent"></ion-spinner>
@@ -44,26 +53,23 @@
                     *ngIf="user?.status==='active'"
                   >
                     <span
-                      *ngIf="user?.shipping.postcode > 3699 && user?.shipping.postcode < 3800"
+                      *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && user?.shipping.postcode < 3800 && user?.shipping.postcode > 3699"
                     >
-                      {{ addDays(user.schedule_next_payment.date, 6) |
-                      date:'EEEE \'d.\' d MMM'}}
+                    {{ parseDate(user.schedule_next_payment.date, 6) }}
                     </span>
                     <span
-                      *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699"
+                      *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && user?.shipping.postcode > 3800 && user?.shipping.postcode < 3699"
                     >
-                      {{ addDays(user.schedule_next_payment.date, 4) |
-                      date:'EEEE \'d.\' d MMM'}}
+                    {{ parseDate(user.schedule_next_payment.date, 4) }}
                     </span>
                     <span
-                      *ngIf="user?.shipping_lines[0]?.method_title!='Levering til døren' && user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699"
+                      *ngIf="user?.shipping_lines[0]?.method_title!='Levering til døren'"
                     >
-                      {{ addDays(user.schedule_next_payment.date, 3) |
-                      date:'EEEE \'d.\' d MMM'}}
+                    {{ parseDate(user.schedule_next_payment.date, 3) }}
                     </span>
                   </ion-text>
                   <ion-text class="ldato" *ngIf="user?.status==='on-hold'"
-                    >På pause</ion-text
+                    >Pause/manuel fornyelse</ion-text
                   >
                 </div>
                 <div>

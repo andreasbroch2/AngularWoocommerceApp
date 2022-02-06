@@ -43,7 +43,11 @@ const routes: Routes = [
   {
     path: 'kategorier',
     loadChildren: () => import('./pages/kategorier/kategorier.module').then( m => m.KategorierPageModule)
+  },  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+
 
 
 ];

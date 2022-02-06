@@ -1,9 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+        <img [routerLink]="['/', 'tabs','tab1']" alt="logo" height="40" src="/assets/icon/logo.svg" />
+    <ion-title>Historik</ion-title>
+    <ion-buttons slot="end">
+    <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content >
-  <div class="headergrid">
-    <img alt="logo" height="40"   src="/assets/icon/logo.svg">
-    <ion-title color="primary">Historik</ion-title>
-    <div></div>
-  </div>
   <div class="spin" *ngIf="!orders">
     <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
