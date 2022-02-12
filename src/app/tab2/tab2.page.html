@@ -1,9 +1,15 @@
 <ion-header>
   <ion-toolbar>
-        <img [routerLink]="['/', 'tabs','tab1']" alt="logo" height="40" src="/assets/icon/logo.svg" />
-    <ion-title>Historik</ion-title>
+    <img
+      slot="start"
+      [routerLink]="['/', 'tabs','tab1']"
+      alt="logo"
+      height="40"
+      src="/assets/icon/logo.svg"
+    />
+    <ion-title>Købshistorik</ion-title>
     <ion-buttons slot="end">
-    <ion-menu-button></ion-menu-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +20,7 @@
   <ion-item *ngFor="let order of orders" button [routerLink]="['/', 'tabs','tab2', order.id]">
     <ion-icon slot="start" src="/assets/icon/box.svg"></ion-icon>
       <ion-label>
-        {{ order.date_created.date | date: 'd MMM yyyy'}} - 
+        {{ parseDate(order.date_created.date) }} -
         <span *ngIf="order.status==='completed'">Afsendt</span>
         <span *ngIf="order.status==='processing'">Betalt</span>
         <span *ngIf="order.status==='refunded'">Refunderet</span>

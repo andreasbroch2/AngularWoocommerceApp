@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Storage } from '@capacitor/storage';
 
+
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -20,22 +21,21 @@ export class Tab3Page {
     await LocalNotifications.requestPermissions();
     this.authService.kunde().subscribe(result => {
       this.customer = result; 
-      console.log(this.customer.customer.id);
       this.authService.customer(this.customer.customer.id).subscribe(result => {
         this.kunde = result;
       })
-      console.log(this.kunde);
     });
 }
 async ionViewWillEnter(){
   const { value } = await Storage.get({ key: 'notifications' });
-  this.toggleStatus = value;
-  console.log(await LocalNotifications.getPending());
+  if(value){
+  this.toggleStatus = true;
+    }
 }
 async crazyEvent(event){
     await Storage.set({
       key: 'notifications',
-      value: event,
+      value: 'true',
     });
     if(event){
       await LocalNotifications.schedule({
@@ -44,7 +44,7 @@ async crazyEvent(event){
           body: 'Deadline for bestilling er i aften ved midnat',
           id: 2,
           schedule: {
-            at: new Date(2022,2,6,19,1),
+            at: new Date(2022,1,11,19,45),
             repeats: true,
             every: "week"
           }
@@ -57,7 +57,6 @@ async crazyEvent(event){
         }]
       })
     }
-  console.log(event); 
 }
 logout(){
   this.authService.logout();

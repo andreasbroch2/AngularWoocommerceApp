@@ -93,8 +93,8 @@ export class SubDetailsPage implements OnInit {
     }
     if (componentstring == "edititem") {
       component = EdititemComponent;
-      var initial = 0.3;
-      var breakpoints = [0, 0.3];
+      var initial = 0.4;
+      var breakpoints = [0, 0.4];
       componentProps = {
         id: this.id,
         productName: prop1,

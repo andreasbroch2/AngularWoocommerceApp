@@ -1,6 +1,8 @@
 import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { add, format, parseISO } from 'date-fns';
+import { da } from 'date-fns/locale';
 
 @Component({
   selector: 'app-tab2',
@@ -17,11 +19,9 @@ export class Tab2Page {
       this.orders = result;
     });
 }
-console(){
-  console.log(this.orders);
-}
-logout(){
-  this.authService.logout();
-  this.router.navigate(['/'])
+parseDate(isodate, days = 0){
+  return format(add(parseISO(isodate), {
+    days: days
+  }), "EEE 'd.' d MMM", {locale: da});
 }
 }

@@ -18,7 +18,7 @@
     <ion-spinner color="primary" name="crescent"></ion-spinner>
   </div>
   <div *ngIf="information">
-    <h4 *ngIf="information.length == 1">Din måltidskasse</h4>
+    <h4 *ngIf="information.length == 1">Dit måltidskasse</h4>
     <h4 *ngIf="information.length > 1">Dine måltidskasser</h4>
     <div *ngFor="let user of information">
       <ion-card

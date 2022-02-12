@@ -1,13 +1,9 @@
-<ion-header> </ion-header>
 <ion-content>
   <ion-grid>
-    <ion-row id="row1"><img src="assets/images/logo.png" /> </ion-row>
-    <ion-row id="row2">
-    </ion-row>
+    <ion-row id="row1"></ion-row>
+    <ion-row id="row2"> <img src="assets/images/logo.png" /> </ion-row>
     <ion-row id="row3">
-      <ion-text
-        >Log ind herunder med din email/brugernavn og adgangskode.
-      </ion-text>
+      <h1>Log ind</h1>
     </ion-row>
     <ion-row id="row4">
       <form (ngSubmit)="login()" [formGroup]="credentials">
