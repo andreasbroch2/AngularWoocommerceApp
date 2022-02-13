@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "578506662249",
+    "project_id": "hololiapp",
+    "storage_bucket": "hololiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578506662249:android:90a1ab864cc7d349235df8",
+        "android_client_info": {
+          "package_name": "gaia.madservice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578506662249-8fp5s2u6o4s1u2gita1src7jt1r19fai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVYcEeyYVmyT9sL6wYPQymSeAJLgYboiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578506662249-8fp5s2u6o4s1u2gita1src7jt1r19fai.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "578506662249-tn7ir6b5ec9paustoi4tvroi51nmg4h2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "gaia.madservice",
+                "app_store_id": "1549441960"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

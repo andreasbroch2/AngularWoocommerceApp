@@ -1,5 +1,5 @@
 {
-  "appId": "hololi.foods",
+  "appId": "gaia.madservice",
   "appName": "Hololi",
   "bundledWebRuntime": false,
   "npmClient": "npm",
@@ -7,6 +7,12 @@
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    },
+    "LocalNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
     }
   },
   "cordova": {}
