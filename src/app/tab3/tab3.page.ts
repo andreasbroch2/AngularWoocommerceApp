@@ -37,6 +37,14 @@ async crazyEvent(event){
       key: 'notifications',
       value: 'true',
     });
+    var day = new Date();
+
+var days = 7 - day.getDay() - 5;;
+
+var nextDay = new Date(day.setDate(day.getDate() + days)); 
+
+nextDay.setHours(19);
+
     if(event){
       await LocalNotifications.schedule({
         notifications:[{
@@ -44,7 +52,7 @@ async crazyEvent(event){
           body: 'Deadline for bestilling er i aften ved midnat',
           id: 2,
           schedule: {
-            at: new Date(2022,1,11,19,45),
+            at: nextDay,
             repeats: true,
             every: "week"
           }
