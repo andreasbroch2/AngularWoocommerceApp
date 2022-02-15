@@ -58,7 +58,7 @@
                     {{ parseDate(user.schedule_next_payment.date, 6) }}
                     </span>
                     <span
-                      *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && user?.shipping.postcode > 3800 && user?.shipping.postcode < 3699"
+                      *ngIf="user?.shipping_lines[0]?.method_title=='Levering til døren' && (user?.shipping.postcode > 3800 || user?.shipping.postcode < 3699)"
                     >
                     {{ parseDate(user.schedule_next_payment.date, 4) }}
                     </span>

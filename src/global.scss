@@ -128,7 +128,8 @@ ion-content {
   --background: url('assets/icon/background.svg');
 }
 ion-toolbar {
-  padding: 0 16px;
+  padding: 10px 16px;
+  padding-top:10px!important;
 }
 ion-accordion{
   background-color: transparent;
