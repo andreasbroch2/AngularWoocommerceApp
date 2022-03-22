@@ -253,19 +253,35 @@
             button
             (click)="presentModal('edititem', item.name, item.id, item.quantity)"
           >
-            <ion-col size="3">
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" size="2">
               <ion-img [src]="item.imageurl"></ion-img>
             </ion-col>
-            <ion-col class="produkt" size="6"> {{ item.name }} </ion-col>
-            <ion-col style="font-size: 14px" size="2">
+            <ion-col *ngIf="checkKeys(item.meta_data) != 'bundled_item'" size="3">
+              <ion-img [src]="item.imageurl"></ion-img>
+            </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" size="8"> {{ item.name }} </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) != 'bundled_item'" class="produkt" size="6"> {{ item.name }} </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'normal'" style="font-size: 14px" size="2">
               <ion-text>
                 {{ addNumbers(item.total, item.total_tax) | number}} kr.
               </ion-text>
               <br />
               <ion-text> {{ item.quantity }} stk. </ion-text>
             </ion-col>
-            <ion-col size="1">
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'bundle'" style="font-size: 14px" size="2">
+              <ion-text>
+                {{ addNumbers(item.total, item.total_tax) | number}} kr.
+              </ion-text>
+            </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" style="font-size: 14px" size="1">
+            </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" size="1">
+            </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'normal'" size="1">
               <fa-icon [icon]="['fas', 'pencil-alt']" class="edit"> </fa-icon>
+            </ion-col>
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'bundle'" size="1">
+              <ion-icon button (click)="removeProduct(item.id, item.name)" size="small" src="/assets/icon/trash.svg"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>

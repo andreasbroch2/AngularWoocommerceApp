@@ -37,7 +37,18 @@ export class SubDetailsPage implements OnInit {
     private loadingController: LoadingController,
     private toastController: ToastController
   ) {}
-
+  checkKeys(obj) {
+    let result = 'normal';
+    for(let [value, index] of obj.entries()){
+      if(index.key == '_bundled_items'){
+        result = 'bundle';
+      }      
+      if(index.key == '_bundled_by'){
+        result = 'bundled_item';
+      }
+    };
+    return result;
+  }
   addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -173,6 +184,13 @@ export class SubDetailsPage implements OnInit {
     });
 
     await alert.present();
+  }
+  removeProduct(itemid, name) {
+    this.presentLoading();
+    this.authService.removeProduct(itemid, this.id, name ).subscribe((result) => {
+      this.modalController.dismiss(result);
+      this.loadingController.dismiss();
+    });
   }
   removeCoupon(coupon) {
     if (confirm("Er du sikker på at du vil fjerne denne rabatkode?")) {
@@ -400,15 +418,17 @@ export class SubDetailsPage implements OnInit {
           handler: (data) => {
             if (this.details.status != "cancelled") {
               this.presentLoading();
-              this.authService.status(this.id, "cancelled").subscribe((result) => {
-                this.details = result;
-                this.authService
-                  .cancelReason(this.details.customer_id, data.reason)
-                  .subscribe((result) => {});
+              this.authService
+                .status(this.id, "cancelled")
+                .subscribe((result) => {
+                  this.details = result;
+                  this.authService
+                    .cancelReason(this.details.customer_id, data.reason)
+                    .subscribe((result) => {});
                   this.loadingController.dismiss();
-                this.presentToast("Måltidskasse afmeldt!");
-                this.router.navigate(["/"]);
-              });
+                  this.presentToast("Måltidskasse afmeldt!");
+                  this.router.navigate(["/"]);
+                });
             }
           },
         },
