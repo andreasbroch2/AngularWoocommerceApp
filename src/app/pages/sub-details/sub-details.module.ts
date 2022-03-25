@@ -12,6 +12,7 @@ import { SubDetailsPage } from './sub-details.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChangedateComponent } from 'src/app/changedate/changedate.component';
 import { EdititemComponent } from 'src/app/edititem/edititem.component';
+import { EditbundleComponent } from 'src/app/editbundle/editbundle.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { EdititemComponent } from 'src/app/edititem/edititem.component';
     ProductsPageModule,
     FontAwesomeModule, 
   ],
-  declarations: [SubDetailsPage, ChangedateComponent, EdititemComponent]
+  declarations: [SubDetailsPage, ChangedateComponent, EdititemComponent, EditbundleComponent]
 })
 export class SubDetailsPageModule {}

@@ -162,6 +162,23 @@ export class AuthenticationService {
       quant: quant 
     });
   }
+  addbundle(id, prodid) {
+    return this.http.post(`${this.url}myplugin/v1/bundle`, {
+      subscription: id,
+      bundle: prodid,
+    });
+  }
+  bundleditems() {
+    return this.http.post(`${this.url}myplugin/v1/bundled-items`, {
+    });
+  }
+  switchItem(itemid, subid, prodid) {
+    return this.http.post(`${this.url}myplugin/v1/switch-bundle-item`, {
+      id: subid,
+      prodid: prodid,
+      itemid: itemid 
+    });
+  }
   addNote(id, note) {
     return this.http.post(`${this.url}myplugin/v1/note`, {
       id: id,
@@ -245,3 +262,4 @@ export class AuthenticationService {
     return this.user.asObservable();
   }
 }
+ 

@@ -9,6 +9,7 @@ import {
 } from "@ionic/angular";
 import { ProductsPage } from "../products/products.page";
 import { ChangedateComponent } from "../../changedate/changedate.component";
+import { EditbundleComponent } from "../../editbundle/editbundle.component";
 import { OversigtinfoPage } from "../oversigtinfo/oversigtinfo.page";
 import { format, parseISO, add } from "date-fns";
 import { da } from "date-fns/locale";
@@ -102,6 +103,15 @@ export class SubDetailsPage implements OnInit {
         subid: this.id,
       };
     }
+    if (componentstring == "bundle") {
+      component = EditbundleComponent;
+      var initial = 0.8;
+      var breakpoints = [0, 0.9];
+      componentProps = {
+        subid: this.id,
+        itemid: prop1,
+      };
+    }
     if (componentstring == "edititem") {
       component = EdititemComponent;
       var initial = 0.4;
@@ -128,9 +138,7 @@ export class SubDetailsPage implements OnInit {
       breakpoints: breakpoints,
     });
     await modal.present();
-
     const eventDetails = await modal.onDidDismiss();
-
     if (eventDetails) {
       console.log(eventDetails.data);
       if (eventDetails.data) this.details = eventDetails.data;
@@ -188,9 +196,10 @@ export class SubDetailsPage implements OnInit {
   removeProduct(itemid, name) {
     this.presentLoading();
     this.authService.removeProduct(itemid, this.id, name ).subscribe((result) => {
+      this.details = result;
       this.modalController.dismiss(result);
       this.loadingController.dismiss();
-    });
+    }); 
   }
   removeCoupon(coupon) {
     if (confirm("Er du sikker på at du vil fjerne denne rabatkode?")) {

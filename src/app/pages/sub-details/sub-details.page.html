@@ -250,8 +250,6 @@
           <ion-row
             style="align-items: center"
             *ngFor="let item of details.line_items"
-            button
-            (click)="presentModal('edititem', item.name, item.id, item.quantity)"
           >
             <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" size="2">
               <ion-img [src]="item.imageurl"></ion-img>
@@ -270,14 +268,17 @@
             </ion-col>
             <ion-col *ngIf="checkKeys(item.meta_data) == 'bundle'" style="font-size: 14px" size="2">
               <ion-text>
-                {{ addNumbers(item.total, item.total_tax) | number}} kr.
+                {{ addNumbers(item.total, item.total_tax) | number}} kr. 
               </ion-text>
             </ion-col>
             <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" style="font-size: 14px" size="1">
             </ion-col>
             <ion-col *ngIf="checkKeys(item.meta_data) == 'bundled_item'" size="1">
+              <fa-icon [icon]="['fas', 'pencil-alt']" button (click)="presentModal('bundle', item.id)"> </fa-icon>
             </ion-col>
-            <ion-col *ngIf="checkKeys(item.meta_data) == 'normal'" size="1">
+            <ion-col *ngIf="checkKeys(item.meta_data) == 'normal'" size="1" 
+            button
+            (click)="presentModal('edititem', item.name, item.id, item.quantity)">
               <fa-icon [icon]="['fas', 'pencil-alt']" class="edit"> </fa-icon>
             </ion-col>
             <ion-col *ngIf="checkKeys(item.meta_data) == 'bundle'" size="1">
@@ -324,17 +325,6 @@
               >
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col size="6">
-              <ion-text>Levering</ion-text>
-            </ion-col>
-            <ion-col size="6" style="text-align:right;">
-              <ion-text>
-                {{ addNumbers(details.shipping_total, details.shipping_tax) | number}}
-                kr.</ion-text
-              >
-            </ion-col>
-          </ion-row>
           <ion-row *ngIf="details.discount_total > 0">
             <ion-col size="6">
               <ion-text>Rabat</ion-text>
@@ -352,6 +342,17 @@
               Rabatkode: {{ coupon.code }}
               <ion-icon button (click)="removeCoupon(coupon.code)" size="small" src="/assets/icon/trash.svg"></ion-icon>
               </p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-text>Levering</ion-text>
+            </ion-col>
+            <ion-col size="6" style="text-align:right;">
+              <ion-text>
+                {{ addNumbers(details.shipping_total, details.shipping_tax) | number}}
+                kr.</ion-text
+              >
             </ion-col>
           </ion-row>
           <ion-row class="price">
